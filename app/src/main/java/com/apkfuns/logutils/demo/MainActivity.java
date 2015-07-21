@@ -6,10 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.model.Person;
-import com.orhanobut.logger.LogLevel;
-import com.orhanobut.logger.Logger;
 
 public class MainActivity extends Activity {
 

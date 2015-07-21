@@ -27,5 +27,12 @@ public class MainActivity extends Activity {
         LogUtils.d(new NullPointerException("12345"));
         LogUtils.d(person);
         LogUtils.d(null);
+
+        LogUtils.v("12345");
+        LogUtils.i("12345");
+        LogUtils.w("12345");
+        LogUtils.e("12345");
+        LogUtils.wtf("12345");
+
     }
 }

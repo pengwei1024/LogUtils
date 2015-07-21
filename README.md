@@ -10,9 +10,6 @@ More convenient and easy to use android Log manager
 ### Simple
 ```java
 
-// 配置日志前缀
-LogUtils.configTagPrefix = "abc-";
-
 //输出字符串
 LogUtils.d("12345");
 
@@ -28,6 +25,16 @@ person.setAge(11);
 person.setName("pengwei");
 person.setScore(37.5f);
 LogUtils.d(person);
+
+// 对象为空
+LogUtils.d(null);
+
+// 其他用法
+LogUtils.v("12345");
+LogUtils.i("12345");
+LogUtils.w("12345");
+LogUtils.e("12345");
+LogUtils.wtf("12345");
 ```
 
 ### options
@@ -36,7 +43,7 @@ LogUtils.d(person);
 LogUtils.configAllowLog = false;
 
 // 配置日志前缀
-LogUtils.configTagPrefix = "tag";
+LogUtils.configTagPrefix = "abc-";
 ```
 
 ### Gradle
@@ -46,7 +53,7 @@ compile '***'
 
 ### History
 * **1.0.0 (2015/07/13)**
-    - 可以打印对象，字符串，且显示文件行数
+    - 打印对象，字符串，异常，且显示文件行数
 
 
 

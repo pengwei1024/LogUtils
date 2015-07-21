@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
  * Created by pengwei08 on 2015/7/16.
  * 日志管理器
  */
-public abstract class LogUtils  {
+public final class LogUtils  {
 
     private static Logger logger;
     static {

@@ -34,8 +34,10 @@ public class SystemUtil {
             Field[] fields = object.getClass().getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
+                boolean flag = false;
                 for (String type : types) {
                     if (field.getType().getName().equalsIgnoreCase(type)) {
+                        flag = true;
                         Object value = null;
                         try {
                             value = field.get(object);
@@ -47,6 +49,9 @@ public class SystemUtil {
                             break;
                         }
                     }
+                }
+                if(!flag){
+                    builder.append(String.format("%s=%s, ", field.getName(), "Object"));
                 }
             }
             return builder.replace(builder.length() - 2, builder.length() - 1, "}").toString();

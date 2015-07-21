@@ -7,6 +7,7 @@ public class Person {
     private String name;
     private int age;
     private float score;
+    private Person other;
 
     public String getName() {
         return name;

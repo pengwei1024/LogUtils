@@ -1,6 +1,9 @@
 # LogUtils
 More convenient and easy to use android Log manager
 
+### screenshot
+![截图](screenshot/screenshot01.png)
+
 ### Simple
 ```java
 StackTraceElement st[]= Thread.currentThread().getStackTrace();
@@ -11,19 +14,19 @@ String a = st[2].toString();
 Log.wtf("abc",a.substring(a.lastIndexOf('('), a.length()));
 ```
 
-### for Gradle
+### Gradle
 
 ```groovy
 compile '***'
 ```
 
-## History
+### History
 
 * **1.0.0 (2015/07/13)**
     - 新增abc
     - 新增edf
 
-### 致谢
+### Thanks
 感谢[wyouflf/xUtils](https://github.com/wyouflf/xUtils) 和[orhanobut/logger](https://github.com/orhanobut/logger)
 
 ### About

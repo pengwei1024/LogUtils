@@ -29,6 +29,10 @@ LogUtils.d(person);
 // 对象为空
 LogUtils.d(null);
 
+// 输出json（json默认debug打印）
+String json = "{'a':'b','c':{'aa':234,'dd':{'az':12}}}";
+LogUtils.json(json);
+
 // 其他用法
 LogUtils.v("12345");
 LogUtils.i("12345");
@@ -54,6 +58,8 @@ compile '***'
 ### History
 * **1.0.0 (2015/07/13)**
     - 打印对象，字符串，异常，且显示文件行数
+* **1.0.1 (2015/07/22)**
+    - 打印json字符串
 
 
 

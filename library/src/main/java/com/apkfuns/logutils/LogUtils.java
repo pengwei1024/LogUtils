@@ -98,4 +98,12 @@ public final class LogUtils  {
         logger.wtf(SystemUtil.getStackTrace(), object);
     }
 
+    /**
+     * 打印json
+     * @param json
+     */
+    public static void json(String json){
+        logger.json(SystemUtil.getStackTrace(), json);
+    }
+
 }

@@ -34,5 +34,8 @@ public class MainActivity extends Activity {
         LogUtils.e("12345");
         LogUtils.wtf("12345");
 
+        String json = "{'a':'b','c':{'aa':234,'dd':{'az':12}}}";
+        LogUtils.json(json);
+
     }
 }

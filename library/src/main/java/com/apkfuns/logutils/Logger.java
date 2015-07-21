@@ -7,6 +7,10 @@ import static com.apkfuns.logutils.LogUtils.*;
 
 import com.apkfuns.logutils.utils.SystemUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by pengwei08 on 2015/7/20.
  */
@@ -168,5 +172,27 @@ public final class Logger implements LogImpl {
     @Override
     public void wtf(StackTraceElement element, Object object) {
         logObject(LogType.Wtf, element, object);
+    }
+
+    @Override
+    public void json(StackTraceElement element, String json) {
+        int indent = 4;
+        if(TextUtils.isEmpty(json)){
+            d(element, "JSON{json is null}");
+            return;
+        }
+        try{
+            if(json.startsWith("{")){
+                JSONObject jsonObject = new JSONObject(json);
+                String msg = jsonObject.toString(indent);
+                d(element, msg);
+            }else if(json.startsWith("[")){
+                JSONArray jsonArray = new JSONArray(json);
+                String msg = jsonArray.toString(indent);
+                d(element, msg);
+            }
+        }catch (JSONException e){
+            e(element, e);
+        }
     }
 }

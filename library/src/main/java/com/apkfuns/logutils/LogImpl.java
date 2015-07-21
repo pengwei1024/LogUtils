@@ -21,4 +21,6 @@ public interface LogImpl {
 
     void wtf(StackTraceElement element, String message, Object... args);
     void wtf(StackTraceElement element, Object object);
+
+    void json(StackTraceElement element, String json);
 }

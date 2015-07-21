@@ -14,8 +14,16 @@ String a = st[2].toString();
 Log.wtf("abc",a.substring(a.lastIndexOf('('), a.length()));
 ```
 
-### Gradle
+### options
+```java
+// 配置日志是否输出(默认true)
+LogUtils.configAllowLog = false;
 
+// 配置日志统一Tag
+LogUtils.configTagPrefix = "tag";
+```
+
+### Gradle
 ```groovy
 compile '***'
 ```
@@ -26,12 +34,13 @@ compile '***'
     - 新增abc
     - 新增edf
 
-### Thanks
-感谢[wyouflf/xUtils](https://github.com/wyouflf/xUtils) 和[orhanobut/logger](https://github.com/orhanobut/logger)
 
-### About
+## About
 * Blog: [apkfuns.com](http://apkfuns.com)
 * Email: [pengwei1024@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pengwei1024@gmail.com)
+
+### Thanks
+感谢[wyouflf/xUtils](https://github.com/wyouflf/xUtils) 和[orhanobut/logger](https://github.com/orhanobut/logger)
 
 ### License
 <pre>

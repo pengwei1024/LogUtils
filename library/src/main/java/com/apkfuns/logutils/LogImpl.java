@@ -7,7 +7,6 @@ public interface LogImpl {
     void d(String message, Object... args);
     void d(Object object);
 
-    void e(Throwable throwable, String message, Object... args);
     void e(String message, Object... args);
     void e(Object object);
 

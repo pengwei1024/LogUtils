@@ -1,6 +1,8 @@
 package com.apkfuns.logutils;
 
+import android.text.TextUtils;
 import android.util.Log;
+import static com.apkfuns.logutils.LogUtils.*;
 
 import com.apkfuns.logutils.utils.SystemUtil;
 
@@ -20,7 +22,8 @@ public final class Logger implements LogImpl {
         if (!LogUtils.configAllowLog) {
             return;
         }
-        String tag = "";
+        String tag = generateTag(SystemUtil.getStackTrace());
+        msg = String.format(msg, args);
         switch (type) {
             case Verbose:
                 Log.v(tag, msg);
@@ -44,6 +47,7 @@ public final class Logger implements LogImpl {
                 break;
         }
     }
+
 
     private void log(LogType type, Object object) {
         if (object instanceof Throwable) {
@@ -72,7 +76,9 @@ public final class Logger implements LogImpl {
                 default:
                     break;
             }
-        } else {
+        } else if(object instanceof String){
+            log(type, (String) object, null);
+        }else {
             log(type, SystemUtil.objectToString(object));
         }
     }
@@ -88,57 +94,69 @@ public final class Logger implements LogImpl {
     }
 
     @Override
-    public void e(Throwable throwable, String message, Object... args) {
-
-    }
-
-    @Override
     public void e(String message, Object... args) {
-
+        log(LogType.Error, message, args);
     }
 
     @Override
     public void e(Object object) {
-
+        log(LogType.Error, object);
     }
 
     @Override
     public void w(String message, Object... args) {
-
+        log(LogType.Warn, message, args);
     }
 
     @Override
     public void w(Object object) {
-
+        log(LogType.Warn, object);
     }
 
     @Override
     public void i(String message, Object... args) {
-
+        log(LogType.Info, message, args);
     }
 
     @Override
     public void i(Object object) {
-
+        log(LogType.Info, object);
     }
 
     @Override
     public void v(String message, Object... args) {
-
+        log(LogType.Verbose, message, args);
     }
 
     @Override
     public void v(Object object) {
-
+        log(LogType.Verbose, object);
     }
 
     @Override
     public void wtf(String message, Object... args) {
-
+        log(LogType.Wtf, message, args);
     }
 
     @Override
     public void wtf(Object object) {
+        log(LogType.Wtf, object);
+    }
 
+
+    /**
+     * 自动生成tag
+     *
+     * @return
+     */
+    private String generateTag(StackTraceElement caller) {
+        String stackTrace = caller.toString();
+        stackTrace = stackTrace.substring(stackTrace.lastIndexOf('('), stackTrace.length());
+        String tag = "%s%s.%s%s";
+        String callerClazzName = caller.getClassName();
+        callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
+        String Prefix = TextUtils.isEmpty(configTagPrefix) ? "" : configTagPrefix + "-";
+        tag = String.format(tag, Prefix, callerClazzName, caller.getMethodName(), stackTrace);
+        return tag;
     }
 }

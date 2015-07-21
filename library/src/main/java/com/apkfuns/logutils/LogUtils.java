@@ -11,183 +11,91 @@ import java.lang.reflect.Field;
  * Created by pengwei08 on 2015/7/16.
  * 日志管理器
  */
-public abstract class LogUtils {
+public abstract class LogUtils  {
 
-    // 基本数据类型
-    private final static String[] types = {"int", "java.lang.String", "boolean", "char",
-            "float", "double", "long", "short", "byte"};
-
-    // 日志类型
-    private enum LogType {
-        Verbose, Debug, Info, Warn, Error
+    private static Logger logger;
+    static {
+        logger = new Logger();
     }
 
     // 允许输出日志
     public static boolean configAllowLog = true;
+
     // 配置日志Tag前缀
     public static String configTagPrefix = "";
 
     /**
-     * 自动生成tag
-     *
-     * @return
+     * verbose输出
+     * @param msg
+     * @param args
      */
-    private static String generateTag(StackTraceElement caller) {
-        String tag = "%s.%s(L:%d)";
-        String callerClazzName = caller.getClassName();
-        callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
-        tag = String.format(tag, callerClazzName, caller.getMethodName(), caller.getLineNumber());
-        tag = TextUtils.isEmpty(configTagPrefix) ? tag : configTagPrefix + ":" + tag;
-        tag = caller.toString();
-        tag = tag.substring(tag.lastIndexOf('('), tag.length());
-        return tag;
+    public static void v(String msg, Object... args){
+        logger.v(msg, args);
+    }
+    public static void v(Object object){
+        logger.v(object);
     }
 
-
-    /**
-     * 日志输出
-     *
-     * @param tag
-     * @param content
-     */
-    private static void log(LogType type, String tag, String content) {
-        if (!configAllowLog) return;
-        switch (type) {
-            case Verbose:
-                Log.v(tag, content);
-                break;
-            case Debug:
-                Log.d(tag, content);
-                break;
-            case Info:
-                Log.i(tag, content);
-                break;
-            case Warn:
-                Log.w(tag, content);
-                break;
-            case Error:
-                Log.e(tag, content);
-                break;
-            default:
-                break;
-        }
-
-    }
-    private static void log(LogType type, String content) {
-        log(type, generateTag(SystemUtil.getStackTrace()), content);
-    }
-    private static void log(LogType type, Object object){
-        log(type, toString(object));
-    }
-    private static void log(LogType type, String content, Object... objects){
-        log(type, String.format(content, objects));
-    }
 
     /**
      * debug输出
-     *
-     * @param tag
-     * @param content
+     * @param msg
+     * @param args
      */
-    public static void d(String tag, String content) {
-        log(LogType.Debug, tag, content);
-    }
-
-    public static void d(String content) {
-        log(LogType.Debug, content);
+    public static void d(String msg, Object... args) {
+        logger.d(msg, args);
     }
 
     public static void d(Object object) {
-        log(LogType.Debug, object);
-    }
-
-    public static void d(String content, Object... objects) {
-        log(LogType.Debug, content, objects);
-    }
-
-    public static void e(String tag, String content) {
-        log(LogType.Error, tag, content);
-    }
-    public static void e(String content) {
-        log(LogType.Error, content);
-    }
-    public static void e(Object object) {
-        log(LogType.Error, object);
-    }
-    public static void e(String content, Object... objects) {
-        log(LogType.Error, content, objects);
-    }
-
-    public static void i(String tag, String content) {
-        log(LogType.Info, tag, content);
-    }
-    public static void i(String content) {
-        log(LogType.Info, content);
-    }
-    public static void i(Object object) {
-        log(LogType.Info, object);
-    }
-    public static void i(String content, Object... objects) {
-        log(LogType.Info, content, objects);
-    }
-
-    public static void v(String tag, String content) {
-        log(LogType.Verbose, tag, content);
-    }
-    public static void v(String content) {
-        log(LogType.Verbose, content);
-    }
-    public static void v(Object object) {
-        log(LogType.Verbose, object);
-    }
-    public static void v(String content, Object...objects) {
-        log(LogType.Verbose, content, objects);
-    }
-
-    public static void w(String tag, String content) {
-        log(LogType.Warn, tag, content);
-    }
-    public static void w(String content) {
-        log(LogType.Warn, content);
-    }
-    public static void w(Object object) {
-        log(LogType.Warn, object);
-    }
-    public static void w(String content, Object...objects) {
-        log(LogType.Warn, content, objects);
+        logger.d(object);
     }
 
     /**
-     * 将对象转化为String
-     *
-     * @param object
-     * @return
+     * info输出
+     * @param msg
+     * @param args
      */
-    private static <T> String toString(T object) {
-        if (object == null) {
-            return "Null{object is null}";
-        }
-        if (object.toString().startsWith(object.getClass().getName() + "@")) {
-            StringBuilder builder = new StringBuilder(object.getClass().getSimpleName() + "{");
-            Field[] fields = object.getClass().getDeclaredFields();
-            for (Field field : fields) {
-                field.setAccessible(true);
-                for (String type : types) {
-                    if (field.getType().getName().equalsIgnoreCase(type)) {
-                        try {
-                            Object value = field.get(object);
-                            builder.append(String.format("%s=%s, ", field.getName(),
-                                    value == null ? "null" : value.toString()));
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                }
-            }
-            return builder.replace(builder.length() - 2, builder.length() - 1, "}").toString();
-        } else {
-            return object.toString();
-        }
+    public static void i(String msg, Object... args){
+        logger.i(msg, args);
     }
+    public static void i(Object object){
+        logger.i(object);
+    }
+
+    /**
+     * warn输出
+     * @param msg
+     * @param args
+     */
+    public static void w(String msg, Object... args){
+        logger.w(msg, args);
+    }
+    public static void w(Object object){
+        logger.w(object);
+    }
+
+    /**
+     * error输出
+     * @param msg
+     * @param args
+     */
+    public static void e(String msg, Object... args){
+        logger.e(msg, args);
+    }
+    public static void e(Object object){
+        logger.e(object);
+    }
+
+    /**
+     * assert输出
+     * @param msg
+     * @param args
+     */
+    public static void wtf(String msg, Object... args){
+        logger.wtf(msg, args);
+    }
+    public static void wtf(Object object){
+        logger.wtf(object);
+    }
+
 }

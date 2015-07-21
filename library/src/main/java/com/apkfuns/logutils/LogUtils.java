@@ -30,10 +30,10 @@ public final class LogUtils  {
      * @param args
      */
     public static void v(String msg, Object... args){
-        logger.v(msg, args);
+        logger.v(SystemUtil.getStackTrace(), msg, args);
     }
     public static void v(Object object){
-        logger.v(object);
+        logger.v(SystemUtil.getStackTrace(), object);
     }
 
 
@@ -43,11 +43,11 @@ public final class LogUtils  {
      * @param args
      */
     public static void d(String msg, Object... args) {
-        logger.d(msg, args);
+        logger.d(SystemUtil.getStackTrace(), msg, args);
     }
 
     public static void d(Object object) {
-        logger.d(object);
+        logger.d(SystemUtil.getStackTrace(), object);
     }
 
     /**
@@ -56,10 +56,10 @@ public final class LogUtils  {
      * @param args
      */
     public static void i(String msg, Object... args){
-        logger.i(msg, args);
+        logger.i(SystemUtil.getStackTrace(), msg, args);
     }
     public static void i(Object object){
-        logger.i(object);
+        logger.i(SystemUtil.getStackTrace(), object);
     }
 
     /**
@@ -68,10 +68,10 @@ public final class LogUtils  {
      * @param args
      */
     public static void w(String msg, Object... args){
-        logger.w(msg, args);
+        logger.w(SystemUtil.getStackTrace(), msg, args);
     }
     public static void w(Object object){
-        logger.w(object);
+        logger.w(SystemUtil.getStackTrace(), object);
     }
 
     /**
@@ -80,10 +80,10 @@ public final class LogUtils  {
      * @param args
      */
     public static void e(String msg, Object... args){
-        logger.e(msg, args);
+        logger.e(SystemUtil.getStackTrace(), msg, args);
     }
     public static void e(Object object){
-        logger.e(object);
+        logger.e(SystemUtil.getStackTrace(), object);
     }
 
     /**
@@ -92,10 +92,10 @@ public final class LogUtils  {
      * @param args
      */
     public static void wtf(String msg, Object... args){
-        logger.wtf(msg, args);
+        logger.wtf(SystemUtil.getStackTrace(), msg, args);
     }
     public static void wtf(Object object){
-        logger.wtf(object);
+        logger.wtf(SystemUtil.getStackTrace(), object);
     }
 
 }

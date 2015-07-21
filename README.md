@@ -2,11 +2,15 @@
 More convenient and easy to use android Log manager
 
 ### screenshot
+##### 效果图
 ![截图](screenshot/screenshot01.png)
+##### 日志说明
+![截图](screenshot/screenshot02.png)
 
 ### Simple
 ```java
 
+// 配置日志前缀
 LogUtils.configTagPrefix = "abc-";
 
 //输出字符串

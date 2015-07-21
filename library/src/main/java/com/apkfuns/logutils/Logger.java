@@ -14,16 +14,16 @@ public final class Logger implements LogImpl {
 
     /**
      * 打印字符串
-     *
      * @param type
+     * @param element
      * @param msg
      * @param args
      */
-    private void logString(LogType type, String msg, Object... args) {
+    private void logString(LogType type, StackTraceElement element, String msg, Object... args) {
         if (!LogUtils.configAllowLog) {
             return;
         }
-        String tag = generateTag(SystemUtil.getStackTrace());
+        String tag = generateTag(element);
         msg = String.format(msg, args);
         switch (type) {
             case Verbose:
@@ -49,15 +49,17 @@ public final class Logger implements LogImpl {
         }
     }
 
+
     /**
      * 打印对象
      * @param type
+     * @param element
      * @param object
      */
-    private void logObject(LogType type, Object object) {
+    private void logObject(LogType type, StackTraceElement element, Object object) {
         if(object != null){
             if (object instanceof Throwable) {
-                String tag = generateTag(SystemUtil.getStackTrace());
+                String tag = generateTag(element);
                 String msg = object.toString();
                 Exception exception = (Exception) object;
                 switch (type) {
@@ -83,75 +85,14 @@ public final class Logger implements LogImpl {
                         break;
                 }
             } else if (object instanceof String) {
-                logString(type, (String) object);
+                logString(type, element, (String) object);
             } else {
-                logString(type, SystemUtil.objectToString(object));
+                logString(type, element, SystemUtil.objectToString(object));
             }
         }else{
-            logString(type, "Null{object is null}");
+            logString(type, element, "Null{object is null}");
         }
     }
-
-    @Override
-    public void d(String message, Object... args) {
-        logString(LogType.Debug, message, args);
-    }
-
-    @Override
-    public void d(Object object) {
-        logObject(LogType.Debug, object);
-    }
-
-    @Override
-    public void e(String message, Object... args) {
-        logString(LogType.Error, message, args);
-    }
-
-    @Override
-    public void e(Object object) {
-        logObject(LogType.Error, object);
-    }
-
-    @Override
-    public void w(String message, Object... args) {
-        logString(LogType.Warn, message, args);
-    }
-
-    @Override
-    public void w(Object object) {
-        logObject(LogType.Warn, object);
-    }
-
-    @Override
-    public void i(String message, Object... args) {
-        logString(LogType.Info, message, args);
-    }
-
-    @Override
-    public void i(Object object) {
-        logObject(LogType.Info, object);
-    }
-
-    @Override
-    public void v(String message, Object... args) {
-        logString(LogType.Verbose, message, args);
-    }
-
-    @Override
-    public void v(Object object) {
-        logObject(LogType.Verbose, object);
-    }
-
-    @Override
-    public void wtf(String message, Object... args) {
-        logString(LogType.Wtf, message, args);
-    }
-
-    @Override
-    public void wtf(Object object) {
-        logObject(LogType.Wtf, object);
-    }
-
 
     /**
      * 自动生成tag
@@ -167,5 +108,65 @@ public final class Logger implements LogImpl {
         String Prefix = TextUtils.isEmpty(configTagPrefix) ? "" : configTagPrefix;
         tag = String.format(tag, Prefix, callerClazzName, caller.getMethodName(), stackTrace);
         return tag;
+    }
+
+    @Override
+    public void d(StackTraceElement element, String message, Object... args) {
+        logString(LogType.Debug, element, message, args);
+    }
+
+    @Override
+    public void d(StackTraceElement element, Object object) {
+        logObject(LogType.Debug, element, object);
+    }
+
+    @Override
+    public void e(StackTraceElement element, String message, Object... args) {
+        logString(LogType.Error, element, message, args);
+    }
+
+    @Override
+    public void e(StackTraceElement element, Object object) {
+        logObject(LogType.Error, element, object);
+    }
+
+    @Override
+    public void w(StackTraceElement element, String message, Object... args) {
+        logString(LogType.Warn, element, message, args);
+    }
+
+    @Override
+    public void w(StackTraceElement element, Object object) {
+        logObject(LogType.Warn, element, object);
+    }
+
+    @Override
+    public void i(StackTraceElement element, String message, Object... args) {
+        logString(LogType.Info, element, message, args);
+    }
+
+    @Override
+    public void i(StackTraceElement element, Object object) {
+        logObject(LogType.Info, element, object);
+    }
+
+    @Override
+    public void v(StackTraceElement element, String message, Object... args) {
+        logString(LogType.Verbose, element, message, args);
+    }
+
+    @Override
+    public void v(StackTraceElement element, Object object) {
+        logObject(LogType.Verbose, element, object);
+    }
+
+    @Override
+    public void wtf(StackTraceElement element, String message, Object... args) {
+        logString(LogType.Wtf, element, message, args);
+    }
+
+    @Override
+    public void wtf(StackTraceElement element, Object object) {
+        logObject(LogType.Wtf, element, object);
     }
 }

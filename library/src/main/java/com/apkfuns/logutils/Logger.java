@@ -155,7 +155,7 @@ public final class Logger implements LogImpl {
         String tag = "%s%s.%s%s";
         String callerClazzName = caller.getClassName();
         callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
-        String Prefix = TextUtils.isEmpty(configTagPrefix) ? "" : configTagPrefix + "-";
+        String Prefix = TextUtils.isEmpty(configTagPrefix) ? "" : configTagPrefix;
         tag = String.format(tag, Prefix, callerClazzName, caller.getMethodName(), stackTrace);
         return tag;
     }

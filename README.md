@@ -6,15 +6,23 @@ More convenient and easy to use android Log manager
 
 ### Simple
 ```java
+
+LogUtils.configTagPrefix = "abc-";
+
+//输出字符串
+LogUtils.d("12345");
+
+// 输出参数
+LogUtils.d("12%s3%d45", "a", 0);
+
+// 输出异常
+LogUtils.d(new NullPointerException("12345"));
+
+// 输出对象
 Person person = new Person();
 person.setAge(11);
 person.setName("pengwei");
 person.setScore(37.5f);
-
-LogUtils.configTagPrefix = "abc";
-LogUtils.d("12345");
-LogUtils.d("12%s3%s45", "a","b");
-LogUtils.d(new NullPointerException("12345"));
 LogUtils.d(person);
 ```
 
@@ -23,7 +31,7 @@ LogUtils.d(person);
 // 配置日志是否输出(默认true)
 LogUtils.configAllowLog = false;
 
-// 配置日志统一Tag
+// 配置日志前缀
 LogUtils.configTagPrefix = "tag";
 ```
 

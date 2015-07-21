@@ -6,12 +6,16 @@ More convenient and easy to use android Log manager
 
 ### Simple
 ```java
-StackTraceElement st[]= Thread.currentThread().getStackTrace();
-for(int i=0;i<st.length;i++)
-   Log.wtf("abc",i + ":" + st[i]);
-Log.wtf("abc",st[2].toString());
-String a = st[2].toString();
-Log.wtf("abc",a.substring(a.lastIndexOf('('), a.length()));
+Person person = new Person();
+person.setAge(11);
+person.setName("pengwei");
+person.setScore(37.5f);
+
+LogUtils.configTagPrefix = "abc";
+LogUtils.d("12345");
+LogUtils.d("12%s3%s45", "a","b");
+LogUtils.d(new NullPointerException("12345"));
+LogUtils.d(person);
 ```
 
 ### options
@@ -31,8 +35,8 @@ compile '***'
 ### History
 
 * **1.0.0 (2015/07/13)**
-    - 新增abc
-    - 新增edf
+    - 可以打印对象，字符串，且显示文件行数
+
 
 
 ## About

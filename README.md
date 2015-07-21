@@ -10,7 +10,7 @@ More convenient and easy to use android Log manager
 ### Simple
 ```java
 
-//输出字符串
+// 输出字符串
 LogUtils.d("12345");
 
 // 输出参数
@@ -58,6 +58,7 @@ compile '***'
 ### History
 * **1.0.0 (2015/07/13)**
     - 打印对象，字符串，异常，且显示文件行数
+<br/>
 * **1.0.1 (2015/07/22)**
     - 打印json字符串
 

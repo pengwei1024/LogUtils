@@ -17,11 +17,12 @@ public class MainActivity extends Activity {
         person.setName("pengwei");
         person.setScore(37.5f);
 
-        LogUtils.configTagPrefix = "abc-";
-        LogUtils.d("12345");
-        LogUtils.d("12%s3%s45", "a","b");
+//        LogUtils.configTagPrefix = "abc-";
+//        LogUtils.d("12345");
+//        LogUtils.d("12%s3%s45", "a","b");
         LogUtils.d(new NullPointerException("12345"));
-        LogUtils.d(person);
+//        LogUtils.d(person);
+//        LogUtils.d(null);
 
     }
 }

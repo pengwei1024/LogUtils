@@ -41,18 +41,17 @@ compile '***'
 ```
 
 ### History
-
 * **1.0.0 (2015/07/13)**
     - 可以打印对象，字符串，且显示文件行数
 
 
 
 ## About
-* Blog: [apkfuns.com](http://apkfuns.com)
+* Blog: [apkfuns.com](http://apkfuns.com?from=github)
 * Email: [pengwei1024@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pengwei1024@gmail.com)
 
 ### Thanks
-感谢[wyouflf/xUtils](https://github.com/wyouflf/xUtils) 和[orhanobut/logger](https://github.com/orhanobut/logger)
+thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils) 和[orhanobut/logger](https://github.com/orhanobut/logger)
 
 ### License
 <pre>

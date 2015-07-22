@@ -58,14 +58,14 @@ LogUtils.configTagPrefix = "abc-";
 
 ### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.0.0'
+compile 'com.apkfuns.logutils:library:1.0.1'
 ```
 ### Maven
 ```xml
 <dependency>
     <groupId>com.apkfuns.logutils</groupId>
     <artifactId>library</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 

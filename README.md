@@ -1,6 +1,12 @@
 # LogUtils
 More convenient and easy to use android Log manager
 
+### Features
+> *``支持直接打印对象``
+> *``配置是否全局打印log``
+> *``不需要设置tag``
+> *``准确显示调用方法、行，快速定位所在文件位置``.
+
 ### screenshot
 ##### 效果图
 ![截图](screenshot/screenshot01.png)
@@ -52,7 +58,7 @@ LogUtils.configTagPrefix = "abc-";
 
 ### Gradle
 ```groovy
-compile '***'
+compile 'com.apkfuns.logutils:logutils:1.0.0'
 ```
 
 ### History

@@ -64,6 +64,7 @@ LogUtils.configAllowLog = false;
 // 配置日志前缀
 LogUtils.configTagPrefix = "abc-";
 ```
+## Usage
 
 ### Gradle
 ```groovy
@@ -78,6 +79,9 @@ compile 'com.apkfuns.logutils:library:1.0.3'
 </dependency>
 ```
 
+### Jar
+click [here](http://jcenter.bintray.com/com/apkfuns/logutils/library/1.0.3/library-1.0.3-sources.jar){:target="_blank"} to download sources.jar
+
 ### History
 * **1.0.0 (2015/07/13)**
     - 打印对象，字符串，异常，且显示文件行数
@@ -91,8 +95,8 @@ compile 'com.apkfuns.logutils:library:1.0.3'
 
 
 ## About
-* Blog: [apkfuns.com](http://apkfuns.com?from=github)
-* Email: [pengwei1024@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pengwei1024@gmail.com)
+* Blog: [apkfuns.com](http://apkfuns.com?from=github){:target="_blank"}
+* Email: [pengwei1024@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pengwei1024@gmail.com){:target="_blank"}
 
 ### Thanks
 thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils) 和[orhanobut/logger](https://github.com/orhanobut/logger)

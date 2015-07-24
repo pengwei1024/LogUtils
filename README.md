@@ -84,7 +84,7 @@ compile 'com.apkfuns.logutils:library:1.0.2'
 * **1.0.1 (2015/07/22)**
     - 打印json字符串
 * **1.0.2 (2015/07/24)**
-        - 支持打印List、Set等数据集合
+    - 支持打印List、Set等数据集合
 
 
 

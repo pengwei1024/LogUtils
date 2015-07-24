@@ -8,6 +8,10 @@ import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
 import com.apkfuns.logutils.demo.model.Person;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 public class MainActivity extends Activity {
 
     @Override
@@ -37,5 +41,16 @@ public class MainActivity extends Activity {
         String json = "{'a':'b','c':{'aa':234,'dd':{'az':12}}}";
         LogUtils.json(json);
 
+        List<String> list = new ArrayList<>();
+        for(int i = 0; i < 10; i++){
+            list.add(String.valueOf(i));
+        }
+        LogUtils.d(list);
+
+        List<Person> list1 = new ArrayList<>();
+        for(int i = 0; i < 4; i++){
+            list1.add(person);
+        }
+        LogUtils.d(list1);
     }
 }

@@ -11,6 +11,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by pengwei08 on 2015/7/20.
  */
@@ -18,6 +24,7 @@ public final class Logger implements LogImpl {
 
     /**
      * 打印字符串
+     *
      * @param type
      * @param element
      * @param msg
@@ -56,12 +63,13 @@ public final class Logger implements LogImpl {
 
     /**
      * 打印对象
+     *
      * @param type
      * @param element
      * @param object
      */
     private void logObject(LogType type, StackTraceElement element, Object object) {
-        if(object != null){
+        if (object != null) {
             if (object instanceof Throwable) {
                 String tag = generateTag(element);
                 String msg = object.toString();
@@ -90,10 +98,25 @@ public final class Logger implements LogImpl {
                 }
             } else if (object instanceof String) {
                 logString(type, element, (String) object);
+            } else if (object instanceof Collection) {
+                Collection collection = (Collection) object;
+                String msg = "%s size = %d [\n";
+                msg = String.format(msg, collection.getClass().getSimpleName(), collection.size());
+                if (!collection.isEmpty()) {
+                    Iterator<Object> iterator = collection.iterator();
+                    int flag = 0;
+                    while (iterator.hasNext()) {
+                        String itemString = "[%d]:%s%s";
+                        Object item = iterator.next();
+                        msg += String.format(itemString, flag, SystemUtil.objectToString(item),
+                                flag++ < collection.size() - 1 ? ",\n" : "\n");
+                    }
+                }
+                logString(type, element, msg + "\n]");
             } else {
                 logString(type, element, SystemUtil.objectToString(object));
             }
-        }else{
+        } else {
             logString(type, element, "Null{object is null}");
         }
     }
@@ -177,21 +200,21 @@ public final class Logger implements LogImpl {
     @Override
     public void json(StackTraceElement element, String json) {
         int indent = 4;
-        if(TextUtils.isEmpty(json)){
+        if (TextUtils.isEmpty(json)) {
             d(element, "JSON{json is null}");
             return;
         }
-        try{
-            if(json.startsWith("{")){
+        try {
+            if (json.startsWith("{")) {
                 JSONObject jsonObject = new JSONObject(json);
                 String msg = jsonObject.toString(indent);
                 d(element, msg);
-            }else if(json.startsWith("[")){
+            } else if (json.startsWith("[")) {
                 JSONArray jsonArray = new JSONArray(json);
                 String msg = jsonArray.toString(indent);
                 d(element, msg);
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e(element, e);
         }
     }

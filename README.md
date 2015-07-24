@@ -12,6 +12,8 @@ More convenient and easy to use android Log manager
 ![截图](screenshot/screenshot01.png)
 ##### 日志说明
 ![截图](screenshot/screenshot02.png)
+##### 打印数据列表
+![截图](screenshot/screenshot03.png)
 
 ### Simple
 ```java
@@ -39,6 +41,13 @@ LogUtils.d(null);
 String json = "{'a':'b','c':{'aa':234,'dd':{'az':12}}}";
 LogUtils.json(json);
 
+// 打印数据集合
+List<Person> list1 = new ArrayList<>();
+for(int i = 0; i < 4; i++){
+    list1.add(person);
+}
+LogUtils.d(list1);
+
 // 其他用法
 LogUtils.v("12345");
 LogUtils.i("12345");
@@ -58,23 +67,24 @@ LogUtils.configTagPrefix = "abc-";
 
 ### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.0.1'
+compile 'com.apkfuns.logutils:library:1.0.2'
 ```
 ### Maven
 ```xml
 <dependency>
     <groupId>com.apkfuns.logutils</groupId>
     <artifactId>library</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
 ### History
 * **1.0.0 (2015/07/13)**
     - 打印对象，字符串，异常，且显示文件行数
-<br/>
 * **1.0.1 (2015/07/22)**
     - 打印json字符串
+* **1.0.2 (2015/07/24)**
+        - 支持打印List、Set等数据集合
 
 
 

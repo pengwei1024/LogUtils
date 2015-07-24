@@ -2,7 +2,7 @@
 More convenient and easy to use android Log manager
 
 ### Features
->* ``支持直接打印对象``
+>* ``支持直接打印对象``,如List、Set、Map等
 >* ``配置是否全局打印log``
 >* ``不需要设置tag``
 >* ``准确显示调用方法、行，快速定位所在文件位置``.
@@ -15,7 +15,7 @@ More convenient and easy to use android Log manager
 ##### 打印数据列表
 ![截图](screenshot/screenshot03.png)
 
-### Simple
+## Simple
 ```java
 
 // 输出字符串
@@ -80,9 +80,9 @@ compile 'com.apkfuns.logutils:library:1.0.3'
 ```
 
 ### Jar
-click [here](http://jcenter.bintray.com/com/apkfuns/logutils/library/1.0.3/library-1.0.3-sources.jar) to download sources.jar
+click [here](http://jcenter.bintray.com/com/apkfuns/logutils/library/) to download sources.jar
 
-### History
+## History
 * **1.0.0 (2015/07/13)**
     - 打印对象，字符串，异常，且显示文件行数
 * **1.0.1 (2015/07/22)**

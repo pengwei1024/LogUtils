@@ -9,7 +9,9 @@ import com.apkfuns.logutils.demo.R;
 import com.apkfuns.logutils.demo.model.Person;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class MainActivity extends Activity {
@@ -47,10 +49,18 @@ public class MainActivity extends Activity {
         }
         LogUtils.d(list);
 
+        // 支持数据集合
         List<Person> list1 = new ArrayList<>();
         for(int i = 0; i < 4; i++){
             list1.add(person);
         }
         LogUtils.d(list1);
+
+        // 支持map输出
+        Map<String, Person> map = new HashMap<>();
+        map.put("a", person);
+        map.put("b", person);
+        map.put("c", person);
+        LogUtils.d(map);
     }
 }

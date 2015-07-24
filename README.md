@@ -67,14 +67,14 @@ LogUtils.configTagPrefix = "abc-";
 
 ### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.0.2'
+compile 'com.apkfuns.logutils:library:1.0.3'
 ```
 ### Maven
 ```xml
 <dependency>
     <groupId>com.apkfuns.logutils</groupId>
     <artifactId>library</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
@@ -84,7 +84,9 @@ compile 'com.apkfuns.logutils:library:1.0.2'
 * **1.0.1 (2015/07/22)**
     - 打印json字符串
 * **1.0.2 (2015/07/24)**
-    - 支持打印List、Set等数据集合
+    - 支持打印List、Se等数据集合
+* **1.0.3 (2015/07/24)**
+    - 支持打印Map集合
 
 
 

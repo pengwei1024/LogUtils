@@ -13,9 +13,12 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by pengwei08 on 2015/7/20.
@@ -70,6 +73,7 @@ public final class Logger implements LogImpl {
      */
     private void logObject(LogType type, StackTraceElement element, Object object) {
         if (object != null) {
+            final String simpleName = object.getClass().getSimpleName();
             if (object instanceof Throwable) {
                 String tag = generateTag(element);
                 String msg = object.toString();
@@ -101,7 +105,7 @@ public final class Logger implements LogImpl {
             } else if (object instanceof Collection) {
                 Collection collection = (Collection) object;
                 String msg = "%s size = %d [\n";
-                msg = String.format(msg, collection.getClass().getSimpleName(), collection.size());
+                msg = String.format(msg, simpleName, collection.size());
                 if (!collection.isEmpty()) {
                     Iterator<Object> iterator = collection.iterator();
                     int flag = 0;
@@ -113,6 +117,17 @@ public final class Logger implements LogImpl {
                     }
                 }
                 logString(type, element, msg + "\n]");
+            } else if (object instanceof Map) {
+                String msg = simpleName + " {\n";
+                Map<Object, Object> map = (Map<Object, Object>) object;
+                Set<Object> keys = map.keySet();
+                for (Object key : keys){
+                    String itemString = "[%s : %s]\n";
+                    Object value = map.get(key);
+                    msg += String.format(itemString, SystemUtil.objectToString(key),
+                            SystemUtil.objectToString(value));
+                }
+                logString(type, element, msg + "}");
             } else {
                 logString(type, element, SystemUtil.objectToString(object));
             }

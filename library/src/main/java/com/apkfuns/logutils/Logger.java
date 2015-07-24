@@ -122,7 +122,7 @@ public final class Logger implements LogImpl {
                 Map<Object, Object> map = (Map<Object, Object>) object;
                 Set<Object> keys = map.keySet();
                 for (Object key : keys){
-                    String itemString = "[%s : %s]\n";
+                    String itemString = "[%s -> %s]\n";
                     Object value = map.get(key);
                     msg += String.format(itemString, SystemUtil.objectToString(key),
                             SystemUtil.objectToString(value));

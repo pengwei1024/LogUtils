@@ -2,8 +2,8 @@
 More convenient and easy to use android Log manager
 
 ### Features
->* ``支持直接打印对象``,如List、Set、Map等
->* ``配置是否全局打印log``
+>* ``支持直接打印数据集合``,如List、Set、Map、数组等
+>* ``全局配置log输出``
 >* ``不需要设置tag``
 >* ``准确显示调用方法、行，快速定位所在文件位置``.
 
@@ -14,6 +14,8 @@ More convenient and easy to use android Log manager
 ![截图](screenshot/screenshot02.png)
 ##### 打印数据列表
 ![截图](screenshot/screenshot03.png)
+##### 打印数组
+![截图](screenshot/screenshot04.png)
 
 ## Simple
 ```java
@@ -48,6 +50,13 @@ for(int i = 0; i < 4; i++){
 }
 LogUtils.d(list1);
 
+// 打印数组
+double[][] doubles = {{1.2, 1.6, 1.7, 30, 33},
+                {1.2, 1.6, 1.7, 30, 33},
+                {1.2, 1.6, 1.7, 30, 33},
+                {1.2, 1.6, 1.7, 30, 33}};
+LogUtils.d(doubles);
+
 // 其他用法
 LogUtils.v("12345");
 LogUtils.i("12345");
@@ -68,14 +77,14 @@ LogUtils.configTagPrefix = "abc-";
 
 ### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.0.3'
+compile 'com.apkfuns.logutils:library:1.0.4'
 ```
 ### Maven
 ```xml
 <dependency>
     <groupId>com.apkfuns.logutils</groupId>
     <artifactId>library</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
@@ -91,6 +100,8 @@ click [here](http://jcenter.bintray.com/com/apkfuns/logutils/library/) to downlo
     - 支持打印List、Se等数据集合
 * **1.0.3 (2015/07/24)**
     - 支持打印Map集合
+* **1.0.4 (2015/07/25)**
+    - 支持打印数组(暂仅支持一维、二维数组)
 
 
 

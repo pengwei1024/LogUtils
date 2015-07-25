@@ -2,9 +2,11 @@ package com.apkfuns.logutils;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 
 import static com.apkfuns.logutils.LogUtils.*;
 
+import com.apkfuns.logutils.utils.ArrayUtil;
 import com.apkfuns.logutils.utils.SystemUtil;
 
 import org.json.JSONArray;
@@ -12,12 +14,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -102,6 +106,25 @@ public final class Logger implements LogImpl {
                 }
             } else if (object instanceof String) {
                 logString(type, element, (String) object);
+            } else if (object.getClass().isArray()) {
+                String msg = "Temporarily not support more than two dimensional Array!";
+                int dim = ArrayUtil.getArrayDimension(object);
+                switch (dim) {
+                    case 1:
+                        Pair pair = ArrayUtil.arrayToString(object);
+                        msg = simpleName.replace("[]", "["+pair.first+"] {\n");
+                        msg += pair.second + "\n";
+                        break;
+                    case 2:
+                        Pair pair1 = ArrayUtil.arrayToObject(object);
+                        Pair pair2 = (Pair) pair1.first;
+                        msg = simpleName.replace("[][]", "["+pair2.first+"]["+pair2.second+"] {\n");
+                        msg += pair1.second + "\n";
+                        break;
+                    default:
+                        break;
+                }
+                logString(type, element, msg + "}");
             } else if (object instanceof Collection) {
                 Collection collection = (Collection) object;
                 String msg = "%s size = %d [\n";
@@ -121,7 +144,7 @@ public final class Logger implements LogImpl {
                 String msg = simpleName + " {\n";
                 Map<Object, Object> map = (Map<Object, Object>) object;
                 Set<Object> keys = map.keySet();
-                for (Object key : keys){
+                for (Object key : keys) {
                     String itemString = "[%s -> %s]\n";
                     Object value = map.get(key);
                     msg += String.format(itemString, SystemUtil.objectToString(key),
@@ -132,7 +155,7 @@ public final class Logger implements LogImpl {
                 logString(type, element, SystemUtil.objectToString(object));
             }
         } else {
-            logString(type, element, "Null{object is null}");
+            logString(type, element, SystemUtil.objectToString(object));
         }
     }
 

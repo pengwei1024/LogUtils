@@ -27,7 +27,7 @@ public class SystemUtil {
      */
     public static <T> String objectToString(T object) {
         if (object == null) {
-            return "Null{object is null}";
+            return "Object{object is null}";
         }
         if (object.toString().startsWith(object.getClass().getName() + "@")) {
             StringBuilder builder = new StringBuilder(object.getClass().getSimpleName() + "{");

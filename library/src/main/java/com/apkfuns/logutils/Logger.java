@@ -28,6 +28,9 @@ import java.util.Set;
  */
 public final class Logger implements Printer {
 
+    protected Logger() {
+    }
+
     private AlertDialog dialog;
 
     /**

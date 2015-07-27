@@ -1,8 +1,13 @@
 package com.apkfuns.logutils;
 
+import android.app.AlertDialog;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
 import static com.apkfuns.logutils.LogUtils.*;
 
@@ -13,21 +18,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
  * Created by pengwei08 on 2015/7/20.
  */
-public final class Logger implements LogImpl {
+public final class Logger implements Printer {
+
+    private AlertDialog dialog;
 
     /**
      * 打印字符串
@@ -112,13 +113,13 @@ public final class Logger implements LogImpl {
                 switch (dim) {
                     case 1:
                         Pair pair = ArrayUtil.arrayToString(object);
-                        msg = simpleName.replace("[]", "["+pair.first+"] {\n");
+                        msg = simpleName.replace("[]", "[" + pair.first + "] {\n");
                         msg += pair.second + "\n";
                         break;
                     case 2:
                         Pair pair1 = ArrayUtil.arrayToObject(object);
                         Pair pair2 = (Pair) pair1.first;
-                        msg = simpleName.replace("[][]", "["+pair2.first+"]["+pair2.second+"] {\n");
+                        msg = simpleName.replace("[][]", "[" + pair2.first + "][" + pair2.second + "] {\n");
                         msg += pair1.second + "\n";
                         break;
                     default:
@@ -256,4 +257,49 @@ public final class Logger implements LogImpl {
             e(element, e);
         }
     }
+
+    /**
+     * 弹出log信息
+     *
+     * @param context
+     * @param object
+     */
+    public void alert(final Context context, Object object) {
+        if (!LogUtils.configAllowLog) {
+            return;
+        }
+        if (null == dialog) {
+            dialog = new AlertDialog.Builder(context)
+                    .setNegativeButton(context.getResources().getString(R.string.copy), listener)
+                    .setPositiveButton(context.getResources().getString(R.string.cancel), listener)
+                    .create();
+
+        }
+        dialog.setMessage(SystemUtil.objectToString(object));
+        dialog.show();
+    }
+
+    /**
+     * dialog事件处理
+     */
+    private DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int which) {
+            Context context = dialog.getContext();
+            switch (which) {
+                case DialogInterface.BUTTON_NEGATIVE:
+                    ClipboardManager clip = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+
+                    Toast.makeText(context,
+                            context.getResources().getString(R.string.success_copy),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case DialogInterface.BUTTON_POSITIVE:
+                    dialog.dismiss();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }

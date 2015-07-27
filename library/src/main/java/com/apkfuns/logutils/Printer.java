@@ -3,7 +3,7 @@ package com.apkfuns.logutils;
 /**
  * Created by pengwei08 on 2015/7/20.
  */
-public interface LogImpl {
+public interface Printer {
     void d(StackTraceElement element, String message, Object... args);
     void d(StackTraceElement element, Object object);
 

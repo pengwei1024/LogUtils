@@ -1,5 +1,6 @@
 package com.apkfuns.logutils;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -104,6 +105,16 @@ public final class LogUtils  {
      */
     public static void json(String json){
         logger.json(SystemUtil.getStackTrace(), json);
+    }
+
+
+    /**
+     * 弹出提示框
+     * @param context
+     * @param object
+     */
+    public static void alert(Context context, Object object){
+        logger.alert(context, object);
     }
 
 }

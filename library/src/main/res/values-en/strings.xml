@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">library</string>
-
-    <string name="copy">copy</string>
-    <string name="sure">sure</string>
-    <string name="cancel">cancel</string>
-    <string name="success_copy">Has been copied to the clipboard</string>
-</resources>

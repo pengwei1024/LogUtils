@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.MissingFormatArgumentException;
 import java.util.Set;
 
 /**
@@ -71,7 +72,6 @@ public final class Logger implements Printer {
         }
     }
 
-
     /**
      * 打印对象
      *
@@ -109,7 +109,11 @@ public final class Logger implements Printer {
                         break;
                 }
             } else if (object instanceof String) {
-                logString(type, element, (String) object);
+                try {
+                    logString(type, element, (String) object);
+                } catch (MissingFormatArgumentException e) {
+                    e(element, e);
+                }
             } else if (object.getClass().isArray()) {
                 String msg = "Temporarily not support more than two dimensional Array!";
                 int dim = ArrayUtil.getArrayDimension(object);
@@ -291,7 +295,7 @@ public final class Logger implements Printer {
             Context context = dialog.getContext();
             switch (which) {
                 case DialogInterface.BUTTON_NEGATIVE:
-                    ClipboardManager clip = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 
                     Toast.makeText(context,
                             context.getResources().getString(R.string.success_copy),

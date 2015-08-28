@@ -75,11 +75,11 @@ LogUtils.configTagPrefix = "abc-";
 ```
 ## Usage
 
-### Gradle
+### Gradle导入
 ```groovy
 compile 'com.apkfuns.logutils:library:1.0.5'
 ```
-### Maven
+### Maven导入
 ```xml
 <dependency>
     <groupId>com.apkfuns.logutils</groupId>
@@ -88,8 +88,8 @@ compile 'com.apkfuns.logutils:library:1.0.5'
 </dependency>
 ```
 
-### Jar
-click [here](http://jcenter.bintray.com/com/apkfuns/logutils/library/) to download sources.jar
+### Eclipse导入Jar
+click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to download *.jar
 
 ## History
 * **1.0.0 (2015/07/13)**
@@ -103,7 +103,7 @@ click [here](http://jcenter.bintray.com/com/apkfuns/logutils/library/) to downlo
 * **1.0.4 (2015/07/25)**
     - 支持打印数组(暂仅支持一维、二维数组)
 * **1.0.5 (2015/08/11)**
-        - 修复打印字符串包含%s崩溃的bug
+    - 修复打印字符串包含%s崩溃的bug
 
 
 

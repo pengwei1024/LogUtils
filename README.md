@@ -77,14 +77,14 @@ LogUtils.configTagPrefix = "abc-";
 
 ### Gradle导入
 ```groovy
-compile 'com.apkfuns.logutils:library:1.0.5'
+compile 'com.apkfuns.logutils:library:1.0.6'
 ```
 ### Maven导入
 ```xml
 <dependency>
     <groupId>com.apkfuns.logutils</groupId>
     <artifactId>library</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 </dependency>
 ```
 
@@ -102,7 +102,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 支持打印Map集合
 * **1.0.4 (2015/07/25)**
     - 支持打印数组(暂仅支持一维、二维数组)
-* **1.0.5 (2015/08/11)**
+* **1.0.6 (2015/08/28)**
     - 修复打印字符串包含%s崩溃的bug
 
 

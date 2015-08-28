@@ -14,7 +14,6 @@ public final class ArrayUtil {
      * 获取数组的纬度
      *
      * @param objects
-     *
      * @return
      */
     public static int getArrayDimension(Object objects) {
@@ -103,7 +102,6 @@ public final class ArrayUtil {
      * 数组转化为字符串
      *
      * @param object
-     *
      * @return
      */
     public static Pair arrayToString(Object object) {
@@ -171,7 +169,6 @@ public final class ArrayUtil {
      * 是否为数组
      *
      * @param object
-     *
      * @return
      */
     public static boolean isArray(Object object) {
@@ -181,12 +178,11 @@ public final class ArrayUtil {
     /**
      * 获取数组类型
      *
-     * @param object
-     * 如L为int型
+     * @param object 如L为int型
      * @return
      */
     public static char getType(Object object) {
-        if(isArray(object)){
+        if (isArray(object)) {
             String str = object.toString();
             return str.substring(str.lastIndexOf("[") + 1, str.lastIndexOf("[") + 2).charAt(0);
         }

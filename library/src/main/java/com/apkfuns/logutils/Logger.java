@@ -47,7 +47,13 @@ public final class Logger implements Printer {
             return;
         }
         String tag = generateTag(element);
-        msg = String.format(msg, args);
+        if (args.length > 0) {
+            try {
+                msg = String.format(msg, args);
+            } catch (MissingFormatArgumentException e) {
+
+            }
+        }
         switch (type) {
             case Verbose:
                 Log.v(tag, msg);
@@ -109,11 +115,7 @@ public final class Logger implements Printer {
                         break;
                 }
             } else if (object instanceof String) {
-                try {
-                    logString(type, element, (String) object);
-                } catch (MissingFormatArgumentException e) {
-                    e(element, e);
-                }
+                logString(type, element, (String) object);
             } else if (object.getClass().isArray()) {
                 String msg = "Temporarily not support more than two dimensional Array!";
                 int dim = ArrayUtil.getArrayDimension(object);
@@ -264,49 +266,4 @@ public final class Logger implements Printer {
             e(element, e);
         }
     }
-
-    /**
-     * 弹出log信息
-     *
-     * @param context
-     * @param object
-     */
-    public void alert(final Context context, Object object) {
-        if (!LogUtils.configAllowLog) {
-            return;
-        }
-        if (null == dialog) {
-            dialog = new AlertDialog.Builder(context)
-                    .setNegativeButton(context.getResources().getString(R.string.copy), listener)
-                    .setPositiveButton(context.getResources().getString(R.string.cancel), listener)
-                    .create();
-
-        }
-        dialog.setMessage(SystemUtil.objectToString(object));
-        dialog.show();
-    }
-
-    /**
-     * dialog事件处理
-     */
-    private DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int which) {
-            Context context = dialog.getContext();
-            switch (which) {
-                case DialogInterface.BUTTON_NEGATIVE:
-                    ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-
-                    Toast.makeText(context,
-                            context.getResources().getString(R.string.success_copy),
-                            Toast.LENGTH_SHORT).show();
-                    break;
-                case DialogInterface.BUTTON_POSITIVE:
-                    dialog.dismiss();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 }

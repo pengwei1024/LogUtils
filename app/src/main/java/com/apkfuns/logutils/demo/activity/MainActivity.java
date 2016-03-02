@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         LogUtils.configTagPrefix = "abc-";
         LogUtils.configAllowLog = true;
 
-        LogUtils.d("12345");
+        /*LogUtils.d("12345");
         LogUtils.d("12%s3%s45", "a", "b");
         LogUtils.d(new NullPointerException("12345"));
         LogUtils.d(person);
@@ -93,6 +93,12 @@ public class MainActivity extends Activity {
         LogUtils.d(ArrayUtil.getType(s));
 
         // 保护%字符串
-        LogUtils.d("abcde%s");
+        LogUtils.d("abcde%s");*/
+
+        try {
+            throw new NoSuchMethodError("111111111");
+        } catch (NoSuchMethodError e) {
+            LogUtils.e(e);
+        }
     }
 }

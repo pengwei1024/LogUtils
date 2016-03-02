@@ -104,7 +104,8 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 支持打印数组(暂仅支持一维、二维数组)
 * **1.0.6 (2015/08/28)**
     - 修复打印字符串包含%s崩溃的bug
-
+* **1.1.0 (2016/03/02)**
+    - 修复非Exception崩溃的错误
 
 
 ## About

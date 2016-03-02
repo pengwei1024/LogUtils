@@ -196,44 +196,51 @@ public final class ArrayUtil {
      * @param object
      */
     private static void traverseArray(StringBuilder result, Object object) {
-        if (!isArray(object)) {
-            result.append(object.toString());
-            return;
-        }
-        if (getArrayDimension(object) == 1) {
-            switch (getType(object)) {
-                case 'I':
-                    result.append(Arrays.toString((int[]) object)).append("\n");
-                    return;
-                case 'D':
-                    result.append(Arrays.toString((double[]) object)).append("\n");
-                    return;
-                case 'Z':
-                    result.append(Arrays.toString((boolean[]) object)).append("\n");
-                    return;
-                case 'B':
-                    result.append(Arrays.toString((byte[]) object)).append("\n");
-                    return;
-                case 'S':
-                    result.append(Arrays.toString((short[]) object)).append("\n");
-                    return;
-                case 'J':
-                    result.append(Arrays.toString((long[]) object)).append("\n");
-                    return;
-                case 'F':
-                    result.append(Arrays.toString((float[]) object)).append("\n");
-                    return;
-                case 'L':
-                    result.append(Arrays.toString((Object[]) object)).append("\n");
-                default:
-                    return;
+        if (isArray(object)) {
+            if (getArrayDimension(object) == 1) {
+                switch (getType(object)) {
+                    case 'I':
+                        result.append(Arrays.toString((int[]) object));
+                        break;
+                    case 'D':
+                        result.append(Arrays.toString((double[]) object));
+                        break;
+                    case 'Z':
+                        result.append(Arrays.toString((boolean[]) object));
+                        break;
+                    case 'B':
+                        result.append(Arrays.toString((byte[]) object));
+                        break;
+                    case 'S':
+                        result.append(Arrays.toString((short[]) object));
+                        break;
+                    case 'J':
+                        result.append(Arrays.toString((long[]) object));
+                        break;
+                    case 'F':
+                        result.append(Arrays.toString((float[]) object));
+                        break;
+                    case 'L':
+                        result.append(Arrays.toString((Object[]) object));
+                        break;
+                    default:
+                        break;
+                }
+                result.append("\n");
+            } else {
+                for (int i = 0; i < ((Object[]) object).length; i++) {
+                    traverseArray(result, ((Object[]) object)[i]);
+                }
             }
-        }
-        for (int i = 0; i < ((Object[]) object).length; i++) {
-            traverseArray(result, ((Object[]) object)[i]);
         }
     }
 
+    /**
+     * 将数组内容转化为字符串
+     *
+     * @param object
+     * @return
+     */
     public static String traverseArray(Object object) {
         StringBuilder result = new StringBuilder();
         traverseArray(result, object);

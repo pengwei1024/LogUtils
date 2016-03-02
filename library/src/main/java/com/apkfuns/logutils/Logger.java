@@ -32,8 +32,6 @@ public final class Logger implements Printer {
     protected Logger() {
     }
 
-    private AlertDialog dialog;
-
     /**
      * 打印字符串
      *
@@ -91,7 +89,7 @@ public final class Logger implements Printer {
             if (object instanceof Throwable) {
                 String tag = generateTag(element);
                 String msg = object.toString();
-                Exception exception = (Exception) object;
+                Throwable exception = (Throwable) object;
                 switch (type) {
                     case Verbose:
                         Log.v(tag, msg, exception);

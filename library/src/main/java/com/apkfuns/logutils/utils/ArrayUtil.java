@@ -159,7 +159,7 @@ public final class ArrayUtil {
             Object[] objects = (Object[]) object;
             length = objects.length;
             for (Object item : objects) {
-                builder.append(SystemUtil.objectToString(item) + ",\t");
+                builder.append(CommonUtil.objectToString(item) + ",\t");
             }
         }
         return Pair.create(length, builder.replace(builder.length() - 2, builder.length(), "]").toString());

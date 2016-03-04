@@ -3,6 +3,7 @@ package com.apkfuns.logutils.demo.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.apkfuns.logutils.LogLevel;
 import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
 import com.apkfuns.logutils.demo.model.Person;
@@ -24,8 +25,14 @@ public class MainActivity extends Activity {
         person.setName("pengwei");
         person.setScore(37.5f);
 
-        LogUtils.configTagPrefix = "abc-";
-        LogUtils.configAllowLog = true;
+        LogUtils.getLogConfig()
+                .configAllowLog(true)
+                .configTagPrefix("-duLife")
+                .configShowBorders(true);
+
+//        LogUtils.configTagPrefix = "abc-";
+//        LogUtils.configAllowLog = true;
+
 
         /*LogUtils.d("12345");
         LogUtils.d("12%s3%s45", "a", "b");

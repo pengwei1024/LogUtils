@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 /**
  * Created by pengwei08 on 2015/7/20.
  */
-public class SystemUtil {
+public class CommonUtil {
     /**
      * 获取StackTraceElement对象
      * @return

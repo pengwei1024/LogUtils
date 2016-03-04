@@ -3,7 +3,10 @@ package com.apkfuns.logutils;
 /**
  * Created by pengwei08 on 2015/7/20.
  */
-public interface Printer {
+interface Printer {
+
+    LogConfig getLogConfig();
+
     void d(StackTraceElement element, String message, Object... args);
     void d(StackTraceElement element, Object object);
 

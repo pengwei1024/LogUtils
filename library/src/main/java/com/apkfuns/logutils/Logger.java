@@ -1,18 +1,14 @@
 package com.apkfuns.logutils;
 
-import android.app.AlertDialog;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
-import android.widget.Toast;
 
 import static com.apkfuns.logutils.LogUtils.*;
+import static com.apkfuns.logutils.LogLevel.*;
 
 import com.apkfuns.logutils.utils.ArrayUtil;
-import com.apkfuns.logutils.utils.SystemUtil;
+import com.apkfuns.logutils.utils.CommonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,9 +23,16 @@ import java.util.Set;
 /**
  * Created by pengwei08 on 2015/7/20.
  */
-public final class Logger implements Printer {
+final class Logger implements Printer {
+
+    private LogConfig logConfig;
 
     protected Logger() {
+        logConfig = LogConfigImpl.getInstance();
+    }
+
+    public LogConfig getLogConfig() {
+        return logConfig;
     }
 
     /**
@@ -40,7 +43,7 @@ public final class Logger implements Printer {
      * @param msg
      * @param args
      */
-    private void logString(LogType type, StackTraceElement element, String msg, Object... args) {
+    private void logString(@LogLevelType int type, StackTraceElement element, String msg, Object... args) {
         if (!LogUtils.configAllowLog) {
             return;
         }
@@ -53,22 +56,22 @@ public final class Logger implements Printer {
             }
         }
         switch (type) {
-            case Verbose:
+            case TYPE_VERBOSE:
                 Log.v(tag, msg);
                 break;
-            case Debug:
+            case TYPE_DEBUG:
                 Log.d(tag, msg);
                 break;
-            case Info:
+            case TYPE_INFO:
                 Log.i(tag, msg);
                 break;
-            case Warn:
+            case TYPE_WARM:
                 Log.w(tag, msg);
                 break;
-            case Error:
+            case TYPE_ERROR:
                 Log.e(tag, msg);
                 break;
-            case Wtf:
+            case TYPE_WTF:
                 Log.wtf(tag, msg);
                 break;
             default:
@@ -83,7 +86,10 @@ public final class Logger implements Printer {
      * @param element
      * @param object
      */
-    private void logObject(LogType type, StackTraceElement element, Object object) {
+    private void logObject(@LogLevelType int type, StackTraceElement element, Object object) {
+        if (!LogUtils.configAllowLog) {
+            return;
+        }
         if (object != null) {
             final String simpleName = object.getClass().getSimpleName();
             if (object instanceof Throwable) {
@@ -91,22 +97,22 @@ public final class Logger implements Printer {
                 String msg = object.toString();
                 Throwable exception = (Throwable) object;
                 switch (type) {
-                    case Verbose:
+                    case TYPE_VERBOSE:
                         Log.v(tag, msg, exception);
                         break;
-                    case Debug:
+                    case TYPE_DEBUG:
                         Log.d(tag, msg, exception);
                         break;
-                    case Info:
+                    case TYPE_INFO:
                         Log.i(tag, msg, exception);
                         break;
-                    case Warn:
+                    case TYPE_WARM:
                         Log.w(tag, msg, exception);
                         break;
-                    case Error:
+                    case TYPE_ERROR:
                         Log.e(tag, msg, exception);
                         break;
-                    case Wtf:
+                    case TYPE_WTF:
                         Log.wtf(tag, msg, exception);
                         break;
                     default:
@@ -115,6 +121,7 @@ public final class Logger implements Printer {
             } else if (object instanceof String) {
                 logString(type, element, (String) object);
             } else if (object.getClass().isArray()) {
+                // TODO: 16/3/4 支持二维数组+
                 String msg = "Temporarily not support more than two dimensional Array!";
                 int dim = ArrayUtil.getArrayDimension(object);
                 switch (dim) {
@@ -143,7 +150,7 @@ public final class Logger implements Printer {
                     while (iterator.hasNext()) {
                         String itemString = "[%d]:%s%s";
                         Object item = iterator.next();
-                        msg += String.format(itemString, flag, SystemUtil.objectToString(item),
+                        msg += String.format(itemString, flag, CommonUtil.objectToString(item),
                                 flag++ < collection.size() - 1 ? ",\n" : "\n");
                     }
                 }
@@ -155,15 +162,15 @@ public final class Logger implements Printer {
                 for (Object key : keys) {
                     String itemString = "[%s -> %s]\n";
                     Object value = map.get(key);
-                    msg += String.format(itemString, SystemUtil.objectToString(key),
-                            SystemUtil.objectToString(value));
+                    msg += String.format(itemString, CommonUtil.objectToString(key),
+                            CommonUtil.objectToString(value));
                 }
                 logString(type, element, msg + "}");
             } else {
-                logString(type, element, SystemUtil.objectToString(object));
+                logString(type, element, CommonUtil.objectToString(object));
             }
         } else {
-            logString(type, element, SystemUtil.objectToString(object));
+            logString(type, element, CommonUtil.objectToString(object));
         }
     }
 
@@ -185,62 +192,62 @@ public final class Logger implements Printer {
 
     @Override
     public void d(StackTraceElement element, String message, Object... args) {
-        logString(LogType.Debug, element, message, args);
+        logString(TYPE_DEBUG, element, message, args);
     }
 
     @Override
     public void d(StackTraceElement element, Object object) {
-        logObject(LogType.Debug, element, object);
+        logObject(TYPE_DEBUG, element, object);
     }
 
     @Override
     public void e(StackTraceElement element, String message, Object... args) {
-        logString(LogType.Error, element, message, args);
+        logString(TYPE_ERROR, element, message, args);
     }
 
     @Override
     public void e(StackTraceElement element, Object object) {
-        logObject(LogType.Error, element, object);
+        logObject(TYPE_ERROR, element, object);
     }
 
     @Override
     public void w(StackTraceElement element, String message, Object... args) {
-        logString(LogType.Warn, element, message, args);
+        logString(TYPE_WARM, element, message, args);
     }
 
     @Override
     public void w(StackTraceElement element, Object object) {
-        logObject(LogType.Warn, element, object);
+        logObject(TYPE_WARM, element, object);
     }
 
     @Override
     public void i(StackTraceElement element, String message, Object... args) {
-        logString(LogType.Info, element, message, args);
+        logString(TYPE_INFO, element, message, args);
     }
 
     @Override
     public void i(StackTraceElement element, Object object) {
-        logObject(LogType.Info, element, object);
+        logObject(TYPE_INFO, element, object);
     }
 
     @Override
     public void v(StackTraceElement element, String message, Object... args) {
-        logString(LogType.Verbose, element, message, args);
+        logString(TYPE_VERBOSE, element, message, args);
     }
 
     @Override
     public void v(StackTraceElement element, Object object) {
-        logObject(LogType.Verbose, element, object);
+        logObject(TYPE_VERBOSE, element, object);
     }
 
     @Override
     public void wtf(StackTraceElement element, String message, Object... args) {
-        logString(LogType.Wtf, element, message, args);
+        logString(TYPE_WTF, element, message, args);
     }
 
     @Override
     public void wtf(StackTraceElement element, Object object) {
-        logObject(LogType.Wtf, element, object);
+        logObject(TYPE_WTF, element, object);
     }
 
     @Override

@@ -6,18 +6,19 @@ import java.lang.reflect.Field;
  * Created by pengwei08 on 2015/7/20.
  */
 public class CommonUtil {
-    /**
-     * 获取StackTraceElement对象
-     * @return
-     */
-    public static StackTraceElement getStackTrace(){
-        return Thread.currentThread().getStackTrace()[4];
-    }
-
 
     // 基本数据类型
-    private final static String[] types = {"int", "java.lang.String", "boolean", "char",
+    public static final String[] TYPES = {"int", "java.lang.String", "boolean", "char",
             "float", "double", "long", "short", "byte"};
+
+    /**
+     * 获取StackTraceElement对象
+     *
+     * @return
+     */
+    public static StackTraceElement getStackTrace() {
+        return Thread.currentThread().getStackTrace()[4];
+    }
 
     /**
      * 将对象转化为String
@@ -35,7 +36,7 @@ public class CommonUtil {
             for (Field field : fields) {
                 field.setAccessible(true);
                 boolean flag = false;
-                for (String type : types) {
+                for (String type : TYPES) {
                     if (field.getType().getName().equalsIgnoreCase(type)) {
                         flag = true;
                         Object value = null;
@@ -43,14 +44,14 @@ public class CommonUtil {
                             value = field.get(object);
                         } catch (IllegalAccessException e) {
                             value = e;
-                        }finally {
+                        } finally {
                             builder.append(String.format("%s=%s, ", field.getName(),
                                     value == null ? "null" : value.toString()));
                             break;
                         }
                     }
                 }
-                if(!flag){
+                if (!flag) {
                     builder.append(String.format("%s=%s, ", field.getName(), "Object"));
                 }
             }

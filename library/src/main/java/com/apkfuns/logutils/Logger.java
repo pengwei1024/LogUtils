@@ -1,5 +1,7 @@
 package com.apkfuns.logutils;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -166,6 +168,10 @@ final class Logger implements Printer {
                             CommonUtil.objectToString(value));
                 }
                 logString(type, element, msg + "}");
+            } else if (object instanceof Intent) {
+                logString(type, element, printIntent((Intent) object));
+            } else if (object instanceof Bundle) {
+                logString(type, element, printBundle((Bundle) object));
             } else {
                 logString(type, element, CommonUtil.objectToString(object));
             }
@@ -270,5 +276,28 @@ final class Logger implements Printer {
         } catch (JSONException e) {
             e(element, e);
         }
+    }
+
+    /**
+     * 打印Intent的信息
+     *
+     * @param it
+     */
+    private String printIntent(Intent it) {
+        return it.toString();
+    }
+
+    /**
+     * 打印bundle
+     *
+     * @param bundle
+     */
+    private String printBundle(Bundle bundle) {
+        StringBuilder builder = new StringBuilder("Bundle[\n");
+        for (String key : bundle.keySet()) {
+            builder.append("'" + key + "' => " + CommonUtil.objectToString(bundle.get(key)) + "\n");
+        }
+        builder.append("]\n");
+        return builder.toString();
     }
 }

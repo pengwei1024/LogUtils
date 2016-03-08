@@ -53,7 +53,10 @@ public class MainActivity extends Activity {
         bundle.putSerializable("abc8", DataHelper.getStringArray3());
         bundle.putSerializable("abc5", DataHelper.getObject());
         bundle.putSerializable("abc6", DataHelper.getObjectArray());
-        LogUtils.e(bundle);
-        LogUtils.e(bundle.toString());
+//        LogUtils.e(bundle);
+//        LogUtils.e(bundle.toString());
+
+
+        LogUtils.e(DataHelper.getMan());
     }
 }

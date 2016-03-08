@@ -1,5 +1,6 @@
 package com.apkfuns.logutils.demo.helper;
 
+import com.apkfuns.logutils.demo.model.Man;
 import com.apkfuns.logutils.demo.model.Person;
 
 import java.util.ArrayList;
@@ -100,6 +101,14 @@ public final class DataHelper {
     public static String getJson() {
         String json = "{'a':'b','c':{'aa':234,'dd':{'az':12}}}";
         return json;
+    }
+
+    public static Man getMan(){
+        Man person = new Man(1);
+        person.setAge(11);
+        person.setName("pengwei");
+        person.setScore(37.5f);
+        return person;
     }
 
 }

@@ -2,7 +2,6 @@ package com.apkfuns.logutils;
 
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 
 import static com.apkfuns.logutils.LogLevel.*;
 
@@ -11,7 +10,6 @@ import com.apkfuns.logutils.parser.CollectionParse;
 import com.apkfuns.logutils.parser.IntentParse;
 import com.apkfuns.logutils.parser.MapParse;
 import com.apkfuns.logutils.parser.ThrowableParse;
-import com.apkfuns.logutils.utils.ArrayParseUtil;
 import com.apkfuns.logutils.utils.CommonUtil;
 
 import org.json.JSONArray;
@@ -99,35 +97,8 @@ final class Logger implements Printer {
                     return;
                 }
             }
-            final String simpleName = object.getClass().getSimpleName();
-            if (object instanceof String) {
-                logString(type, element, (String) object);
-            } else if (object.getClass().isArray()) {
-                // TODO: 16/3/4 支持二维数组+
-                String msg = "Temporarily not support more than two dimensional Array!";
-                int dim = ArrayParseUtil.getArrayDimension(object);
-                switch (dim) {
-                    case 1:
-                        Pair pair = ArrayParseUtil.arrayToString(object);
-                        msg = simpleName.replace("[]", "[" + pair.first + "] {\n");
-                        msg += pair.second + "\n";
-                        break;
-                    case 2:
-                        Pair pair1 = ArrayParseUtil.arrayToObject(object);
-                        Pair pair2 = (Pair) pair1.first;
-                        msg = simpleName.replace("[][]", "[" + pair2.first + "][" + pair2.second + "] {\n");
-                        msg += pair1.second + "\n";
-                        break;
-                    default:
-                        break;
-                }
-                logString(type, element, msg + "}");
-            } else {
-                logString(type, element, CommonUtil.objectToString(object));
-            }
-        } else {
-            logString(type, element, CommonUtil.objectToString(object));
         }
+        logString(type, element, CommonUtil.objectToString(object));
     }
 
     /**

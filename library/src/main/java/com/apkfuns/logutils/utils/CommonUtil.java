@@ -31,7 +31,7 @@ public class CommonUtil {
             return "Object[object is null]";
         }
         if (ArrayParseUtil.isArray(object)) {
-            return ArrayParseUtil.traverseArray(object);
+            return ArrayParseUtil.parseArray(object);
         } else {
             if (object.toString().startsWith(object.getClass().getName() + "@")) {
                 StringBuilder builder = new StringBuilder(object.getClass().getSimpleName() + "{");

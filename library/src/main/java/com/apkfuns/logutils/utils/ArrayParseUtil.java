@@ -2,7 +2,6 @@ package com.apkfuns.logutils.utils;
 
 import java.util.Arrays;
 
-import android.util.Pair;
 
 /**
  * Created by pengwei08 on 2015/7/25.
@@ -26,143 +25,6 @@ public final class ArrayParseUtil {
             }
         }
         return dim;
-    }
-
-    public static Pair<Pair<Integer, Integer>, String> arrayToObject(Object object) {
-        StringBuilder builder = new StringBuilder();
-        int cross = 0, vertical = 0;
-        if (object instanceof int[][]) {
-            int[][] ints = (int[][]) object;
-            cross = ints.length;
-            vertical = cross == 0 ? 0 : ints[0].length;
-            for (int[] ints1 : ints) {
-                builder.append(arrayToString(ints1).second + "\n");
-            }
-        } else if (object instanceof byte[][]) {
-            byte[][] ints = (byte[][]) object;
-            cross = ints.length;
-            vertical = cross == 0 ? 0 : ints[0].length;
-            for (byte[] ints1 : ints) {
-                builder.append(arrayToString(ints1).second + "\n");
-            }
-        } else if (object instanceof short[][]) {
-            short[][] ints = (short[][]) object;
-            cross = ints.length;
-            vertical = cross == 0 ? 0 : ints[0].length;
-            for (short[] ints1 : ints) {
-                builder.append(arrayToString(ints1).second + "\n");
-            }
-        } else if (object instanceof long[][]) {
-            long[][] ints = (long[][]) object;
-            cross = ints.length;
-            vertical = cross == 0 ? 0 : ints[0].length;
-            for (long[] ints1 : ints) {
-                builder.append(arrayToString(ints1).second + "\n");
-            }
-        } else if (object instanceof float[][]) {
-            float[][] ints = (float[][]) object;
-            cross = ints.length;
-            vertical = cross == 0 ? 0 : ints[0].length;
-            for (float[] ints1 : ints) {
-                builder.append(arrayToString(ints1).second + "\n");
-            }
-        } else if (object instanceof double[][]) {
-            double[][] ints = (double[][]) object;
-            cross = ints.length;
-            vertical = cross == 0 ? 0 : ints[0].length;
-            for (double[] ints1 : ints) {
-                builder.append(arrayToString(ints1).second + "\n");
-            }
-        } else if (object instanceof boolean[][]) {
-            boolean[][] ints = (boolean[][]) object;
-            cross = ints.length;
-            vertical = cross == 0 ? 0 : ints[0].length;
-            for (boolean[] ints1 : ints) {
-                builder.append(arrayToString(ints1).second + "\n");
-            }
-        } else if (object instanceof char[][]) {
-            char[][] ints = (char[][]) object;
-            cross = ints.length;
-            vertical = cross == 0 ? 0 : ints[0].length;
-            for (char[] ints1 : ints) {
-                builder.append(arrayToString(ints1).second + "\n");
-            }
-        } else {
-            Object[][] objects = (Object[][]) object;
-            cross = objects.length;
-            vertical = cross == 0 ? 0 : objects[0].length;
-            for (Object[] objects1 : objects) {
-                builder.append(arrayToString(objects1).second + "\n");
-            }
-        }
-        return Pair.create(Pair.create(cross, vertical), builder.toString());
-    }
-
-    /**
-     * 数组转化为字符串
-     *
-     * @param object
-     * @return
-     */
-    public static Pair arrayToString(Object object) {
-        StringBuilder builder = new StringBuilder("[");
-        int length = 0;
-        if (object instanceof int[]) {
-            int[] ints = (int[]) object;
-            length = ints.length;
-            for (int i : ints) {
-                builder.append(i + ",\t");
-            }
-        } else if (object instanceof byte[]) {
-            byte[] bytes = (byte[]) object;
-            length = bytes.length;
-            for (byte item : bytes) {
-                builder.append(item + ",\t");
-            }
-        } else if (object instanceof short[]) {
-            short[] shorts = (short[]) object;
-            length = shorts.length;
-            for (short item : shorts) {
-                builder.append(item + ",\t");
-            }
-        } else if (object instanceof long[]) {
-            long[] longs = (long[]) object;
-            length = longs.length;
-            for (long item : longs) {
-                builder.append(item + ",\t");
-            }
-        } else if (object instanceof float[]) {
-            float[] floats = (float[]) object;
-            length = floats.length;
-            for (float item : floats) {
-                builder.append(item + ",\t");
-            }
-        } else if (object instanceof double[]) {
-            double[] doubles = (double[]) object;
-            length = doubles.length;
-            for (double item : doubles) {
-                builder.append(item + ",\t");
-            }
-        } else if (object instanceof boolean[]) {
-            boolean[] booleans = (boolean[]) object;
-            length = booleans.length;
-            for (boolean item : booleans) {
-                builder.append(item + ",\t");
-            }
-        } else if (object instanceof char[]) {
-            char[] chars = (char[]) object;
-            length = chars.length;
-            for (char item : chars) {
-                builder.append(item + ",\t");
-            }
-        } else {
-            Object[] objects = (Object[]) object;
-            length = objects.length;
-            for (Object item : objects) {
-                builder.append(CommonUtil.objectToString(item) + ",\t");
-            }
-        }
-        return Pair.create(length, builder.replace(builder.length() - 2, builder.length(), "]").toString());
     }
 
     /**
@@ -193,68 +55,73 @@ public final class ArrayParseUtil {
      * 遍历数组
      *
      * @param result
-     * @param object
+     * @param array
      */
-    private static void traverseArray(StringBuilder result, Object object) {
-        if (isArray(object)) {
-            if (getArrayDimension(object) == 1) {
-                switch (getType(object)) {
+    private static void traverseArray(StringBuilder result, Object array) {
+        if (isArray(array)) {
+            if (getArrayDimension(array) == 1) {
+                switch (getType(array)) {
                     case 'I':
-                        result.append(Arrays.toString((int[]) object));
+                        result.append(Arrays.toString((int[]) array));
                         break;
                     case 'D':
-                        result.append(Arrays.toString((double[]) object));
+                        result.append(Arrays.toString((double[]) array));
                         break;
                     case 'Z':
-                        result.append(Arrays.toString((boolean[]) object));
+                        result.append(Arrays.toString((boolean[]) array));
                         break;
                     case 'B':
-                        result.append(Arrays.toString((byte[]) object));
+                        result.append(Arrays.toString((byte[]) array));
                         break;
                     case 'S':
-                        result.append(Arrays.toString((short[]) object));
+                        result.append(Arrays.toString((short[]) array));
                         break;
                     case 'J':
-                        result.append(Arrays.toString((long[]) object));
+                        result.append(Arrays.toString((long[]) array));
                         break;
                     case 'F':
-                        result.append(Arrays.toString((float[]) object));
+                        result.append(Arrays.toString((float[]) array));
                         break;
                     case 'L':
-                        result.append(Arrays.toString((Object[]) object));
+                        Object[] objects = (Object[]) array;
+                        result.append("[");
+                        for (int i = 0; i < objects.length; ++i) {
+                            result.append(CommonUtil.objectToString(objects[i]));
+                            if (i != objects.length - 1) {
+                                result.append(",");
+                            }
+                        }
+                        result.append("]");
                         break;
                     default:
+                        result.append(Arrays.toString((Object[]) array));
                         break;
                 }
-                result.append("\n");
             } else {
-                for (int i = 0; i < ((Object[]) object).length; i++) {
-                    traverseArray(result, ((Object[]) object)[i]);
+                result.append("[");
+                for (int i = 0; i < ((Object[]) array).length; i++) {
+                    traverseArray(result, ((Object[]) array)[i]);
+                    if (i != ((Object[]) array).length - 1) {
+                        result.append(",");
+                    }
                 }
+                result.append("]");
             }
+        } else {
+            result.append("not a array!!");
         }
     }
 
     /**
      * 将数组内容转化为字符串
      *
-     * @param object
+     * @param array
      * @return
      */
-    public static String traverseArray(Object object) {
-        StringBuilder result = new StringBuilder();
-        traverseArray(result, object);
-        return result.toString();
-    }
-
     public static String parseArray(Object array) {
-        return null;
-    }
-
-    private static void parseArray(StringBuilder result, Object array) {
-        if (getArrayDimension(array) == 1) {
-
-        }
+        StringBuilder result = new StringBuilder();
+        traverseArray(result, array);
+        return result.toString();
     }
 
 

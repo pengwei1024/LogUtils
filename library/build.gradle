@@ -21,4 +21,14 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
+build << {
+    def jarName = "logutil-$android.defaultConfig.versionName\\.jar"
+    copy {
+        from('build/intermediates/bundles/release/')
+        into("$rootDir/annex/")
+        include('classes.jar')
+        rename('classes.jar', jarName)
+    }
+}
+
 //apply from: "./bintrayUpload.gradle"

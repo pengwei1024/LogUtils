@@ -8,18 +8,18 @@ import android.util.Pair;
  * Created by pengwei08 on 2015/7/25.
  * Thanks to zhutiantao for providing an array of analytical methods.
  */
-public final class ArrayUtil {
+public final class ArrayParseUtil {
 
     /**
      * 获取数组的纬度
      *
-     * @param objects
+     * @param object
      * @return
      */
-    public static int getArrayDimension(Object objects) {
+    public static int getArrayDimension(Object object) {
         int dim = 0;
-        for (int i = 0; i < objects.toString().length(); ++i) {
-            if (objects.toString().charAt(i) == '[') {
+        for (int i = 0; i < object.toString().length(); ++i) {
+            if (object.toString().charAt(i) == '[') {
                 ++dim;
             } else {
                 break;
@@ -246,5 +246,16 @@ public final class ArrayUtil {
         traverseArray(result, object);
         return result.toString();
     }
+
+    public static String parseArray(Object array) {
+        return null;
+    }
+
+    private static void parseArray(StringBuilder result, Object array) {
+        if (getArrayDimension(array) == 1) {
+
+        }
+    }
+
 
 }

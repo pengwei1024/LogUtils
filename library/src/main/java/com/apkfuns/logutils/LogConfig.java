@@ -10,5 +10,7 @@ public interface LogConfig {
 
     LogConfig configShowBorders(boolean showBorder);
 
-    LogConfig configLevel(@LogLevel.LogLevelType int logType);
+    LogConfig configLevel(@LogLevel.LogLevelType int logLevel);
+
+    LogConfig addParserClass(Class<? extends Parser> ... classes);
 }

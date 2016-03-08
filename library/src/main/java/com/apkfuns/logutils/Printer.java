@@ -5,8 +5,6 @@ package com.apkfuns.logutils;
  */
 interface Printer {
 
-    LogConfig getLogConfig();
-
     void d(StackTraceElement element, String message, Object... args);
     void d(StackTraceElement element, Object object);
 

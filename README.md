@@ -93,7 +93,8 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
 
 ## History
 * **1.0.0 (2015/07/13)**
-    - 打印对象，字符串，异常，且显示文件行数
+    - 打印对象，字符串，异常
+    - 显示报错文件名、行数
 * **1.0.1 (2015/07/22)**
     - 打印json字符串
 * **1.0.2 (2015/07/24)**
@@ -106,6 +107,11 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 修复打印字符串包含%s崩溃的bug
 * **1.1.0 (2016/03/02)**
     - 修复非Exception崩溃的错误
+* **1.2.0 (开发中)**
+    - 支持android系统对象Bundle、Intent等打印
+    - 优化设置选项
+    - 支持多维数组
+    - 支持自定义对象打印
 
 
 ## About

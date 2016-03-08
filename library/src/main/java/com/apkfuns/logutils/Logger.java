@@ -1,40 +1,40 @@
 package com.apkfuns.logutils;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
-import static com.apkfuns.logutils.LogUtils.*;
 import static com.apkfuns.logutils.LogLevel.*;
 
-import com.apkfuns.logutils.utils.ArrayUtil;
+import com.apkfuns.logutils.parser.BundleParse;
+import com.apkfuns.logutils.parser.CollectionParse;
+import com.apkfuns.logutils.parser.IntentParse;
+import com.apkfuns.logutils.parser.MapParse;
+import com.apkfuns.logutils.parser.ThrowableParse;
+import com.apkfuns.logutils.utils.ArrayParseUtil;
 import com.apkfuns.logutils.utils.CommonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.MissingFormatArgumentException;
-import java.util.Set;
 
 /**
  * Created by pengwei08 on 2015/7/20.
  */
 final class Logger implements Printer {
 
-    private LogConfig logConfig;
+    // 默认支持解析库
+    public static final Class<? extends Parser>[] DEFAULT_PARSE_CLASS = new Class[]{
+            BundleParse.class, IntentParse.class, CollectionParse.class,
+            MapParse.class, ThrowableParse.class
+    };
+    private LogConfigImpl mLogConfig;
 
     protected Logger() {
-        logConfig = LogConfigImpl.getInstance();
-    }
-
-    public LogConfig getLogConfig() {
-        return logConfig;
+        mLogConfig = LogConfigImpl.getInstance();
+        mLogConfig.addParserClass(DEFAULT_PARSE_CLASS);
     }
 
     /**
@@ -46,7 +46,10 @@ final class Logger implements Printer {
      * @param args
      */
     private void logString(@LogLevelType int type, StackTraceElement element, String msg, Object... args) {
-        if (!LogUtils.configAllowLog) {
+        if (!mLogConfig.isEnable() || !LogUtils.configAllowLog) {
+            return;
+        }
+        if (type < mLogConfig.getLogLevel()) {
             return;
         }
         String tag = generateTag(element);
@@ -89,51 +92,28 @@ final class Logger implements Printer {
      * @param object
      */
     private void logObject(@LogLevelType int type, StackTraceElement element, Object object) {
-        if (!LogUtils.configAllowLog) {
-            return;
-        }
         if (object != null) {
-            final String simpleName = object.getClass().getSimpleName();
-            if (object instanceof Throwable) {
-                String tag = generateTag(element);
-                String msg = object.toString();
-                Throwable exception = (Throwable) object;
-                switch (type) {
-                    case TYPE_VERBOSE:
-                        Log.v(tag, msg, exception);
-                        break;
-                    case TYPE_DEBUG:
-                        Log.d(tag, msg, exception);
-                        break;
-                    case TYPE_INFO:
-                        Log.i(tag, msg, exception);
-                        break;
-                    case TYPE_WARM:
-                        Log.w(tag, msg, exception);
-                        break;
-                    case TYPE_ERROR:
-                        Log.e(tag, msg, exception);
-                        break;
-                    case TYPE_WTF:
-                        Log.wtf(tag, msg, exception);
-                        break;
-                    default:
-                        break;
+            for (Parser parser : mLogConfig.getParseList()) {
+                if (parser.parseClassType().isAssignableFrom(object.getClass())) {
+                    logString(type, element, parser.parseString(object));
+                    return;
                 }
-            } else if (object instanceof String) {
+            }
+            final String simpleName = object.getClass().getSimpleName();
+            if (object instanceof String) {
                 logString(type, element, (String) object);
             } else if (object.getClass().isArray()) {
                 // TODO: 16/3/4 支持二维数组+
                 String msg = "Temporarily not support more than two dimensional Array!";
-                int dim = ArrayUtil.getArrayDimension(object);
+                int dim = ArrayParseUtil.getArrayDimension(object);
                 switch (dim) {
                     case 1:
-                        Pair pair = ArrayUtil.arrayToString(object);
+                        Pair pair = ArrayParseUtil.arrayToString(object);
                         msg = simpleName.replace("[]", "[" + pair.first + "] {\n");
                         msg += pair.second + "\n";
                         break;
                     case 2:
-                        Pair pair1 = ArrayUtil.arrayToObject(object);
+                        Pair pair1 = ArrayParseUtil.arrayToObject(object);
                         Pair pair2 = (Pair) pair1.first;
                         msg = simpleName.replace("[][]", "[" + pair2.first + "][" + pair2.second + "] {\n");
                         msg += pair1.second + "\n";
@@ -142,36 +122,6 @@ final class Logger implements Printer {
                         break;
                 }
                 logString(type, element, msg + "}");
-            } else if (object instanceof Collection) {
-                Collection collection = (Collection) object;
-                String msg = "%s size = %d [\n";
-                msg = String.format(msg, simpleName, collection.size());
-                if (!collection.isEmpty()) {
-                    Iterator<Object> iterator = collection.iterator();
-                    int flag = 0;
-                    while (iterator.hasNext()) {
-                        String itemString = "[%d]:%s%s";
-                        Object item = iterator.next();
-                        msg += String.format(itemString, flag, CommonUtil.objectToString(item),
-                                flag++ < collection.size() - 1 ? ",\n" : "\n");
-                    }
-                }
-                logString(type, element, msg + "\n]");
-            } else if (object instanceof Map) {
-                String msg = simpleName + " {\n";
-                Map<Object, Object> map = (Map<Object, Object>) object;
-                Set<Object> keys = map.keySet();
-                for (Object key : keys) {
-                    String itemString = "[%s -> %s]\n";
-                    Object value = map.get(key);
-                    msg += String.format(itemString, CommonUtil.objectToString(key),
-                            CommonUtil.objectToString(value));
-                }
-                logString(type, element, msg + "}");
-            } else if (object instanceof Intent) {
-                logString(type, element, printIntent((Intent) object));
-            } else if (object instanceof Bundle) {
-                logString(type, element, printBundle((Bundle) object));
             } else {
                 logString(type, element, CommonUtil.objectToString(object));
             }
@@ -191,8 +141,8 @@ final class Logger implements Printer {
         String tag = "%s%s.%s%s";
         String callerClazzName = caller.getClassName();
         callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
-        String Prefix = TextUtils.isEmpty(configTagPrefix) ? "" : configTagPrefix;
-        tag = String.format(tag, Prefix, callerClazzName, caller.getMethodName(), stackTrace);
+        tag = String.format(tag, mLogConfig.getTagPrefix(), callerClazzName,
+                caller.getMethodName(), stackTrace);
         return tag;
     }
 
@@ -278,26 +228,4 @@ final class Logger implements Printer {
         }
     }
 
-    /**
-     * 打印Intent的信息
-     *
-     * @param it
-     */
-    private String printIntent(Intent it) {
-        return it.toString();
-    }
-
-    /**
-     * 打印bundle
-     *
-     * @param bundle
-     */
-    private String printBundle(Bundle bundle) {
-        StringBuilder builder = new StringBuilder("Bundle[\n");
-        for (String key : bundle.keySet()) {
-            builder.append("'" + key + "' => " + CommonUtil.objectToString(bundle.get(key)) + "\n");
-        }
-        builder.append("]\n");
-        return builder.toString();
-    }
 }

@@ -10,22 +10,24 @@ import com.apkfuns.logutils.utils.CommonUtil;
 public final class LogUtils {
 
     private static Printer printer;
+    private static LogConfigImpl logConfig;
 
     static {
         printer = new Logger();
+        logConfig = LogConfigImpl.getInstance();
     }
 
     /**
-     * suggest use getLogConfig().configAllowLog() to config
+     * suggest use getLogConfig().configAllowLog() replace configAllowLog
      */
     @Deprecated
-    public static boolean configAllowLog = true;
+    public static boolean configAllowLog = logConfig.isEnable();
 
     /**
-     * suggest use getLogConfig().configTagPrefix() to config
+     * suggest use getLogConfig().configTagPrefix() replace configTagPrefix
      */
     @Deprecated
-    public static String configTagPrefix = "";
+    public static String configTagPrefix = logConfig.getTagPrefix();
 
     /**
      * 选项配置
@@ -33,7 +35,7 @@ public final class LogUtils {
      * @return
      */
     public static LogConfig getLogConfig() {
-        return printer.getLogConfig();
+        return logConfig;
     }
 
     /**
@@ -129,5 +131,4 @@ public final class LogUtils {
     public static void json(String json) {
         printer.json(CommonUtil.getStackTrace(), json);
     }
-
 }

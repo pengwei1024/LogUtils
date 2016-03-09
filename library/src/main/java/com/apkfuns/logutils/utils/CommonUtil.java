@@ -10,6 +10,12 @@ import java.util.List;
  */
 public class CommonUtil {
 
+    // 分割线方位
+    public static final int DIR_TOP = 1;
+    public static final int DIR_BOTTOM = 2;
+    public static final int DIR_CENTER = 4;
+    public static final int DIR_NORMAL = 3;
+
     // 基本数据类型
     public static final String[] TYPES = {"int", "java.lang.String", "boolean", "char",
             "float", "double", "long", "short", "byte"};
@@ -112,6 +118,28 @@ public class CommonUtil {
             stringList.add(msg);
         }
         return stringList;
+    }
+
+    /**
+     * 打印分割线
+     *
+     * @param dir
+     * @return
+     */
+    public static String printDividingLine(int dir) {
+        switch (dir) {
+            case DIR_TOP:
+                return "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
+            case DIR_BOTTOM:
+                return "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
+            case DIR_NORMAL:
+                return "║ ";
+            case DIR_CENTER:
+                return "╟───────────────────────────────────────────────────────────────────────────────────────────────────────────────────";
+            default:
+                break;
+        }
+        return "";
     }
 
 }

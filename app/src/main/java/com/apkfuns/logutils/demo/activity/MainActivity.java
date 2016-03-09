@@ -1,12 +1,15 @@
 package com.apkfuns.logutils.demo.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.apkfuns.logutils.demo.helper.DataHelper;
 import com.apkfuns.logutils.LogLevel;
 import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
+import com.apkfuns.logutils.parser.BundleParse;
 
 
 public class MainActivity extends Activity {
@@ -21,20 +24,19 @@ public class MainActivity extends Activity {
                 .configTagPrefix("duLife-")
                 .configShowBorders(true)
                 .configLevel(LogLevel.TYPE_VERBOSE)
+                .addParserClass(BundleParse.class)
         ;
 
-//        LogUtils.d("12345");
-//        LogUtils.d("12%s3%s45", "a", "b");
-//        LogUtils.d(new NullPointerException("12345"));
-//        LogUtils.d(DataHelper.getObject());
-//        LogUtils.d(null);
+        LogUtils.d("12345");
+        LogUtils.d("12%s3%s45", "a", "b");
+        LogUtils.d(new NullPointerException("12345"));
+        LogUtils.d(DataHelper.getObject());
+        LogUtils.d(null);
 
-
-//
-//        LogUtils.json(DataHelper.getJson());
+        LogUtils.json(DataHelper.getJson());
 //
 //        // 打印List
-//        LogUtils.d(DataHelper.getStringList());
+        LogUtils.d(DataHelper.getStringList());
 //
 //        // 支持数据集合
         LogUtils.d(DataHelper.getObjectList());
@@ -63,6 +65,11 @@ public class MainActivity extends Activity {
         LogUtils.e(DataHelper.getOldMan());
 
         // 大文本输出
-//        LogUtils.e(DataHelper.getBigString(this));
+        LogUtils.e(DataHelper.getBigString(this));
+
+        Intent it = new Intent(
+                Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        LogUtils.e(it);
+
     }
 }

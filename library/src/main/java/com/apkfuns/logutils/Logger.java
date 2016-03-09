@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import static com.apkfuns.logutils.LogLevel.*;
+import static com.apkfuns.logutils.utils.CommonUtil.*;
 
 import com.apkfuns.logutils.parser.BundleParse;
 import com.apkfuns.logutils.parser.CollectionParse;
@@ -22,12 +23,6 @@ import java.util.MissingFormatArgumentException;
  * Created by pengwei08 on 2015/7/20.
  */
 final class Logger implements Printer {
-
-    // 分割线方位
-    public static final int DIR_TOP = 1;
-    public static final int DIR_BOTTOM = 2;
-    public static final int DIR_CENTER = 4;
-    public static final int DIR_NORMAL = 3;
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
@@ -65,14 +60,18 @@ final class Logger implements Printer {
         }
         String tag = generateTag(element);
         if (msg.length() > CommonUtil.LINE_MAX) {
-            tag = "LogUtils";
-            printLog(type, tag, printDividingLine(DIR_TOP));
-            printLog(type, tag, printDividingLine(DIR_NORMAL) + generateTag(element));
-            printLog(type, tag, printDividingLine(DIR_CENTER));
+            if (mLogConfig.isShowBorder()) {
+                tag = mLogConfig.getTagPrefix();
+                printLog(type, tag, printDividingLine(DIR_TOP));
+                printLog(type, tag, printDividingLine(DIR_NORMAL) + getLogInfo(element));
+                printLog(type, tag, printDividingLine(DIR_CENTER));
+            }
             for (String subMsg : CommonUtil.largeStringToList(msg)) {
                 logString(type, element, subMsg, true, args);
             }
-            printLog(type, tag, printDividingLine(DIR_BOTTOM));
+            if (mLogConfig.isShowBorder()) {
+                printLog(type, tag, printDividingLine(DIR_BOTTOM));
+            }
             return;
         }
         if (args.length > 0) {
@@ -83,14 +82,14 @@ final class Logger implements Printer {
             }
         }
         if (mLogConfig.isShowBorder()) {
-            tag = "LogUtils";
+            tag = mLogConfig.getTagPrefix();
             if (isPart) {
                 for (String sub : msg.split(LINE_SEPARATOR)) {
                     printLog(type, tag, printDividingLine(DIR_NORMAL) + sub);
                 }
             } else {
                 printLog(type, tag, printDividingLine(DIR_TOP));
-                printLog(type, tag, printDividingLine(DIR_NORMAL) + generateTag(element));
+                printLog(type, tag, printDividingLine(DIR_NORMAL) + getLogInfo(element));
                 printLog(type, tag, printDividingLine(DIR_CENTER));
                 for (String sub : msg.split(LINE_SEPARATOR)) {
                     printLog(type, tag, printDividingLine(DIR_NORMAL) + sub);
@@ -102,28 +101,6 @@ final class Logger implements Printer {
         }
     }
 
-
-    /**
-     * 打印分割线
-     *
-     * @param dir
-     * @return
-     */
-    public static String printDividingLine(int dir) {
-        switch (dir) {
-            case DIR_TOP:
-                return "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
-            case DIR_BOTTOM:
-                return "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
-            case DIR_NORMAL:
-                return "║ ";
-            case DIR_CENTER:
-                return "╟───────────────────────────────────────────────────────────────────────────────────────────────────────────────────";
-            default:
-                break;
-        }
-        return "";
-    }
 
     /**
      * 打印对象
@@ -182,16 +159,25 @@ final class Logger implements Printer {
      * @return
      */
     private String generateTag(StackTraceElement caller) {
+        return mLogConfig.getTagPrefix() + getLogInfo(caller);
+    }
+
+    /**
+     * 日志头部信息
+     *
+     * @param caller
+     * @return
+     */
+    private String getLogInfo(StackTraceElement caller) {
         String stackTrace = caller.toString();
         stackTrace = stackTrace.substring(stackTrace.lastIndexOf('('), stackTrace.length());
-        String tag = "%s%s.%s%s";
+        String tag = "%s.%s%s";
         String callerClazzName = caller.getClassName();
         callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
-        tag = String.format(tag, mLogConfig.getTagPrefix(), callerClazzName,
+        tag = String.format(tag, callerClazzName,
                 caller.getMethodName(), stackTrace);
         return tag;
     }
-
 
     @Override
     public void d(StackTraceElement element, String message, Object... args) {

@@ -2,20 +2,23 @@
 More convenient and easy to use android Log manager
 
 ### Features
->* ``支持直接打印数据集合``,如List、Set、Map、数组等
->* ``全局配置log输出``
->* ``不需要设置tag``
->* ``准确显示调用方法、行，快速定位所在文件位置``.
+>* 支持直接打印数据集合,如List、Set、Map、数组等
+>* 全局配置log输出
+>* 不需要设置tag
+>* 准确显示调用方法、行，快速定位所在文件位置
+>* 支持android系统对象Intent、Bundle打印
 
 ### screenshot
-##### 效果图
-![截图](screenshot/screenshot01.png)
 ##### 日志说明
 ![截图](screenshot/screenshot02.png)
 ##### 打印数据列表
 ![截图](screenshot/screenshot03.png)
 ##### 打印数组
 ![截图](screenshot/screenshot04.png)
+##### 打印对象本身属性和继承的属性
+![截图](screenshot/screenshot05.png)
+##### 打印系统对象Intent
+![截图](screenshot/screenshot06.png)
 
 ## Simple
 ```java
@@ -66,25 +69,33 @@ LogUtils.wtf("12345");
 ```
 
 ### options
-```java
-// 配置日志是否输出(默认true)
-LogUtils.configAllowLog = false;
+方法 | 描述 | 取值 | 缺省 
+------- | ------- | ------- | -------
+configAllowLog | 是否允许日志输出 | boolean | true 
+configTagPrefix | 日志log的前缀 | String | "LogUtils"
+configShowBorders | 是否显示边界 | boolean | false
+configLevel | 日志显示等级 | LogLevelType | LogLevel.TYPE_VERBOSE
+addParserClass | 自定义对象打印 | Parser | 无 
 
-// 配置日志前缀
-LogUtils.configTagPrefix = "abc-";
-```
+##### Demo
+```java
+LogUtils.getLogConfig()
+                .configAllowLog(true)
+                .configTagPrefix("MyAppName-")
+                .configShowBorders(true)
+                .configLevel(LogLevel.TYPE_VERBOSE)
 ## Usage
 
 ### Gradle导入
 ```groovy
-compile 'com.apkfuns.logutils:library:1.1.0'
+compile 'com.apkfuns.logutils:library:1.2.0'
 ```
 ### Maven导入
 ```xml
 <dependency>
     <groupId>com.apkfuns.logutils</groupId>
     <artifactId>library</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
@@ -107,7 +118,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 修复打印字符串包含%s崩溃的bug
 * **1.1.0 (2016/03/02)**
     - 修复非Exception崩溃的错误
-* **1.2.0 (开发中)**
+* **1.2.0 (2016/03/09)**
     - 支持android系统对象Bundle、Intent等打印
     - 优化设置选项
     - 支持多维数组

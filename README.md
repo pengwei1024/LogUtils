@@ -84,6 +84,13 @@ LogUtils.getLogConfig()
                 .configTagPrefix("MyAppName-")
                 .configShowBorders(true)
                 .configLevel(LogLevel.TYPE_VERBOSE)
+```
+
+##### 自定义对象打印
+实现Parser接口，并实现parseClassType() 和parseString()方法
+再通过addParserClass()方法添加
+
+
 ## Usage
 
 ### Gradle导入

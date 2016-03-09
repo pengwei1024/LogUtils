@@ -17,11 +17,12 @@ public class BundleParse implements Parser<Bundle> {
 
     @Override
     public String parseString(Bundle bundle) {
-        StringBuilder builder = new StringBuilder(bundle.getClass().getName() + " [\n");
+        StringBuilder builder = new StringBuilder(bundle.getClass().getName() + " [" + LINE_SEPARATOR);
         for (String key : bundle.keySet()) {
-            builder.append(String.format("'%s' => %s \n", key, CommonUtil.objectToString(bundle.get(key))));
+            builder.append(String.format("'%s' => %s " + LINE_SEPARATOR,
+                    key, CommonUtil.objectToString(bundle.get(key))));
         }
-        builder.append("]\n");
+        builder.append("]" + LINE_SEPARATOR);
         return builder.toString();
     }
 }

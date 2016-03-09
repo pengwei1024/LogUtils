@@ -23,11 +23,20 @@ import java.util.MissingFormatArgumentException;
  */
 final class Logger implements Printer {
 
+    // 分割线方位
+    public static final int DIR_TOP = 1;
+    public static final int DIR_BOTTOM = 2;
+    public static final int DIR_CENTER = 4;
+    public static final int DIR_NORMAL = 3;
+
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
     // 默认支持解析库
     public static final Class<? extends Parser>[] DEFAULT_PARSE_CLASS = new Class[]{
             BundleParse.class, IntentParse.class, CollectionParse.class,
             MapParse.class, ThrowableParse.class
     };
+
     private LogConfigImpl mLogConfig;
 
     protected Logger() {
@@ -44,6 +53,10 @@ final class Logger implements Printer {
      * @param args
      */
     private void logString(@LogLevelType int type, StackTraceElement element, String msg, Object... args) {
+        logString(type, element, msg, false, args);
+    }
+
+    private void logString(@LogLevelType int type, StackTraceElement element, String msg, boolean isPart, Object... args) {
         if (!mLogConfig.isEnable() || !LogUtils.configAllowLog) {
             return;
         }
@@ -51,6 +64,17 @@ final class Logger implements Printer {
             return;
         }
         String tag = generateTag(element);
+        if (msg.length() > CommonUtil.LINE_MAX) {
+            tag = "LogUtils";
+            printLog(type, tag, printDividingLine(DIR_TOP));
+            printLog(type, tag, printDividingLine(DIR_NORMAL) + generateTag(element));
+            printLog(type, tag, printDividingLine(DIR_CENTER));
+            for (String subMsg : CommonUtil.largeStringToList(msg)) {
+                logString(type, element, subMsg, true, args);
+            }
+            printLog(type, tag, printDividingLine(DIR_BOTTOM));
+            return;
+        }
         if (args.length > 0) {
             try {
                 msg = String.format(msg, args);
@@ -58,6 +82,76 @@ final class Logger implements Printer {
 
             }
         }
+        if (mLogConfig.isShowBorder()) {
+            tag = "LogUtils";
+            if (isPart) {
+                for (String sub : msg.split(LINE_SEPARATOR)) {
+                    printLog(type, tag, printDividingLine(DIR_NORMAL) + sub);
+                }
+            } else {
+                printLog(type, tag, printDividingLine(DIR_TOP));
+                printLog(type, tag, printDividingLine(DIR_NORMAL) + generateTag(element));
+                printLog(type, tag, printDividingLine(DIR_CENTER));
+                for (String sub : msg.split(LINE_SEPARATOR)) {
+                    printLog(type, tag, printDividingLine(DIR_NORMAL) + sub);
+                }
+                printLog(type, tag, printDividingLine(DIR_BOTTOM));
+            }
+        } else {
+            printLog(type, tag, msg);
+        }
+    }
+
+
+    /**
+     * 打印分割线
+     *
+     * @param dir
+     * @return
+     */
+    public static String printDividingLine(int dir) {
+        switch (dir) {
+            case DIR_TOP:
+                return "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
+            case DIR_BOTTOM:
+                return "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
+            case DIR_NORMAL:
+                return "║ ";
+            case DIR_CENTER:
+                return "╟───────────────────────────────────────────────────────────────────────────────────────────────────────────────────";
+            default:
+                break;
+        }
+        return "";
+    }
+
+    /**
+     * 打印对象
+     *
+     * @param type
+     * @param element
+     * @param object
+     */
+    private void logObject(@LogLevelType int type, StackTraceElement element, Object object) {
+        if (object != null) {
+            for (Parser parser : mLogConfig.getParseList()) {
+                if (parser.parseClassType().isAssignableFrom(object.getClass())) {
+                    logString(type, element, parser.parseString(object));
+                    return;
+                }
+            }
+        }
+        logString(type, element, CommonUtil.objectToString(object));
+    }
+
+    /**
+     * 打印日志
+     *
+     * @param type
+     * @param tag
+     * @param msg
+     */
+    private void printLog(@LogLevelType int type, String tag, String msg) {
         switch (type) {
             case TYPE_VERBOSE:
                 Log.v(tag, msg);
@@ -83,25 +177,6 @@ final class Logger implements Printer {
     }
 
     /**
-     * 打印对象
-     *
-     * @param type
-     * @param element
-     * @param object
-     */
-    private void logObject(@LogLevelType int type, StackTraceElement element, Object object) {
-        if (object != null) {
-            for (Parser parser : mLogConfig.getParseList()) {
-                if (parser.parseClassType().isAssignableFrom(object.getClass())) {
-                    logString(type, element, parser.parseString(object));
-                    return;
-                }
-            }
-        }
-        logString(type, element, CommonUtil.objectToString(object));
-    }
-
-    /**
      * 自动生成tag
      *
      * @return
@@ -116,6 +191,7 @@ final class Logger implements Printer {
                 caller.getMethodName(), stackTrace);
         return tag;
     }
+
 
     @Override
     public void d(StackTraceElement element, String message, Object... args) {

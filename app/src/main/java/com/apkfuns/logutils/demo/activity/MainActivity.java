@@ -9,7 +9,6 @@ import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
 
 
-
 public class MainActivity extends Activity {
 
     @Override
@@ -21,20 +20,21 @@ public class MainActivity extends Activity {
                 .configAllowLog(true)
                 .configTagPrefix("duLife-")
                 .configShowBorders(true)
-                .configLevel(LogLevel.TYPE_VERBOSE);
+                .configLevel(LogLevel.TYPE_VERBOSE)
+        ;
 
-        LogUtils.d("12345");
-        LogUtils.d("12%s3%s45", "a", "b");
-        LogUtils.d(new NullPointerException("12345"));
-        LogUtils.d(DataHelper.getObject());
-        LogUtils.d(null);
+//        LogUtils.d("12345");
+//        LogUtils.d("12%s3%s45", "a", "b");
+//        LogUtils.d(new NullPointerException("12345"));
+//        LogUtils.d(DataHelper.getObject());
+//        LogUtils.d(null);
 
 
 //
 //        LogUtils.json(DataHelper.getJson());
 //
 //        // 打印List
-        LogUtils.d(DataHelper.getStringList());
+//        LogUtils.d(DataHelper.getStringList());
 //
 //        // 支持数据集合
         LogUtils.d(DataHelper.getObjectList());
@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
         LogUtils.d(DataHelper.getObjectMap());
 //
 
-
+        // Bundle支持
         Bundle bundle = new Bundle();
         bundle.putInt("abc", 1);
         bundle.putString("abc2", "text");
@@ -53,10 +53,16 @@ public class MainActivity extends Activity {
         bundle.putSerializable("abc8", DataHelper.getStringArray3());
         bundle.putSerializable("abc5", DataHelper.getObject());
         bundle.putSerializable("abc6", DataHelper.getObjectArray());
-//        LogUtils.e(bundle);
-//        LogUtils.e(bundle.toString());
+        bundle.putSerializable("abc9", DataHelper.getStringMap());
+        bundle.putSerializable("abc10", DataHelper.getBigString(this));
+        LogUtils.e(bundle);
 
 
         LogUtils.e(DataHelper.getMan());
+        LogUtils.e(DataHelper.getObject());
+        LogUtils.e(DataHelper.getOldMan());
+
+        // 大文本输出
+//        LogUtils.e(DataHelper.getBigString(this));
     }
 }

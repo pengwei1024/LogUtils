@@ -1,8 +1,13 @@
 package com.apkfuns.logutils.demo.helper;
 
+import android.content.Context;
+
 import com.apkfuns.logutils.demo.model.Man;
+import com.apkfuns.logutils.demo.model.OldMan;
 import com.apkfuns.logutils.demo.model.Person;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +60,14 @@ public final class DataHelper {
         return map;
     }
 
+    public static HashMap<String, String> getStringMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("a", "a");
+        map.put("b", "b");
+        map.put("c", "c");
+        return map;
+    }
+
     public static int[] getIntArray() {
         int[] intArray = {1, 2, 3, 4, 5, 6};
         return intArray;
@@ -92,23 +105,53 @@ public final class DataHelper {
         return stringArray;
     }
 
-        /**
-         * 获取json对象
-         *
-         * @return
-         */
+    /**
+     * 获取json对象
+     *
+     * @return
+     */
 
     public static String getJson() {
         String json = "{'a':'b','c':{'aa':234,'dd':{'az':12}}}";
         return json;
     }
 
-    public static Man getMan(){
+    public static Man getMan() {
         Man person = new Man(1);
-        person.setAge(11);
-        person.setName("pengwei");
-        person.setScore(37.5f);
+        person.setAge(12);
+        person.setName("pengwei+1");
+        person.setScore(80.5f);
         return person;
+    }
+
+    public static Man getOldMan() {
+        Man person = new OldMan(1);
+        person.setAge(13);
+        person.setName("pengwei+2");
+        person.setScore(81.5f);
+        return person;
+    }
+
+    /**
+     * 大文本
+     *
+     * @param context
+     * @return
+     */
+    public static String getBigString(Context context) {
+        try {
+            InputStream is = context.getAssets().open("city.json");
+            StringBuffer sb = new StringBuffer();
+            int len = -1;
+            byte[] buf = new byte[is.available()];
+            while ((len = is.read(buf)) != -1) {
+                sb.append(new String(buf, 0, len, "utf-8"));
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }

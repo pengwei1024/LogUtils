@@ -17,10 +17,10 @@ public class MapParse implements Parser<Map> {
 
     @Override
     public String parseString(Map map) {
-        String msg = map.getClass().getName() + " [\n";
+        String msg = map.getClass().getName() + " [" + LINE_SEPARATOR;
         Set<Object> keys = map.keySet();
         for (Object key : keys) {
-            String itemString = "%s -> %s\n";
+            String itemString = "%s -> %s" + LINE_SEPARATOR;
             Object value = map.get(key);
             msg += String.format(itemString, CommonUtil.objectToString(key),
                     CommonUtil.objectToString(value));

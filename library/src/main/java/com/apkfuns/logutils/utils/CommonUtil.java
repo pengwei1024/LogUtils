@@ -1,6 +1,9 @@
 package com.apkfuns.logutils.utils;
 
+
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pengwei08 on 2015/7/20.
@@ -10,6 +13,8 @@ public class CommonUtil {
     // 基本数据类型
     public static final String[] TYPES = {"int", "java.lang.String", "boolean", "char",
             "float", "double", "long", "short", "byte"};
+
+    public static final int LINE_MAX = 2048;
 
     /**
      * 获取StackTraceElement对象
@@ -26,44 +31,87 @@ public class CommonUtil {
      * @param object
      * @return
      */
-    public static <T> String objectToString(T object) {
+    public static String objectToString(Object object) {
         if (object == null) {
             return "Object[object is null]";
         }
-        if (ArrayParseUtil.isArray(object)) {
-            return ArrayParseUtil.parseArray(object);
+        if (ArrayUtil.isArray(object)) {
+            return ArrayUtil.parseArray(object);
         } else {
             if (object.toString().startsWith(object.getClass().getName() + "@")) {
-                StringBuilder builder = new StringBuilder(object.getClass().getSimpleName() + "{");
-                Field[] fields = object.getClass().getDeclaredFields();
-                for (Field field : fields) {
-                    field.setAccessible(true);
-                    boolean flag = false;
-                    for (String type : TYPES) {
-                        if (field.getType().getName().equalsIgnoreCase(type)) {
-                            flag = true;
-                            Object value = null;
-                            try {
-                                value = field.get(object);
-                            } catch (IllegalAccessException e) {
-                                value = e;
-                            } finally {
-                                builder.append(String.format("%s=%s, ", field.getName(),
-                                        value == null ? "null" : value.toString()));
-                                break;
-                            }
-                        }
-                    }
-                    if (!flag) {
-                        builder.append(String.format("%s=%s, ", field.getName(), "Object"));
-                    }
+                StringBuilder builder = new StringBuilder();
+                getClassFields(object.getClass(), builder, object, false);
+                Class superClass = object.getClass().getSuperclass();
+                while (superClass != null) {
+                    getClassFields(superClass, builder, object, true);
+                    superClass = superClass.getSuperclass();
                 }
-                return builder.replace(builder.length() - 2, builder.length() - 1, "}").toString();
+                return builder.toString();
             } else {
                 return object.toString();
             }
         }
+    }
 
+    /**
+     * 拼接class的字段和值
+     *
+     * @param cla
+     * @param builder
+     */
+    private static void getClassFields(Class cla, StringBuilder builder, Object o, boolean isSuper) {
+        if (cla.equals(Object.class)) {
+            return;
+        }
+        if (isSuper) {
+            builder.append("\n=> ");
+        }
+        builder.append(cla.getSimpleName() + " {");
+        Field[] fields = cla.getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            Object subObject = null;
+            try {
+                subObject = field.get(o);
+            } catch (IllegalAccessException e) {
+                subObject = e;
+            } finally {
+                if (subObject != null) {
+                    if (subObject instanceof String) {
+                        subObject = "\"" + subObject + "\"";
+                    } else if (subObject instanceof Character) {
+                        subObject = "\'" + subObject + "\'";
+                    }
+                }
+                builder.append(String.format("%s = %s, ", field.getName(),
+                        subObject == null ? "null" : subObject.toString()));
+            }
+        }
+        builder.replace(builder.length() - 2, builder.length() - 1, "}");
+    }
+
+    /**
+     * 长字符串转化为List
+     *
+     * @param msg
+     * @return
+     */
+    public static List<String> largeStringToList(String msg) {
+        List<String> stringList = new ArrayList<>();
+        int index = 0;
+        int maxLength = LINE_MAX;
+        int countOfSub = msg.length() / maxLength;
+        if (countOfSub > 0) {
+            for (int i = 0; i < countOfSub; i++) {
+                String sub = msg.substring(index, index + maxLength);
+                stringList.add(sub);
+                index += maxLength;
+            }
+            stringList.add(msg.substring(index, msg.length()));
+        } else {
+            stringList.add(msg);
+        }
+        return stringList;
     }
 
 }

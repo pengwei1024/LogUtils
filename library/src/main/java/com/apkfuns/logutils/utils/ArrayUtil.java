@@ -7,7 +7,7 @@ import java.util.Arrays;
  * Created by pengwei08 on 2015/7/25.
  * Thanks to zhutiantao for providing an array of analytical methods.
  */
-public final class ArrayParseUtil {
+public final class ArrayUtil {
 
     /**
      * 获取数组的纬度

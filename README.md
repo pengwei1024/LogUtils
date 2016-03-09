@@ -112,14 +112,15 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 优化设置选项
     - 支持多维数组
     - 支持自定义对象打印
-
+    - 支持字符串超过4k打印
 
 ## About
 * Blog: [apkfuns.com](http://apkfuns.com?from=github)
 * Email: [pengwei1024@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pengwei1024@gmail.com)
 
 ### Thanks
-thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils) 和[orhanobut/logger](https://github.com/orhanobut/logger)
+thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils) 和[orhanobut/logger](https://github.com/orhanobut/logger)、
+[ZhaoKaiQiang/KLog](https://github.com/ZhaoKaiQiang/KLog)
 
 ### License
 <pre>

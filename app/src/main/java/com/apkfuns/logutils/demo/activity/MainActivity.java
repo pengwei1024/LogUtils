@@ -11,6 +11,14 @@ import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
 import com.apkfuns.logutils.parser.BundleParse;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 public class MainActivity extends Activity {
 
@@ -23,7 +31,8 @@ public class MainActivity extends Activity {
                 .configAllowLog(true)
                 .configTagPrefix("duLife-")
                 .configShowBorders(true)
-                .configLevel(LogLevel.TYPE_VERBOSE);
+                .configLevel(LogLevel.TYPE_VERBOSE)
+                .addParserClass(OkHttpResponseParse.class);
 
 //        LogUtils.d("12345");
 //        LogUtils.d("12%s3%s45", "a", "b");
@@ -71,5 +80,20 @@ public class MainActivity extends Activity {
 //        it.putExtra("aaaa", "12345");
 //        it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 //        LogUtils.d(it);
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://www.baidu.com").build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                LogUtils.e(e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                LogUtils.e(response);
+            }
+        });
     }
 }

@@ -87,8 +87,8 @@ LogUtils.getLogConfig()
 ```
 
 ##### 自定义对象打印
-实现Parser接口，并实现parseClassType() 和parseString()方法
-再通过addParserClass()方法添加
+实现Parser<T>接口，并实现parseClassType() 和parseString()方法,再通过addParserClass()配置到LogUtil
+<a href='./doc/custom_parser.md'>详细文档</a>
 
 
 ## Usage

@@ -100,9 +100,10 @@ compile 'com.apkfuns.logutils:library:1.2.0'
 ### Maven导入
 ```xml
 <dependency>
-    <groupId>com.apkfuns.logutils</groupId>
-    <artifactId>library</artifactId>
-    <version>1.2.0</version>
+  <groupId>com.apkfuns.logutils</groupId>
+  <artifactId>library</artifactId>
+  <version>1.2.0</version>
+  <type>pom</type>
 </dependency>
 ```
 
@@ -137,7 +138,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
 * Email: [pengwei1024@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pengwei1024@gmail.com)
 
 ### Thanks
-thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils)、[orhanobut/logger](https://github.com/orhanobut/logger)、
+thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils) 和[orhanobut/logger](https://github.com/orhanobut/logger)、
 [ZhaoKaiQiang/KLog](https://github.com/ZhaoKaiQiang/KLog)
 
 ### License

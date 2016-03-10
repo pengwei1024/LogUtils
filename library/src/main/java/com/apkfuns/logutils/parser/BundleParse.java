@@ -23,7 +23,7 @@ public class BundleParse implements Parser<Bundle> {
                 builder.append(String.format("'%s' => %s " + LINE_SEPARATOR,
                         key, CommonUtil.objectToString(bundle.get(key))));
             }
-            builder.append("]" + LINE_SEPARATOR);
+            builder.append("]");
             return builder.toString();
         }
         return null;

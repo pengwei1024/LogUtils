@@ -131,6 +131,9 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 支持多维数组
     - 支持自定义对象打印
     - 支持字符串超过4k打印
+* **1.2.1 (开发中)**
+    - 支持Intent具体Flags显示
+    - 修复自定义Parse和自带Parse优先级问题 
 
 ## About
 * Blog: [apkfuns.com](http://apkfuns.com?from=github)

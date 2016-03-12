@@ -37,6 +37,7 @@ public class CommonUtil {
      * @param object
      * @return
      */
+    // TODO: 16/3/12 对象包含复杂对象 
     public static String objectToString(Object object) {
         if (object == null) {
             return "Object[object is null]";

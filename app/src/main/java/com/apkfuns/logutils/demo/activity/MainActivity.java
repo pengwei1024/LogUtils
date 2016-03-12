@@ -9,6 +9,7 @@ import com.apkfuns.logutils.demo.helper.DataHelper;
 import com.apkfuns.logutils.LogLevel;
 import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
+import com.apkfuns.logutils.demo.parse.CollectParse;
 import com.apkfuns.logutils.parser.BundleParse;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class MainActivity extends Activity {
                 .configTagPrefix("duLife-")
                 .configShowBorders(true)
                 .configLevel(LogLevel.TYPE_VERBOSE)
-                .addParserClass(OkHttpResponseParse.class);
+                .addParserClass(OkHttpResponseParse.class, CollectParse.class);
 
 //        LogUtils.d("12345");
 //        LogUtils.d("12%s3%s45", "a", "b");
@@ -43,7 +44,7 @@ public class MainActivity extends Activity {
 //        LogUtils.json(DataHelper.getJson());
 //
 //        // 打印List
-//        LogUtils.d(DataHelper.getStringList());
+        LogUtils.d(DataHelper.getStringList());
 //
 //        // 支持数据集合
 //        LogUtils.d(DataHelper.getObjectList());

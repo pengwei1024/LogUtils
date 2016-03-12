@@ -2,7 +2,11 @@
 
 ### 使用场景
 举个例子，网络请求如果用的OkHttp，经常需要看网络请求参数，如发送请求的内容Request，和服务器返回的内容
-Response，Request和Response都是一个复杂的对象，包含了诸多的内容，如header，params等等
+Response，Request和Response都是一个复杂的对象，包含了诸多的内容，如header，params等等。Response默认toString()
+输出内容如下,看不出什么东西。
+```xml
+Response{protocol=http/1.1, code=200, message=OK, url=http://www.baidu.com/}
+```
 
 ### 使用方法
 继承Parser类，并实现parseClassType()和String parseString(T t)两个方法。

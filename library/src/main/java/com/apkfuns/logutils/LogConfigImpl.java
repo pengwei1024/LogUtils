@@ -55,7 +55,7 @@ class LogConfigImpl implements LogConfig {
 
     @Override
     public LogConfig addParserClass(Class<? extends Parser>... classes) {
-        // TODO: 16/3/12 判断解析类的继承关系 
+        // TODO: 16/3/12 判断解析类的继承关系
         for (Class<? extends Parser> cla : classes) {
             try {
                 parseList.add(0, cla.newInstance());

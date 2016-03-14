@@ -68,9 +68,9 @@ public class MainActivity extends Activity {
 
 
         // 对象测试
-//        LogUtils.e(DataHelper.getMan());
-//        LogUtils.e(DataHelper.getObject());
-//        LogUtils.e(DataHelper.getOldMan());
+        LogUtils.e(DataHelper.getMan());
+        LogUtils.e(DataHelper.getObject());
+        LogUtils.e(DataHelper.getOldMan());
 
         // 大文本输出
 //        LogUtils.e(DataHelper.getBigString(this));

@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class CommonUtil {
 
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
     // 分割线方位
     public static final int DIR_TOP = 1;
     public static final int DIR_BOTTOM = 2;
@@ -37,7 +39,7 @@ public class CommonUtil {
      * @param object
      * @return
      */
-    // TODO: 16/3/12 对象包含复杂对象 
+    // TODO: 16/3/12 对象包含复杂对象
     public static String objectToString(Object object) {
         if (object == null) {
             return "Object[object is null]";
@@ -71,7 +73,7 @@ public class CommonUtil {
             return;
         }
         if (isSuper) {
-            builder.append("\n=> ");
+            builder.append(LINE_SEPARATOR + "=> ");
         }
         builder.append(cla.getSimpleName() + " {");
         Field[] fields = cla.getDeclaredFields();

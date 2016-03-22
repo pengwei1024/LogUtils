@@ -23,6 +23,7 @@ import java.util.MissingFormatArgumentException;
 /**
  * Created by pengwei08 on 2015/7/20.
  */
+// TODO: 16/3/22 泛型支持
 final class Logger implements Printer {
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");

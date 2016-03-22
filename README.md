@@ -95,14 +95,14 @@ LogUtils.getLogConfig()
 
 ### Gradle导入
 ```groovy
-compile 'com.apkfuns.logutils:library:1.2.1'
+compile 'com.apkfuns.logutils:library:1.2.2'
 ```
 ### Maven导入
 ```xml
 <dependency>
     <groupId>com.apkfuns.logutils</groupId>
     <artifactId>library</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
 </dependency>
 ```
 
@@ -133,7 +133,9 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 支持字符串超过4k打印
 * **1.2.1 (2016/03/14)**
     - 支持Intent具体Flags显示
-    - 修复自定义Parse和自带Parse优先级问题 
+    - 修复自定义Parse和自带Parse优先级问题
+* **1.2.2 (2016/03/22)**
+    - 修复打印Reference类的bug
 
 ## About
 * Blog: [apkfuns.com](http://apkfuns.com?from=github)

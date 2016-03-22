@@ -1,6 +1,9 @@
 package com.apkfuns.logutils.utils;
 
 
+import com.apkfuns.logutils.parser.ReferenceParse;
+
+import java.lang.ref.Reference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +49,8 @@ public class CommonUtil {
         }
         if (ArrayUtil.isArray(object)) {
             return ArrayUtil.parseArray(object);
+        } else if (object instanceof Reference) {
+            return new ReferenceParse().parseString((Reference) object);
         } else {
             if (object.toString().startsWith(object.getClass().getName() + "@")) {
                 StringBuilder builder = new StringBuilder();
@@ -57,6 +62,7 @@ public class CommonUtil {
                 }
                 return builder.toString();
             } else {
+                // 若对象重写toString()方法默认走toString()
                 return object.toString();
             }
         }

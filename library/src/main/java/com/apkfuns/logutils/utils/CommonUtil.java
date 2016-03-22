@@ -96,7 +96,11 @@ public class CommonUtil {
                         subObject == null ? "null" : subObject.toString()));
             }
         }
-        builder.replace(builder.length() - 2, builder.length() - 1, "}");
+        if (builder.toString().endsWith("{")) {
+            builder.append("}");
+        } else {
+            builder.replace(builder.length() - 2, builder.length() - 1, "}");
+        }
     }
 
     /**

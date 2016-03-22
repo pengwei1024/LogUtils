@@ -13,7 +13,7 @@ public class Man extends Person {
     private static final int SEX = 1;
     private int a = 0;
     private List<String> list = new ArrayList<>();
-    private Map map = DataHelper.getObjectMap();
+    private Map<String, Person> map = DataHelper.getObjectMap();
 
     public Man(int a) {
         super();

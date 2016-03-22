@@ -1,18 +1,24 @@
 package com.apkfuns.logutils.demo.activity;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.LruCache;
 
+import com.apkfuns.logutils.demo.helper.Child;
 import com.apkfuns.logutils.demo.helper.DataHelper;
 import com.apkfuns.logutils.LogLevel;
 import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
+import com.apkfuns.logutils.demo.model.Man;
+import com.apkfuns.logutils.demo.model.Person;
 import com.apkfuns.logutils.demo.parse.CollectParse;
-import com.apkfuns.logutils.parser.BundleParse;
+
 
 import java.io.IOException;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -28,13 +34,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LogUtils.getLogConfig()
-                .configAllowLog(true)
-                .configTagPrefix("duLife-")
-                .configShowBorders(true)
-                .configLevel(LogLevel.TYPE_VERBOSE)
-                .addParserClass(OkHttpResponseParse.class, CollectParse.class);
-
 //        LogUtils.d("12345");
 //        LogUtils.d("12%s3%s45", "a", "b");
 //        LogUtils.d(new NullPointerException("12345"));
@@ -47,10 +46,10 @@ public class MainActivity extends Activity {
         LogUtils.d(DataHelper.getStringList());
 //
 //        // 支持数据集合
-//        LogUtils.d(DataHelper.getObjectList());
+        LogUtils.d(DataHelper.getObjectList());
 
 //        // 支持map输出
-//        LogUtils.d(DataHelper.getObjectMap());
+        LogUtils.d(DataHelper.getObjectMap());
 
         // Bundle支持
 //        Bundle bundle = new Bundle();
@@ -72,6 +71,12 @@ public class MainActivity extends Activity {
         LogUtils.e(DataHelper.getObject());
         LogUtils.e(DataHelper.getOldMan());
 
+//        System.out.println(ToStringBuilder.reflectionToString(DataHelper.getMan(),
+//                ToStringStyle.MULTI_LINE_STYLE));
+//        System.out.println(ToStringBuilder.reflectionToString(DataHelper.getOldMan(),
+//                ToStringStyle.DEFAULT_STYLE));
+
+
         // 大文本输出
 //        LogUtils.e(DataHelper.getBigString(this));
 
@@ -82,19 +87,38 @@ public class MainActivity extends Activity {
 //        it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 //        LogUtils.d(it);
 
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url("http://www.baidu.com").build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                LogUtils.e(e);
-            }
+//        OkHttpClient client = new OkHttpClient();
+//        Request request = new Request.Builder()
+//                .url("http://www.baidu.com").build();
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                LogUtils.e(e);
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                LogUtils.e(response);
+//            }
+//        });
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                LogUtils.e(response);
-            }
-        });
+
+        Person p = DataHelper.getObject();
+        WeakReference<Person> wp = new WeakReference<Person>(p);
+        LogUtils.e(wp);
+
+        SoftReference<Person> sr = new SoftReference<Person>(p);
+        LogUtils.e(sr);
+
+        List<WeakReference> l = new ArrayList<>();
+        l.add(wp);
+        l.add(wp);
+        l.add(wp);
+        LogUtils.e(l);
+
+        Child<Man> child = new Child<>("张三");
+        child.setParent(DataHelper.getMan());
+//        LogUtils.d(child);
+
     }
 }

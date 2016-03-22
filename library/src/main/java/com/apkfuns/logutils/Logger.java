@@ -10,6 +10,7 @@ import com.apkfuns.logutils.parser.BundleParse;
 import com.apkfuns.logutils.parser.CollectionParse;
 import com.apkfuns.logutils.parser.IntentParse;
 import com.apkfuns.logutils.parser.MapParse;
+import com.apkfuns.logutils.parser.ReferenceParse;
 import com.apkfuns.logutils.parser.ThrowableParse;
 import com.apkfuns.logutils.utils.CommonUtil;
 
@@ -29,7 +30,7 @@ final class Logger implements Printer {
     // 默认支持解析库
     public static final Class<? extends Parser>[] DEFAULT_PARSE_CLASS = new Class[]{
             BundleParse.class, IntentParse.class, CollectionParse.class,
-            MapParse.class, ThrowableParse.class
+            MapParse.class, ThrowableParse.class, ReferenceParse.class
     };
 
     private LogConfigImpl mLogConfig;

@@ -2,16 +2,13 @@ package com.apkfuns.logutils.demo.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.LruCache;
 
 import com.apkfuns.logutils.demo.helper.Child;
 import com.apkfuns.logutils.demo.helper.DataHelper;
-import com.apkfuns.logutils.LogLevel;
 import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
 import com.apkfuns.logutils.demo.model.Man;
 import com.apkfuns.logutils.demo.model.Person;
-import com.apkfuns.logutils.demo.parse.CollectParse;
 
 
 import java.io.IOException;
@@ -118,6 +115,7 @@ public class MainActivity extends Activity {
 
         Child<Man> child = new Child<>("张三");
         child.setParent(DataHelper.getMan());
+
 //        LogUtils.d(child);
 
     }

@@ -1,5 +1,5 @@
 # LogUtils
-[查看中文版](./doc/README_CN.md)<br/>
+<!--*[查看中文版](./doc/README_CN.md)*<br/>-->
 More convenient and easy to use android Log manager
 
 ### Features
@@ -148,7 +148,7 @@ thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils)、[orhanobut/logge
 
 ### License
 <pre>
-Copyright 2015-2016 PengWei1024
+Copyright 2015-2016 pengwei1024
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

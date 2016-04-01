@@ -26,7 +26,14 @@ class LogConfigImpl implements LogConfig {
     }
 
     static LogConfigImpl getInstance() {
-        return singleton == null ? singleton = new LogConfigImpl() : singleton;
+        if (singleton == null) {
+            synchronized (LogConfigImpl.class) {
+                if (singleton == null) {
+                    singleton = new LogConfigImpl();
+                }
+            }
+        }
+        return singleton;
     }
 
     @Override

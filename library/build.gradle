@@ -19,6 +19,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.0"
+    testCompile 'org.assertj:assertj-core:1.7.0'
 }
 
 build << {

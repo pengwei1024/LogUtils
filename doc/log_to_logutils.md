@@ -20,7 +20,7 @@ LogUtils.$1($3);
 
 已经支持的写法，欢迎补充
 ```java
-	Log.d("abc", "123");
+	    Log.d("abc", "123");
 
         Log .d("abc", "123");
 

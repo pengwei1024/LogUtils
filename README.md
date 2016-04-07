@@ -110,6 +110,9 @@ compile 'com.apkfuns.logutils:library:1.2.2'
 ### Eclipse导入Jar
 click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to download *.jar
 
+## 从Log切换到LogUtils
+想使用`LogUtils`但是项目中已经广泛使用`Log.*(TAG, String)`改动太大? [点击这里](./doc/log_to_logutils.md)
+
 ## History
 * **1.0.0 (2015/07/13)**
     - 打印对象，字符串，异常

@@ -3,11 +3,11 @@
 More convenient and easy to use android Log manager
 
 ### Features
->* 支持直接打印数据集合,如List、Set、Map、数组等
->* 全局配置log输出
->* 不需要设置tag
->* 准确显示调用方法、行，快速定位所在文件位置
->* 支持android系统对象Intent、Bundle打印
+* 支持直接打印数据集合,如List、Set、Map、数组等
+* 全局配置log输出
+* 不需要设置tag
+* 准确显示调用方法、行，快速定位所在文件位置
+* 支持android系统对象Intent、Bundle打印
 
 ### screenshot
 ##### 日志说明

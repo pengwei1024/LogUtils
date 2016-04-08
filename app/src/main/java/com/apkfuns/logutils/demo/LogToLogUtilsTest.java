@@ -7,6 +7,7 @@ import android.util.Log;
  */
 public class LogToLogUtilsTest {
 
+
     public static final String TAG = LogToLogUtilsTest.class.getName();
     public static final String value = "123";
 

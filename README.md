@@ -113,6 +113,11 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
 ## 从Log切换到LogUtils
 想使用`LogUtils`但是项目中已经广泛使用`Log.*(TAG, String)`改动太大? [点击这里](./doc/log_to_logutils.md)
 
+## 为LogUtils设置快捷键
+输入`psvm`就可以快速输出public static void main(String[] args) {} <br/>
+输入`logd`就可以快速输出Log.d(TAG, "main: ");<br/>
+[Android Studio为LogUtils设置快捷键](./doc/logutils_templates.md)
+
 ## History
 * **1.0.0 (2015/07/13)**
     - 打印对象，字符串，异常

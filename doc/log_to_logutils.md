@@ -53,7 +53,7 @@ Log.d("abc", String.valueOf(1));
 Log.wtf("abc", String.valueOf(1));
 ```
 
-<h4><font color='red'>不支持写法</font></h4>
+<h4><font color="red">暂时不支持写法</font></h4>
 ```java
 // 输入内容包含多个的','号
 Log.wtf("abc", String.format("abcd%s", "a"));

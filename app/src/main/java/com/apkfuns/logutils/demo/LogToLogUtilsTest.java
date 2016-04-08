@@ -40,5 +40,10 @@ public class LogToLogUtilsTest {
 
         Log.wtf("abc", String.valueOf(1));
 
+        Log.wtf("abc", String.valueOf(1) + "add");
+
+        Log.wtf("abc", String.format("abcd%s", "a"));
+
+
     }
 }

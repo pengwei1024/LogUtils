@@ -21,7 +21,7 @@ Log[\n|\r|\s]*\.[\n|\r|\s]*(d|e|i|v|wtf|w)[\n|\r|\s]*\([\n|\r|\s]*(.*[\n|\r|\s]*
 LogUtils.$1($3);
 ```
 
-已经支持的写法，欢迎补充
+<h4>已经支持的写法，欢迎补充</h4>
 ```java
 Log.d("abc", "123");
 
@@ -51,6 +51,15 @@ Log.e(TAG,
 Log.d("abc", String.valueOf(1));
 
 Log.wtf("abc", String.valueOf(1));
+```
+
+<h4><font color='red'>不支持写法</font></h4>
+```java
+// 输入内容包含多个的','号
+Log.wtf("abc", String.format("abcd%s", "a"));
+
+// 内容包含 +/- 等特殊符号
+Log.wtf("abc", String.valueOf(1) + "add");
 ```
 
 

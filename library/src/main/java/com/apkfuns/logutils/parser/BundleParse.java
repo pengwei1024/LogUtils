@@ -3,7 +3,7 @@ package com.apkfuns.logutils.parser;
 import android.os.Bundle;
 
 import com.apkfuns.logutils.Parser;
-import com.apkfuns.logutils.utils.CommonUtil;
+import com.apkfuns.logutils.utils.ObjectUtil;
 
 /**
  * Created by pengwei on 16/3/8.
@@ -21,7 +21,7 @@ public class BundleParse implements Parser<Bundle> {
             StringBuilder builder = new StringBuilder(bundle.getClass().getName() + " [" + LINE_SEPARATOR);
             for (String key : bundle.keySet()) {
                 builder.append(String.format("'%s' => %s " + LINE_SEPARATOR,
-                        key, CommonUtil.objectToString(bundle.get(key))));
+                        key, ObjectUtil.objectToString(bundle.get(key))));
             }
             builder.append("]");
             return builder.toString();

@@ -1,7 +1,7 @@
 package com.apkfuns.logutils.parser;
 
 import com.apkfuns.logutils.Parser;
-import com.apkfuns.logutils.utils.CommonUtil;
+import com.apkfuns.logutils.utils.ObjectUtil;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -26,7 +26,7 @@ public class CollectionParse implements Parser<Collection> {
             while (iterator.hasNext()) {
                 String itemString = "[%d]:%s%s";
                 Object item = iterator.next();
-                msg += String.format(itemString, flag, CommonUtil.objectToString(item),
+                msg += String.format(itemString, flag, ObjectUtil.objectToString(item),
                         flag++ < collection.size() - 1 ? "," + LINE_SEPARATOR : LINE_SEPARATOR);
             }
         }

@@ -1,6 +1,7 @@
 package com.apkfuns.logutils.utils;
 
 
+import com.apkfuns.logutils.Constant;
 import com.apkfuns.logutils.parser.ReferenceParse;
 
 import java.lang.ref.Reference;
@@ -8,33 +9,19 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.apkfuns.logutils.Constant.*;
+
 /**
  * Created by pengwei08 on 2015/7/20.
  */
-public class CommonUtil {
-
-    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+public class ObjectUtil {
 
     // 分割线方位
-    public static final int DIR_TOP = 1;
-    public static final int DIR_BOTTOM = 2;
-    public static final int DIR_CENTER = 4;
-    public static final int DIR_NORMAL = 3;
+    public static final int DEVIDER_TOP = 1;
+    public static final int DEVIDER_BOTTOM = 2;
+    public static final int DEVIDER_CENTER = 4;
+    public static final int DEVIDER_NORMAL = 3;
 
-    // 基本数据类型
-    public static final String[] TYPES = {"int", "java.lang.String", "boolean", "char",
-            "float", "double", "long", "short", "byte"};
-
-    public static final int LINE_MAX = 2048;
-
-    /**
-     * 获取StackTraceElement对象
-     *
-     * @return
-     */
-    public static StackTraceElement getStackTrace() {
-        return Thread.currentThread().getStackTrace()[4];
-    }
 
     /**
      * 将对象转化为String
@@ -42,29 +29,28 @@ public class CommonUtil {
      * @param object
      * @return
      */
-    // TODO: 16/3/12 对象包含复杂对象
     public static String objectToString(Object object) {
         if (object == null) {
             return "Object[object is null]";
         }
         if (ArrayUtil.isArray(object)) {
             return ArrayUtil.parseArray(object);
-        } else if (object instanceof Reference) {
+        }
+        if (object instanceof Reference) {
             return new ReferenceParse().parseString((Reference) object);
-        } else {
-            if (object.toString().startsWith(object.getClass().getName() + "@")) {
-                StringBuilder builder = new StringBuilder();
-                getClassFields(object.getClass(), builder, object, false);
-                Class superClass = object.getClass().getSuperclass();
-                while (superClass != null) {
-                    getClassFields(superClass, builder, object, true);
-                    superClass = superClass.getSuperclass();
-                }
-                return builder.toString();
-            } else {
-                // 若对象重写toString()方法默认走toString()
-                return object.toString();
+        }
+        if (object.toString().startsWith(object.getClass().getName() + "@")) {
+            StringBuilder builder = new StringBuilder();
+            getClassFields(object.getClass(), builder, object, false);
+            Class superClass = object.getClass().getSuperclass();
+            while (superClass != null) {
+                getClassFields(superClass, builder, object, true);
+                superClass = superClass.getSuperclass();
             }
+            return builder.toString();
+        } else {
+            // 若对象重写toString()方法默认走toString()
+            return object.toString();
         }
     }
 
@@ -118,7 +104,7 @@ public class CommonUtil {
     public static List<String> largeStringToList(String msg) {
         List<String> stringList = new ArrayList<>();
         int index = 0;
-        int maxLength = LINE_MAX;
+        int maxLength = Constant.LINE_MAX;
         int countOfSub = msg.length() / maxLength;
         if (countOfSub > 0) {
             for (int i = 0; i < countOfSub; i++) {
@@ -141,13 +127,13 @@ public class CommonUtil {
      */
     public static String printDividingLine(int dir) {
         switch (dir) {
-            case DIR_TOP:
+            case DEVIDER_TOP:
                 return "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
-            case DIR_BOTTOM:
+            case DEVIDER_BOTTOM:
                 return "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
-            case DIR_NORMAL:
+            case DEVIDER_NORMAL:
                 return "║ ";
-            case DIR_CENTER:
+            case DEVIDER_CENTER:
                 return "╟───────────────────────────────────────────────────────────────────────────────────────────────────────────────────";
             default:
                 break;

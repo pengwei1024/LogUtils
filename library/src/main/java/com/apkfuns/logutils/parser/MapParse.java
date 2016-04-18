@@ -1,7 +1,7 @@
 package com.apkfuns.logutils.parser;
 
 import com.apkfuns.logutils.Parser;
-import com.apkfuns.logutils.utils.CommonUtil;
+import com.apkfuns.logutils.utils.ObjectUtil;
 
 import java.util.Map;
 import java.util.Set;
@@ -22,8 +22,8 @@ public class MapParse implements Parser<Map> {
         for (Object key : keys) {
             String itemString = "%s -> %s" + LINE_SEPARATOR;
             Object value = map.get(key);
-            msg += String.format(itemString, CommonUtil.objectToString(key),
-                    CommonUtil.objectToString(value));
+            msg += String.format(itemString, ObjectUtil.objectToString(key),
+                    ObjectUtil.objectToString(value));
         }
         return msg + "]";
     }

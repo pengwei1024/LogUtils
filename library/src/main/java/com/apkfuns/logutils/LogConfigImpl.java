@@ -81,6 +81,7 @@ class LogConfigImpl implements LogConfig {
         if (TextUtils.isEmpty(tagPrefix)) {
             return "LogUtils-";
         }
+
         return tagPrefix;
     }
 

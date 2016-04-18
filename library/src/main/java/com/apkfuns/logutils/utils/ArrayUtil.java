@@ -86,7 +86,7 @@ public final class ArrayUtil {
                         Object[] objects = (Object[]) array;
                         result.append("[");
                         for (int i = 0; i < objects.length; ++i) {
-                            result.append(CommonUtil.objectToString(objects[i]));
+                            result.append(ObjectUtil.objectToString(objects[i]));
                             if (i != objects.length - 1) {
                                 result.append(",");
                             }

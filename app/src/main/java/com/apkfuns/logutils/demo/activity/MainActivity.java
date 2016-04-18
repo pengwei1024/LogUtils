@@ -8,6 +8,7 @@ import com.apkfuns.logutils.demo.helper.DataHelper;
 import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
 import com.apkfuns.logutils.demo.model.Man;
+import com.apkfuns.logutils.demo.model.MulObject;
 import com.apkfuns.logutils.demo.model.Person;
 
 
@@ -68,6 +69,13 @@ public class MainActivity extends Activity {
         LogUtils.e(DataHelper.getObject());
         LogUtils.e(DataHelper.getOldMan());
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LogUtils.wtf("run on new Thread()");
+            }
+        }).start();
+
 //        System.out.println(ToStringBuilder.reflectionToString(DataHelper.getMan(),
 //                ToStringStyle.MULTI_LINE_STYLE));
 //        System.out.println(ToStringBuilder.reflectionToString(DataHelper.getOldMan(),
@@ -115,6 +123,8 @@ public class MainActivity extends Activity {
 
         Child<Man> child = new Child<>("张三");
         child.setParent(DataHelper.getMan());
+
+        LogUtils.d(new MulObject(5));
 
 //        LogUtils.d(child);
 

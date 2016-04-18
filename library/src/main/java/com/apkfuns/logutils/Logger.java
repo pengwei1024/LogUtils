@@ -4,15 +4,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import static com.apkfuns.logutils.LogLevel.*;
-import static com.apkfuns.logutils.utils.CommonUtil.*;
+import static com.apkfuns.logutils.utils.ObjectUtil.*;
 
-import com.apkfuns.logutils.parser.BundleParse;
-import com.apkfuns.logutils.parser.CollectionParse;
-import com.apkfuns.logutils.parser.IntentParse;
-import com.apkfuns.logutils.parser.MapParse;
-import com.apkfuns.logutils.parser.ReferenceParse;
-import com.apkfuns.logutils.parser.ThrowableParse;
-import com.apkfuns.logutils.utils.CommonUtil;
+import com.apkfuns.logutils.utils.ObjectUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,53 +20,43 @@ import java.util.MissingFormatArgumentException;
 // TODO: 16/3/22 泛型支持
 final class Logger implements Printer {
 
-    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
-    // 默认支持解析库
-    public static final Class<? extends Parser>[] DEFAULT_PARSE_CLASS = new Class[]{
-            BundleParse.class, IntentParse.class, CollectionParse.class,
-            MapParse.class, ThrowableParse.class, ReferenceParse.class
-    };
-
     private LogConfigImpl mLogConfig;
 
     protected Logger() {
         mLogConfig = LogConfigImpl.getInstance();
-        mLogConfig.addParserClass(DEFAULT_PARSE_CLASS);
+        mLogConfig.addParserClass(Constant.DEFAULT_PARSE_CLASS);
     }
 
     /**
      * 打印字符串
      *
      * @param type
-     * @param element
      * @param msg
      * @param args
      */
-    private void logString(@LogLevelType int type, StackTraceElement element, String msg, Object... args) {
-        logString(type, element, msg, false, args);
+    private void logString(@LogLevelType int type, String msg, Object... args) {
+        logString(type, msg, false, args);
     }
 
-    private void logString(@LogLevelType int type, StackTraceElement element, String msg, boolean isPart, Object... args) {
+    private void logString(@LogLevelType int type, String msg, boolean isPart, Object... args) {
         if (!mLogConfig.isEnable() || !LogUtils.configAllowLog) {
             return;
         }
         if (type < mLogConfig.getLogLevel()) {
             return;
         }
-        String tag = generateTag(element);
-        if (msg.length() > CommonUtil.LINE_MAX) {
+        String tag = generateTag();
+        if (msg.length() > Constant.LINE_MAX) {
             if (mLogConfig.isShowBorder()) {
-                tag = mLogConfig.getTagPrefix();
-                printLog(type, tag, printDividingLine(DIR_TOP));
-                printLog(type, tag, printDividingLine(DIR_NORMAL) + getLogInfo(element));
-                printLog(type, tag, printDividingLine(DIR_CENTER));
+                printLog(type, tag, printDividingLine(DEVIDER_TOP));
+                printLog(type, tag, printDividingLine(DEVIDER_NORMAL) + getTopStackInfo());
+                printLog(type, tag, printDividingLine(DEVIDER_CENTER));
             }
-            for (String subMsg : CommonUtil.largeStringToList(msg)) {
-                logString(type, element, subMsg, true, args);
+            for (String subMsg : ObjectUtil.largeStringToList(msg)) {
+                logString(type, subMsg, true, args);
             }
             if (mLogConfig.isShowBorder()) {
-                printLog(type, tag, printDividingLine(DIR_BOTTOM));
+                printLog(type, tag, printDividingLine(DEVIDER_BOTTOM));
             }
             return;
         }
@@ -84,19 +68,18 @@ final class Logger implements Printer {
             }
         }
         if (mLogConfig.isShowBorder()) {
-            tag = mLogConfig.getTagPrefix();
             if (isPart) {
-                for (String sub : msg.split(LINE_SEPARATOR)) {
-                    printLog(type, tag, printDividingLine(DIR_NORMAL) + sub);
+                for (String sub : msg.split(Constant.LINE_SEPARATOR)) {
+                    printLog(type, tag, printDividingLine(DEVIDER_NORMAL) + sub);
                 }
             } else {
-                printLog(type, tag, printDividingLine(DIR_TOP));
-                printLog(type, tag, printDividingLine(DIR_NORMAL) + getLogInfo(element));
-                printLog(type, tag, printDividingLine(DIR_CENTER));
-                for (String sub : msg.split(LINE_SEPARATOR)) {
-                    printLog(type, tag, printDividingLine(DIR_NORMAL) + sub);
+                printLog(type, tag, printDividingLine(DEVIDER_TOP));
+                printLog(type, tag, printDividingLine(DEVIDER_NORMAL) + getTopStackInfo());
+                printLog(type, tag, printDividingLine(DEVIDER_CENTER));
+                for (String sub : msg.split(Constant.LINE_SEPARATOR)) {
+                    printLog(type, tag, printDividingLine(DEVIDER_NORMAL) + sub);
                 }
-                printLog(type, tag, printDividingLine(DIR_BOTTOM));
+                printLog(type, tag, printDividingLine(DEVIDER_BOTTOM));
             }
         } else {
             printLog(type, tag, msg);
@@ -108,20 +91,131 @@ final class Logger implements Printer {
      * 打印对象
      *
      * @param type
-     * @param element
      * @param object
      */
-    private void logObject(@LogLevelType int type, StackTraceElement element, Object object) {
+    private void logObject(@LogLevelType int type, Object object) {
         if (object != null) {
             for (Parser parser : mLogConfig.getParseList()) {
                 if (parser.parseClassType().isAssignableFrom(object.getClass())) {
-                    logString(type, element, parser.parseString(object));
+                    logString(type, parser.parseString(object));
                     return;
                 }
             }
         }
-        logString(type, element, CommonUtil.objectToString(object));
+        logString(type, ObjectUtil.objectToString(object));
     }
+
+    /**
+     * 自动生成tag
+     *
+     * @return
+     */
+    private String generateTag() {
+        if (!mLogConfig.isShowBorder()) {
+            return mLogConfig.getTagPrefix() + getTopStackInfo();
+        }
+        return mLogConfig.getTagPrefix();
+    }
+
+    /**
+     * 获取最顶部stack信息
+     *
+     * @return
+     */
+    private String getTopStackInfo() {
+        StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+        StackTraceElement caller = trace[8];
+        String stackTrace = caller.toString();
+        stackTrace = stackTrace.substring(stackTrace.lastIndexOf('('), stackTrace.length());
+        String tag = "%s.%s%s";
+        String callerClazzName = caller.getClassName();
+        callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
+        tag = String.format(tag, callerClazzName, caller.getMethodName(), stackTrace);
+        return tag;
+    }
+
+    @Override
+    public void d(String message, Object... args) {
+        logString(TYPE_DEBUG, message, args);
+    }
+
+    @Override
+    public void d(Object object) {
+        logObject(TYPE_DEBUG, object);
+    }
+
+    @Override
+    public void e(String message, Object... args) {
+        logString(TYPE_ERROR, message, args);
+    }
+
+    @Override
+    public void e(Object object) {
+        logObject(TYPE_ERROR, object);
+    }
+
+    @Override
+    public void w(String message, Object... args) {
+        logString(TYPE_WARM, message, args);
+    }
+
+    @Override
+    public void w(Object object) {
+        logObject(TYPE_WARM, object);
+    }
+
+    @Override
+    public void i(String message, Object... args) {
+        logString(TYPE_INFO, message, args);
+    }
+
+    @Override
+    public void i(Object object) {
+        logObject(TYPE_INFO, object);
+    }
+
+    @Override
+    public void v(String message, Object... args) {
+        logString(TYPE_VERBOSE, message, args);
+    }
+
+    @Override
+    public void v(Object object) {
+        logObject(TYPE_VERBOSE, object);
+    }
+
+    @Override
+    public void wtf(String message, Object... args) {
+        logString(TYPE_WTF, message, args);
+    }
+
+    @Override
+    public void wtf(Object object) {
+        logObject(TYPE_WTF, object);
+    }
+
+    @Override
+    public void json(String json) {
+        int indent = 4;
+        if (TextUtils.isEmpty(json)) {
+            d("JSON{json is null}");
+            return;
+        }
+        try {
+            if (json.startsWith("{")) {
+                JSONObject jsonObject = new JSONObject(json);
+                String msg = jsonObject.toString(indent);
+                d(msg);
+            } else if (json.startsWith("[")) {
+                JSONArray jsonArray = new JSONArray(json);
+                String msg = jsonArray.toString(indent);
+                d(msg);
+            }
+        } catch (JSONException e) {
+            e(e);
+        }
+    }
+
 
     /**
      * 打印日志
@@ -152,114 +246,6 @@ final class Logger implements Printer {
                 break;
             default:
                 break;
-        }
-    }
-
-    /**
-     * 自动生成tag
-     *
-     * @return
-     */
-    private String generateTag(StackTraceElement caller) {
-        return mLogConfig.getTagPrefix() + getLogInfo(caller);
-    }
-
-    /**
-     * 日志头部信息
-     *
-     * @param caller
-     * @return
-     */
-    private String getLogInfo(StackTraceElement caller) {
-        String stackTrace = caller.toString();
-        stackTrace = stackTrace.substring(stackTrace.lastIndexOf('('), stackTrace.length());
-        String tag = "%s.%s%s";
-        String callerClazzName = caller.getClassName();
-        callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
-        tag = String.format(tag, callerClazzName,
-                caller.getMethodName(), stackTrace);
-        return tag;
-    }
-
-    @Override
-    public void d(StackTraceElement element, String message, Object... args) {
-        logString(TYPE_DEBUG, element, message, args);
-    }
-
-    @Override
-    public void d(StackTraceElement element, Object object) {
-        logObject(TYPE_DEBUG, element, object);
-    }
-
-    @Override
-    public void e(StackTraceElement element, String message, Object... args) {
-        logString(TYPE_ERROR, element, message, args);
-    }
-
-    @Override
-    public void e(StackTraceElement element, Object object) {
-        logObject(TYPE_ERROR, element, object);
-    }
-
-    @Override
-    public void w(StackTraceElement element, String message, Object... args) {
-        logString(TYPE_WARM, element, message, args);
-    }
-
-    @Override
-    public void w(StackTraceElement element, Object object) {
-        logObject(TYPE_WARM, element, object);
-    }
-
-    @Override
-    public void i(StackTraceElement element, String message, Object... args) {
-        logString(TYPE_INFO, element, message, args);
-    }
-
-    @Override
-    public void i(StackTraceElement element, Object object) {
-        logObject(TYPE_INFO, element, object);
-    }
-
-    @Override
-    public void v(StackTraceElement element, String message, Object... args) {
-        logString(TYPE_VERBOSE, element, message, args);
-    }
-
-    @Override
-    public void v(StackTraceElement element, Object object) {
-        logObject(TYPE_VERBOSE, element, object);
-    }
-
-    @Override
-    public void wtf(StackTraceElement element, String message, Object... args) {
-        logString(TYPE_WTF, element, message, args);
-    }
-
-    @Override
-    public void wtf(StackTraceElement element, Object object) {
-        logObject(TYPE_WTF, element, object);
-    }
-
-    @Override
-    public void json(StackTraceElement element, String json) {
-        int indent = 4;
-        if (TextUtils.isEmpty(json)) {
-            d(element, "JSON{json is null}");
-            return;
-        }
-        try {
-            if (json.startsWith("{")) {
-                JSONObject jsonObject = new JSONObject(json);
-                String msg = jsonObject.toString(indent);
-                d(element, msg);
-            } else if (json.startsWith("[")) {
-                JSONArray jsonArray = new JSONArray(json);
-                String msg = jsonArray.toString(indent);
-                d(element, msg);
-            }
-        } catch (JSONException e) {
-            e(element, e);
         }
     }
 

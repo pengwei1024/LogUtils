@@ -1,13 +1,9 @@
 package com.apkfuns.logutils.parser;
 
 import com.apkfuns.logutils.Parser;
-import com.apkfuns.logutils.utils.CommonUtil;
+import com.apkfuns.logutils.utils.ObjectUtil;
 
 import java.lang.ref.Reference;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Vector;
 
 /**
  * Created by pengwei on 16/3/22.
@@ -23,7 +19,7 @@ public class ReferenceParse implements Parser<Reference> {
         Object actual = reference.get();
         StringBuilder builder = new StringBuilder(reference.getClass().getSimpleName() + "<"
                 + actual.getClass().getSimpleName() + "> {");
-        builder.append("→" + CommonUtil.objectToString(actual));
+        builder.append("→" + ObjectUtil.objectToString(actual));
         return builder.toString() + "}";
     }
 }

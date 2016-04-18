@@ -1,7 +1,6 @@
 package com.apkfuns.logutils;
 
 
-import com.apkfuns.logutils.utils.CommonUtil;
 
 /**
  * Created by pengwei08 on 2015/7/16.
@@ -45,11 +44,11 @@ public final class LogUtils {
      * @param args
      */
     public static void v(String msg, Object... args) {
-        printer.v(CommonUtil.getStackTrace(), msg, args);
+        printer.v(msg, args);
     }
 
     public static void v(Object object) {
-        printer.v(CommonUtil.getStackTrace(), object);
+        printer.v(object);
     }
 
 
@@ -60,11 +59,11 @@ public final class LogUtils {
      * @param args
      */
     public static void d(String msg, Object... args) {
-        printer.d(CommonUtil.getStackTrace(), msg, args);
+        printer.d(msg, args);
     }
 
     public static void d(Object object) {
-        printer.d(CommonUtil.getStackTrace(), object);
+        printer.d(object);
     }
 
     /**
@@ -74,11 +73,11 @@ public final class LogUtils {
      * @param args
      */
     public static void i(String msg, Object... args) {
-        printer.i(CommonUtil.getStackTrace(), msg, args);
+        printer.i(msg, args);
     }
 
     public static void i(Object object) {
-        printer.i(CommonUtil.getStackTrace(), object);
+        printer.i(object);
     }
 
     /**
@@ -88,11 +87,11 @@ public final class LogUtils {
      * @param args
      */
     public static void w(String msg, Object... args) {
-        printer.w(CommonUtil.getStackTrace(), msg, args);
+        printer.w(msg, args);
     }
 
     public static void w(Object object) {
-        printer.w(CommonUtil.getStackTrace(), object);
+        printer.w(object);
     }
 
     /**
@@ -102,11 +101,11 @@ public final class LogUtils {
      * @param args
      */
     public static void e(String msg, Object... args) {
-        printer.e(CommonUtil.getStackTrace(), msg, args);
+        printer.e(msg, args);
     }
 
     public static void e(Object object) {
-        printer.e(CommonUtil.getStackTrace(), object);
+        printer.e(object);
     }
 
     /**
@@ -116,11 +115,11 @@ public final class LogUtils {
      * @param args
      */
     public static void wtf(String msg, Object... args) {
-        printer.wtf(CommonUtil.getStackTrace(), msg, args);
+        printer.wtf(msg, args);
     }
 
     public static void wtf(Object object) {
-        printer.wtf(CommonUtil.getStackTrace(), object);
+        printer.wtf(object);
     }
 
     /**
@@ -129,6 +128,6 @@ public final class LogUtils {
      * @param json
      */
     public static void json(String json) {
-        printer.json(CommonUtil.getStackTrace(), json);
+        printer.json(json);
     }
 }

@@ -17,10 +17,10 @@ import static com.apkfuns.logutils.Constant.*;
 public class ObjectUtil {
 
     // 分割线方位
-    public static final int DEVIDER_TOP = 1;
-    public static final int DEVIDER_BOTTOM = 2;
-    public static final int DEVIDER_CENTER = 4;
-    public static final int DEVIDER_NORMAL = 3;
+    public static final int DIVIDER_TOP = 1;
+    public static final int DIVIDER_BOTTOM = 2;
+    public static final int DIVIDER_CENTER = 4;
+    public static final int DIVIDER_NORMAL = 3;
 
 
     /**
@@ -127,13 +127,13 @@ public class ObjectUtil {
      */
     public static String printDividingLine(int dir) {
         switch (dir) {
-            case DEVIDER_TOP:
+            case DIVIDER_TOP:
                 return "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
-            case DEVIDER_BOTTOM:
+            case DIVIDER_BOTTOM:
                 return "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
-            case DEVIDER_NORMAL:
+            case DIVIDER_NORMAL:
                 return "║ ";
-            case DEVIDER_CENTER:
+            case DIVIDER_CENTER:
                 return "╟───────────────────────────────────────────────────────────────────────────────────────────────────────────────────";
             default:
                 break;

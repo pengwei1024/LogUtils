@@ -6,7 +6,6 @@ import android.util.Log;
 import static com.apkfuns.logutils.LogLevel.*;
 import static com.apkfuns.logutils.utils.ObjectUtil.*;
 
-import com.apkfuns.logutils.utils.ObjectUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,15 +47,15 @@ final class Logger implements Printer {
         String tag = generateTag();
         if (msg.length() > Constant.LINE_MAX) {
             if (mLogConfig.isShowBorder()) {
-                printLog(type, tag, printDividingLine(DEVIDER_TOP));
-                printLog(type, tag, printDividingLine(DEVIDER_NORMAL) + getTopStackInfo());
-                printLog(type, tag, printDividingLine(DEVIDER_CENTER));
+                printLog(type, tag, printDividingLine(DIVIDER_TOP));
+                printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + getTopStackInfo());
+                printLog(type, tag, printDividingLine(DIVIDER_CENTER));
             }
-            for (String subMsg : ObjectUtil.largeStringToList(msg)) {
+            for (String subMsg : largeStringToList(msg)) {
                 logString(type, subMsg, true, args);
             }
             if (mLogConfig.isShowBorder()) {
-                printLog(type, tag, printDividingLine(DEVIDER_BOTTOM));
+                printLog(type, tag, printDividingLine(DIVIDER_BOTTOM));
             }
             return;
         }
@@ -70,16 +69,16 @@ final class Logger implements Printer {
         if (mLogConfig.isShowBorder()) {
             if (isPart) {
                 for (String sub : msg.split(Constant.LINE_SEPARATOR)) {
-                    printLog(type, tag, printDividingLine(DEVIDER_NORMAL) + sub);
+                    printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + sub);
                 }
             } else {
-                printLog(type, tag, printDividingLine(DEVIDER_TOP));
-                printLog(type, tag, printDividingLine(DEVIDER_NORMAL) + getTopStackInfo());
-                printLog(type, tag, printDividingLine(DEVIDER_CENTER));
+                printLog(type, tag, printDividingLine(DIVIDER_TOP));
+                printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + getTopStackInfo());
+                printLog(type, tag, printDividingLine(DIVIDER_CENTER));
                 for (String sub : msg.split(Constant.LINE_SEPARATOR)) {
-                    printLog(type, tag, printDividingLine(DEVIDER_NORMAL) + sub);
+                    printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + sub);
                 }
-                printLog(type, tag, printDividingLine(DEVIDER_BOTTOM));
+                printLog(type, tag, printDividingLine(DIVIDER_BOTTOM));
             }
         } else {
             printLog(type, tag, msg);
@@ -102,7 +101,7 @@ final class Logger implements Printer {
                 }
             }
         }
-        logString(type, ObjectUtil.objectToString(object));
+        logString(type, objectToString(object));
     }
 
     /**

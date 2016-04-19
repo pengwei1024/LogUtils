@@ -3,6 +3,7 @@ package com.apkfuns.logutils.demo.helper;
 import android.content.Context;
 
 import com.apkfuns.logutils.demo.model.Man;
+import com.apkfuns.logutils.demo.model.Node;
 import com.apkfuns.logutils.demo.model.OldMan;
 import com.apkfuns.logutils.demo.model.Person;
 
@@ -152,6 +153,20 @@ public final class DataHelper {
             e.printStackTrace();
         }
         return "";
+    }
+
+    /**
+     * 获取Node
+     * 避免对象包含自己死循环问题
+     * @param leftNode
+     * @param rightNode
+     * @return
+     */
+    public static Node getNode(String leftNode, String rightNode) {
+        Node node = new Node("parent Node");
+        node.setLeft(new Node(leftNode));
+        node.setRight(new Node(rightNode));
+        return node;
     }
 
 }

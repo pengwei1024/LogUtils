@@ -15,7 +15,7 @@ public class App extends Application {
         super.onCreate();
         LogUtils.getLogConfig()
                 .configAllowLog(true)
-                .configTagPrefix("LogUtils")
+                .configTagPrefix("LogUtilsDemo")
                 .configShowBorders(true)
                 .configLevel(LogLevel.TYPE_VERBOSE)
                 .addParserClass(OkHttpResponseParse.class);

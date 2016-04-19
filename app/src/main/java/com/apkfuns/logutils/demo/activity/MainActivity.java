@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
 
 //        OkHttpClient client = new OkHttpClient();
 //        Request request = new Request.Builder()
-//                .url("http://www.baidu.com").build();
+//                .url("https://api.github.com").build();
 //        client.newCall(request).enqueue(new Callback() {
 //            @Override
 //            public void onFailure(Call call, IOException e) {
@@ -123,10 +123,14 @@ public class MainActivity extends Activity {
 
         Child<Man> child = new Child<>("张三");
         child.setParent(DataHelper.getMan());
+//        LogUtils.d(child);
 
         LogUtils.d(new MulObject(5));
 
-//        LogUtils.d(child);
+        LogUtils.d(DataHelper.getNode("左结点", "右结点"));
+
+        LogUtils.d("12345678910");
+
 
     }
 }

@@ -11,6 +11,9 @@ import com.apkfuns.logutils.parser.ThrowableParse;
  * Created by pengwei on 16/4/18.
  */
 public interface Constant {
+
+    String STRING_OBJECT_NULL = "Object[object is null]";
+
     // 每行最大日志长度
     int LINE_MAX = 1024 * 3;
 

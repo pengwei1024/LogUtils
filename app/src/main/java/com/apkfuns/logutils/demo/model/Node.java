@@ -8,6 +8,10 @@ public class Node {
     private Node left;
     private Node right;
 
+    public Node(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

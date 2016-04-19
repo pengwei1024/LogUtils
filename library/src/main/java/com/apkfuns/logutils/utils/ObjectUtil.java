@@ -1,12 +1,13 @@
 package com.apkfuns.logutils.utils;
 
-
+import com.apkfuns.logutils.Apis;
 import com.apkfuns.logutils.Constant;
+import com.apkfuns.logutils.Parser;
 import com.apkfuns.logutils.parser.ReferenceParse;
+import com.apkfuns.logutils.utils.ArrayUtil;
 
 import java.lang.ref.Reference;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.apkfuns.logutils.Constant.*;
@@ -16,13 +17,6 @@ import static com.apkfuns.logutils.Constant.*;
  */
 public class ObjectUtil {
 
-    // 分割线方位
-    public static final int DIVIDER_TOP = 1;
-    public static final int DIVIDER_BOTTOM = 2;
-    public static final int DIVIDER_CENTER = 4;
-    public static final int DIVIDER_NORMAL = 3;
-
-
     /**
      * 将对象转化为String
      *
@@ -31,19 +25,23 @@ public class ObjectUtil {
      */
     public static String objectToString(Object object) {
         if (object == null) {
-            return "Object[object is null]";
+            return Constant.STRING_OBJECT_NULL;
+        }
+        if (Apis.getParsers() != null && Apis.getParsers().size() > 0) {
+            for (Parser parser : Apis.getParsers()) {
+                if (parser.parseClassType().isAssignableFrom(object.getClass())) {
+                    return parser.parseString(object);
+                }
+            }
         }
         if (ArrayUtil.isArray(object)) {
             return ArrayUtil.parseArray(object);
-        }
-        if (object instanceof Reference) {
-            return new ReferenceParse().parseString((Reference) object);
         }
         if (object.toString().startsWith(object.getClass().getName() + "@")) {
             StringBuilder builder = new StringBuilder();
             getClassFields(object.getClass(), builder, object, false);
             Class superClass = object.getClass().getSuperclass();
-            while (superClass != null) {
+            while (!superClass.equals(Object.class)) {
                 getClassFields(superClass, builder, object, true);
                 superClass = superClass.getSuperclass();
             }
@@ -60,11 +58,11 @@ public class ObjectUtil {
      * @param cla
      * @param builder
      */
-    private static void getClassFields(Class cla, StringBuilder builder, Object o, boolean isSuper) {
+    private static void getClassFields(Class cla, StringBuilder builder, Object o, boolean isSubClass) {
         if (cla.equals(Object.class)) {
             return;
         }
-        if (isSuper) {
+        if (isSubClass) {
             builder.append(LINE_SEPARATOR + "=> ");
         }
         builder.append(cla.getSimpleName() + " {");
@@ -83,6 +81,10 @@ public class ObjectUtil {
                     } else if (subObject instanceof Character) {
                         subObject = "\'" + subObject + "\'";
                     }
+                    // TODO: 16/4/20 考虑死循环的问题 
+//                    if (isRelated(cla, subObject.getClass())) {
+                        subObject = objectToString(subObject);
+//                    }
                 }
                 builder.append(String.format("%s = %s, ", field.getName(),
                         subObject == null ? "null" : subObject.toString()));
@@ -96,49 +98,14 @@ public class ObjectUtil {
     }
 
     /**
-     * 长字符串转化为List
+     * 两个类是否相关
+     * 避免死循环
      *
-     * @param msg
-     * @return
+     * @param cla1
+     * @param cla2
      */
-    public static List<String> largeStringToList(String msg) {
-        List<String> stringList = new ArrayList<>();
-        int index = 0;
-        int maxLength = Constant.LINE_MAX;
-        int countOfSub = msg.length() / maxLength;
-        if (countOfSub > 0) {
-            for (int i = 0; i < countOfSub; i++) {
-                String sub = msg.substring(index, index + maxLength);
-                stringList.add(sub);
-                index += maxLength;
-            }
-            stringList.add(msg.substring(index, msg.length()));
-        } else {
-            stringList.add(msg);
-        }
-        return stringList;
-    }
-
-    /**
-     * 打印分割线
-     *
-     * @param dir
-     * @return
-     */
-    public static String printDividingLine(int dir) {
-        switch (dir) {
-            case DIVIDER_TOP:
-                return "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
-            case DIVIDER_BOTTOM:
-                return "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
-            case DIVIDER_NORMAL:
-                return "║ ";
-            case DIVIDER_CENTER:
-                return "╟───────────────────────────────────────────────────────────────────────────────────────────────────────────────────";
-            default:
-                break;
-        }
-        return "";
+    public static boolean isRelated(Class cla1, Class cla2) {
+        return cla1.isAssignableFrom(cla2) || cla2.isAssignableFrom(cla1);
     }
 
 }

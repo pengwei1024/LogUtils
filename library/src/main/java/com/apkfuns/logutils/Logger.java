@@ -5,6 +5,7 @@ import android.util.Log;
 
 import static com.apkfuns.logutils.LogLevel.*;
 import static com.apkfuns.logutils.utils.ObjectUtil.*;
+import static com.apkfuns.logutils.utils.CommonUtil.*;
 
 
 import org.json.JSONArray;
@@ -93,14 +94,6 @@ final class Logger implements Printer {
      * @param object
      */
     private void logObject(@LogLevelType int type, Object object) {
-        if (object != null) {
-            for (Parser parser : mLogConfig.getParseList()) {
-                if (parser.parseClassType().isAssignableFrom(object.getClass())) {
-                    logString(type, parser.parseString(object));
-                    return;
-                }
-            }
-        }
         logString(type, objectToString(object));
     }
 

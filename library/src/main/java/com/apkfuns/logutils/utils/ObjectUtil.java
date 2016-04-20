@@ -66,7 +66,7 @@ public class ObjectUtil {
             return;
         }
         if (isSubClass) {
-            builder.append(BR + "=> ");
+            builder.append(BR + BR + "=> ");
         }
 //        String breakLine = childOffset == 0 ? BR : "";
         String breakLine = "";

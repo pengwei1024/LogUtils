@@ -104,7 +104,7 @@ final class Logger implements Printer {
      */
     private String generateTag() {
         if (!mLogConfig.isShowBorder()) {
-            return mLogConfig.getTagPrefix() + getTopStackInfo();
+            return mLogConfig.getTagPrefix() + "/" + getTopStackInfo();
         }
         return mLogConfig.getTagPrefix();
     }
@@ -116,7 +116,11 @@ final class Logger implements Printer {
      */
     private String getTopStackInfo() {
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-        StackTraceElement caller = trace[8];
+        int stackOffset = getStackOffset(trace);
+        if (stackOffset == -1) {
+            return null;
+        }
+        StackTraceElement caller = trace[stackOffset];
         String stackTrace = caller.toString();
         stackTrace = stackTrace.substring(stackTrace.lastIndexOf('('), stackTrace.length());
         String tag = "%s.%s%s";
@@ -124,6 +128,17 @@ final class Logger implements Printer {
         callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
         tag = String.format(tag, callerClazzName, caller.getMethodName(), stackTrace);
         return tag;
+    }
+
+    private int getStackOffset(StackTraceElement[] trace) {
+        for (int i = Constant.MIN_STACK_OFFSET; i < trace.length; i++) {
+            StackTraceElement e = trace[i];
+            String name = e.getClassName();
+            if (name.equals(LogUtils.class.getName())) {
+                return ++i;
+            }
+        }
+        return -1;
     }
 
     @Override

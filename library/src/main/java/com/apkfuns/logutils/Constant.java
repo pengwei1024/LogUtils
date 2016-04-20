@@ -22,6 +22,8 @@ public class Constant {
     // 解析属性最大层级
     public static final int MAX_CHILD_LEVEL = 2;
 
+    public static final int MIN_STACK_OFFSET = 5;
+
     // 换行符
     public static final String BR = System.getProperty("line.separator");
 

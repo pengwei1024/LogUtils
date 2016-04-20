@@ -50,18 +50,18 @@ public class MainActivity extends Activity {
         LogUtils.d(DataHelper.getObjectMap());
 
         // Bundle支持
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("abc", 1);
-//        bundle.putString("abc2", "text");
-//        bundle.putSerializable("abc3", DataHelper.getObject());
-//        bundle.putStringArray("abc4", DataHelper.getStringArray());
-//        bundle.putSerializable("abc7", DataHelper.getStringArray2());
-//        bundle.putSerializable("abc8", DataHelper.getStringArray3());
-//        bundle.putSerializable("abc5", DataHelper.getObject());
-//        bundle.putSerializable("abc6", DataHelper.getObjectArray());
-//        bundle.putSerializable("abc9", DataHelper.getStringMap());
-//        bundle.putSerializable("abc10", DataHelper.getBigString(this));
-//        LogUtils.e(bundle);
+        Bundle bundle = new Bundle();
+        bundle.putInt("abc", 1);
+        bundle.putString("abc2", "text");
+        bundle.putSerializable("abc3", DataHelper.getObject());
+        bundle.putStringArray("abc4", DataHelper.getStringArray());
+        bundle.putSerializable("abc7", DataHelper.getStringArray2());
+        bundle.putSerializable("abc8", DataHelper.getStringArray3());
+        bundle.putSerializable("abc5", DataHelper.getObject());
+        bundle.putSerializable("abc6", DataHelper.getObjectArray());
+        bundle.putSerializable("abc9", DataHelper.getStringMap());
+        bundle.putSerializable("abc10", DataHelper.getBigString(this));
+        LogUtils.e(bundle);
 
 
         // 对象测试

@@ -96,14 +96,14 @@ LogUtils.getLogConfig()
 
 ### Gradle导入
 ```groovy
-compile 'com.apkfuns.logutils:library:1.2.2'
+compile 'com.apkfuns.logutils:library:1.3.0'
 ```
 ### Maven导入
 ```xml
 <dependency>
     <groupId>com.apkfuns.logutils</groupId>
     <artifactId>library</artifactId>
-    <version>1.2.2</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -141,7 +141,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 修复自定义Parse和自带Parse优先级问题
 * **1.2.2 (2016/03/22)**
     - 修复打印Reference类的bug
-* **1.3.0 (开发中)**
+* **1.3.0 (2016/04/20)**
     - 支持对象包含复杂对象，逻辑重构
 
 ## 7. About

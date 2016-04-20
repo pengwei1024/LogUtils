@@ -158,13 +158,19 @@ public final class DataHelper {
     /**
      * 获取Node
      * 避免对象包含自己死循环问题
+     *
      * @param leftNode
      * @param rightNode
      * @return
      */
     public static Node getNode(String leftNode, String rightNode) {
         Node node = new Node("parent Node");
-        node.setLeft(new Node(leftNode));
+        Node left1 = new Node("left1");
+        node.setLeft(left1);
+        Node left2 = new Node("left2");
+        left1.setLeft(left2);
+        Node left3 = new Node("left3");
+        left2.setLeft(left3);
         node.setRight(new Node(rightNode));
         return node;
     }

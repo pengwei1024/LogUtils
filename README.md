@@ -112,11 +112,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
 
 ## 5. Skills
 * [从Log切换到LogUtils](./doc/log_to_logutils.md)
-想使用`LogUtils`但是项目中已经广泛使用`Log.*(TAG, String)`改动太大? 
-
 * [为LogUtils设置快捷键](./doc/logutils_templates.md)
-输入`psvm`就可以快速输出public static void main(String[] args) {} 
-输入`logd`就可以快速输出Log.d(TAG, "main: ");<br/>
 
 ## 6. History
 * **1.0.0 (2015/07/13)**
@@ -145,6 +141,8 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 修复自定义Parse和自带Parse优先级问题
 * **1.2.2 (2016/03/22)**
     - 修复打印Reference类的bug
+* **1.3.0 (开发中)**
+    - 支持对象包含复杂对象，逻辑重构
 
 ## 7. About
 * Blog: [apkfuns.com](http://apkfuns.com?from=github)

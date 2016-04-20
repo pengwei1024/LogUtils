@@ -7,22 +7,40 @@ import com.apkfuns.logutils.parser.MapParse;
 import com.apkfuns.logutils.parser.ReferenceParse;
 import com.apkfuns.logutils.parser.ThrowableParse;
 
+import java.util.List;
+
 /**
  * Created by pengwei on 16/4/18.
  */
-public interface Constant {
+public class Constant {
 
-    String STRING_OBJECT_NULL = "Object[object is null]";
+    public static final String STRING_OBJECT_NULL = "Object[object is null]";
 
     // 每行最大日志长度
-    int LINE_MAX = 1024 * 3;
+    public static final int LINE_MAX = 1024 * 3;
+
+    // 解析属性最大层级
+    public static final int MAX_CHILD_LEVEL = 2;
 
     // 换行符
-    String LINE_SEPARATOR = System.getProperty("line.separator");
+    public static final String BR = System.getProperty("line.separator");
+
+    // 空格
+    public static final String SPACE = "\t";
 
     // 默认支持解析库
-    Class<? extends Parser>[] DEFAULT_PARSE_CLASS = new Class[]{
+    public static final Class<? extends Parser>[] DEFAULT_PARSE_CLASS = new Class[]{
             BundleParse.class, IntentParse.class, CollectionParse.class,
             MapParse.class, ThrowableParse.class, ReferenceParse.class
     };
+
+
+    /**
+     * 获取默认解析类
+     *
+     * @return
+     */
+    public static final List<Parser> getParsers() {
+        return LogConfigImpl.getInstance().getParseList();
+    }
 }

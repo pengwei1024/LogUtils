@@ -69,14 +69,14 @@ final class Logger implements Printer {
         }
         if (mLogConfig.isShowBorder()) {
             if (isPart) {
-                for (String sub : msg.split(Constant.LINE_SEPARATOR)) {
+                for (String sub : msg.split(Constant.BR)) {
                     printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + sub);
                 }
             } else {
                 printLog(type, tag, printDividingLine(DIVIDER_TOP));
                 printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + getTopStackInfo());
                 printLog(type, tag, printDividingLine(DIVIDER_CENTER));
-                for (String sub : msg.split(Constant.LINE_SEPARATOR)) {
+                for (String sub : msg.split(Constant.BR)) {
                     printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + sub);
                 }
                 printLog(type, tag, printDividingLine(DIVIDER_BOTTOM));

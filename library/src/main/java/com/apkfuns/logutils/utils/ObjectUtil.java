@@ -1,14 +1,9 @@
 package com.apkfuns.logutils.utils;
 
-import com.apkfuns.logutils.Apis;
 import com.apkfuns.logutils.Constant;
 import com.apkfuns.logutils.Parser;
-import com.apkfuns.logutils.parser.ReferenceParse;
-import com.apkfuns.logutils.utils.ArrayUtil;
 
-import java.lang.ref.Reference;
 import java.lang.reflect.Field;
-import java.util.List;
 
 import static com.apkfuns.logutils.Constant.*;
 
@@ -24,11 +19,15 @@ public class ObjectUtil {
      * @return
      */
     public static String objectToString(Object object) {
+        return objectToString(object, 0);
+    }
+
+    public static String objectToString(Object object, int childLevel) {
         if (object == null) {
             return Constant.STRING_OBJECT_NULL;
         }
-        if (Apis.getParsers() != null && Apis.getParsers().size() > 0) {
-            for (Parser parser : Apis.getParsers()) {
+        if (Constant.getParsers() != null && Constant.getParsers().size() > 0) {
+            for (Parser parser : Constant.getParsers()) {
                 if (parser.parseClassType().isAssignableFrom(object.getClass())) {
                     return parser.parseString(object);
                 }
@@ -39,10 +38,10 @@ public class ObjectUtil {
         }
         if (object.toString().startsWith(object.getClass().getName() + "@")) {
             StringBuilder builder = new StringBuilder();
-            getClassFields(object.getClass(), builder, object, false);
+            getClassFields(object.getClass(), builder, object, false, childLevel);
             Class superClass = object.getClass().getSuperclass();
             while (!superClass.equals(Object.class)) {
-                getClassFields(superClass, builder, object, true);
+                getClassFields(superClass, builder, object, true, childLevel);
                 superClass = superClass.getSuperclass();
             }
             return builder.toString();
@@ -57,14 +56,20 @@ public class ObjectUtil {
      *
      * @param cla
      * @param builder
+     * @param o           对象
+     * @param isSubClass  死否为子class
+     * @param childOffset 递归解析属性的层级
      */
-    private static void getClassFields(Class cla, StringBuilder builder, Object o, boolean isSubClass) {
+    private static void getClassFields(Class cla, StringBuilder builder, Object o, boolean isSubClass,
+                                       int childOffset) {
         if (cla.equals(Object.class)) {
             return;
         }
         if (isSubClass) {
-            builder.append(LINE_SEPARATOR + "=> ");
+            builder.append(BR + "=> ");
         }
+//        String breakLine = childOffset == 0 ? BR : "";
+        String breakLine = "";
         builder.append(cla.getSimpleName() + " {");
         Field[] fields = cla.getDeclaredFields();
         for (Field field : fields) {
@@ -81,31 +86,19 @@ public class ObjectUtil {
                     } else if (subObject instanceof Character) {
                         subObject = "\'" + subObject + "\'";
                     }
-                    // TODO: 16/4/20 考虑死循环的问题 
-//                    if (isRelated(cla, subObject.getClass())) {
-                        subObject = objectToString(subObject);
-//                    }
+                    if (childOffset < Constant.MAX_CHILD_LEVEL) {
+                        subObject = objectToString(subObject, childOffset + 1);
+                    }
                 }
-                builder.append(String.format("%s = %s, ", field.getName(),
+                String formatString = breakLine + "%s = %s, ";
+                builder.append(String.format(formatString, field.getName(),
                         subObject == null ? "null" : subObject.toString()));
             }
         }
         if (builder.toString().endsWith("{")) {
             builder.append("}");
         } else {
-            builder.replace(builder.length() - 2, builder.length() - 1, "}");
+            builder.replace(builder.length() - 2, builder.length() - 1, breakLine + "}");
         }
     }
-
-    /**
-     * 两个类是否相关
-     * 避免死循环
-     *
-     * @param cla1
-     * @param cla2
-     */
-    public static boolean isRelated(Class cla1, Class cla2) {
-        return cla1.isAssignableFrom(cla2) || cla2.isAssignableFrom(cla1);
-    }
-
 }

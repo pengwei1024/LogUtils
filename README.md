@@ -150,7 +150,8 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
 * Email: [pengwei1024@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pengwei1024@gmail.com)
 
 ## 8. Thanks
-thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils)、[orhanobut/logger](https://github.com/orhanobut/logger)、
+* thanks to [tinybright](https://github.com/tinybright)'s advice.
+* thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils)、[orhanobut/logger](https://github.com/orhanobut/logger)、
 [ZhaoKaiQiang/KLog](https://github.com/ZhaoKaiQiang/KLog)
 
 ## 9. License

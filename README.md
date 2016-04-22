@@ -113,6 +113,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
 ## 5. Skills
 * [从Log切换到LogUtils](./doc/log_to_logutils.md)
 * [为LogUtils设置快捷键](./doc/logutils_templates.md)
+* [修改LogCat显示字体颜色](./doc/logcat_color.md)
 
 ## 6. History
 * **1.0.0 (2015/07/13)**

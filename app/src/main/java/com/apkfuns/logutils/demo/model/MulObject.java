@@ -19,5 +19,6 @@ public class MulObject {
         this.part = part;
         this.man = new Man(2);
         this.fruit = new Fruit("苹果", true);
+        fruit.setCanEat(false);
     }
 }

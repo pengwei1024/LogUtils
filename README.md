@@ -94,17 +94,9 @@ LogUtils.getLogConfig()
 
 ## 4. Usage
 
-### Gradle导入
+### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.3.0'
-```
-### Maven导入
-```xml
-<dependency>
-    <groupId>com.apkfuns.logutils</groupId>
-    <artifactId>library</artifactId>
-    <version>1.3.0</version>
-</dependency>
+compile 'com.apkfuns.logutils:library:1.3.1'
 ```
 
 ### Eclipse导入Jar
@@ -144,6 +136,8 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 修复打印Reference类的bug
 * **1.3.0 (2016/04/20)**
     - 支持对象包含复杂对象，逻辑重构
+* **1.3.1 (2016/05/09)**
+    - 修复某些情况下出现死循环的情况
 
 ## 7. About
 * Blog: [apkfuns.com](http://apkfuns.com?from=github)

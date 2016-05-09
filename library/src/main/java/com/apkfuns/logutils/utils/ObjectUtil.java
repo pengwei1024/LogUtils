@@ -26,6 +26,9 @@ public class ObjectUtil {
         if (object == null) {
             return Constant.STRING_OBJECT_NULL;
         }
+        if (childLevel > Constant.MAX_CHILD_LEVEL) {
+            return object.toString();
+        }
         if (Constant.getParsers() != null && Constant.getParsers().size() > 0) {
             for (Parser parser : Constant.getParsers()) {
                 if (parser.parseClassType().isAssignableFrom(object.getClass())) {

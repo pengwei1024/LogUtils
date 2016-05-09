@@ -1,6 +1,7 @@
 package com.apkfuns.logutils.demo.activity;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothGattService;
 import android.os.Bundle;
 
 import com.apkfuns.logutils.demo.helper.Child;

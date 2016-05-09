@@ -148,8 +148,6 @@ public static final int *;
 }
 
 
-#-keep public class com.apkfuns.logutils.*{*;}
-
 
 
 

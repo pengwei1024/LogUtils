@@ -1,4 +1,4 @@
-package com.apkfuns.logutils.demo.activity;
+package com.apkfuns.logutils.demo.parse;
 
 import com.apkfuns.logutils.Parser;
 

@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.apkfuns.logutils.LogLevel;
 import com.apkfuns.logutils.LogUtils;
-import com.apkfuns.logutils.demo.activity.OkHttpResponseParse;
+import com.apkfuns.logutils.demo.parse.OkHttpResponseParse;
 
 /**
  * Created by pengwei on 16/3/22.

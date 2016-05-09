@@ -1,10 +1,9 @@
-package com.apkfuns.logutils.demo.activity;
+package com.apkfuns.logutils.demo.parse;
 
 import com.apkfuns.logutils.Parser;
 
 import java.io.IOException;
 
-import okhttp3.Headers;
 import okhttp3.Response;
 
 /**

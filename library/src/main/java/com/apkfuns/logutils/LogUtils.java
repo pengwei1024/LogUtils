@@ -1,32 +1,14 @@
 package com.apkfuns.logutils;
 
 
-
 /**
  * Created by pengwei08 on 2015/7/16.
  * 日志管理器
  */
 public final class LogUtils {
 
-    private static Printer printer;
-    private static LogConfigImpl logConfig;
-
-    static {
-        printer = new Logger();
-        logConfig = LogConfigImpl.getInstance();
-    }
-
-    /**
-     * suggest use getLogConfig().configAllowLog() replace configAllowLog
-     */
-    @Deprecated
-    public static boolean configAllowLog = logConfig.isEnable();
-
-    /**
-     * suggest use getLogConfig().configTagPrefix() replace configTagPrefix
-     */
-    @Deprecated
-    public static String configTagPrefix = logConfig.getTagPrefix();
+    private static Logger printer = new Logger();
+    private static LogConfigImpl logConfig = LogConfigImpl.getInstance();
 
     /**
      * 选项配置
@@ -35,6 +17,10 @@ public final class LogUtils {
      */
     public static LogConfig getLogConfig() {
         return logConfig;
+    }
+
+    public static Printer tag(String tag) {
+        return printer.setTag(tag);
     }
 
     /**
@@ -129,5 +115,13 @@ public final class LogUtils {
      */
     public static void json(String json) {
         printer.json(json);
+    }
+
+    /**
+     * 输出xml
+     * @param xml
+     */
+    public static void xml(String xml) {
+        printer.xml(xml);
     }
 }

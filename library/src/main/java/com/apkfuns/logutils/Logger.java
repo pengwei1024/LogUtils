@@ -12,19 +12,43 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.MissingFormatArgumentException;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 /**
  * Created by pengwei08 on 2015/7/20.
  */
 // TODO: 16/3/22 泛型支持
-final class Logger implements Printer {
+class Logger implements Printer {
 
     private LogConfigImpl mLogConfig;
+    private final ThreadLocal<String> localTags = new ThreadLocal<>();
 
     protected Logger() {
         mLogConfig = LogConfigImpl.getInstance();
         mLogConfig.addParserClass(Constant.DEFAULT_PARSE_CLASS);
+    }
+
+    /**
+     * 设置临时tag
+     *
+     * @param tag
+     * @return
+     */
+    public Printer setTag(String tag) {
+        if (!TextUtils.isEmpty(tag)) {
+            localTags.set(tag);
+        }
+        return this;
     }
 
     /**
@@ -34,12 +58,12 @@ final class Logger implements Printer {
      * @param msg
      * @param args
      */
-    private void logString(@LogLevelType int type, String msg, Object... args) {
+    private synchronized void logString(@LogLevelType int type, String msg, Object... args) {
         logString(type, msg, false, args);
     }
 
     private void logString(@LogLevelType int type, String msg, boolean isPart, Object... args) {
-        if (!mLogConfig.isEnable() || !LogUtils.configAllowLog) {
+        if (!mLogConfig.isEnable()) {
             return;
         }
         if (type < mLogConfig.getLogLevel()) {
@@ -103,6 +127,11 @@ final class Logger implements Printer {
      * @return
      */
     private String generateTag() {
+        String tempTag = localTags.get();
+        if (!TextUtils.isEmpty(tempTag)) {
+            localTags.remove();
+            return tempTag;
+        }
         if (!mLogConfig.isShowBorder()) {
             return mLogConfig.getTagPrefix() + "/" + getTopStackInfo();
         }
@@ -116,9 +145,12 @@ final class Logger implements Printer {
      */
     private String getTopStackInfo() {
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-        int stackOffset = getStackOffset(trace);
+        int stackOffset = getStackOffset(trace, LogUtils.class);
         if (stackOffset == -1) {
-            return null;
+            stackOffset = getStackOffset(trace, Logger.class);
+            if (stackOffset == -1) {
+                return null;
+            }
         }
         StackTraceElement caller = trace[stackOffset];
         String stackTrace = caller.toString();
@@ -130,11 +162,15 @@ final class Logger implements Printer {
         return tag;
     }
 
-    private int getStackOffset(StackTraceElement[] trace) {
+    private int getStackOffset(StackTraceElement[] trace, Class cla) {
         for (int i = Constant.MIN_STACK_OFFSET; i < trace.length; i++) {
             StackTraceElement e = trace[i];
             String name = e.getClassName();
-            if (name.equals(LogUtils.class.getName())) {
+            if (cla.equals(Logger.class) && i < trace.length - 1 && trace[i + 1].getClassName()
+                    .equals(Logger.class.getName())) {
+                continue;
+            }
+            if (name.equals(cla.getName())) {
                 return ++i;
             }
         }
@@ -201,11 +237,17 @@ final class Logger implements Printer {
         logObject(TYPE_WTF, object);
     }
 
+    /**
+     * 采用orhanobut/logger的json解析方案
+     * source:https://github.com/orhanobut/logger/blob/master/logger/src/main/java/com/orhanobut/logger/LoggerPrinter.java#L152
+     *
+     * @param json
+     */
     @Override
     public void json(String json) {
         int indent = 4;
         if (TextUtils.isEmpty(json)) {
-            d("JSON{json is null}");
+            d("JSON{json is empty}");
             return;
         }
         try {
@@ -219,7 +261,32 @@ final class Logger implements Printer {
                 d(msg);
             }
         } catch (JSONException e) {
-            e(e);
+            e(e.toString() + "\n\njson = " + json);
+        }
+    }
+
+    /**
+     * 采用orhanobut/logger的xml解析方案
+     * source:https://github.com/orhanobut/logger/blob/master/logger/src/main/java/com/orhanobut/logger/LoggerPrinter.java#L180
+     *
+     * @param xml
+     */
+    @Override
+    public void xml(String xml) {
+        if (TextUtils.isEmpty(xml)) {
+            d("XML{xml is empty}");
+            return;
+        }
+        try {
+            Source xmlInput = new StreamSource(new StringReader(xml));
+            StreamResult xmlOutput = new StreamResult(new StringWriter());
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.transform(xmlInput, xmlOutput);
+            d(xmlOutput.getWriter().toString().replaceFirst(">", ">\n"));
+        } catch (TransformerException e) {
+            e(e.toString() + "\n\nxml = " + xml);
         }
     }
 

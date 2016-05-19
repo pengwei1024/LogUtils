@@ -175,4 +175,8 @@ public final class DataHelper {
         return node;
     }
 
+    public static String getXml(){
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Pensons><Penson id=\"1\"><name>name</name><sex>男</sex><age>30</age></Penson><Penson id=\"2\"><name>name</name><sex>女</sex><age>27</age></Penson></Pensons>";
+    }
+
 }

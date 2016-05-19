@@ -4,6 +4,7 @@ import com.apkfuns.logutils.Constant;
 import com.apkfuns.logutils.Parser;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import static com.apkfuns.logutils.Constant.*;
 
@@ -20,6 +21,22 @@ public class ObjectUtil {
      */
     public static String objectToString(Object object) {
         return objectToString(object, 0);
+    }
+
+    /**
+     * 是否为静态内部类
+     *
+     * @param cla
+     * @return
+     */
+    public static boolean isStaticInnerClass(Class cla) {
+        if (cla != null && cla.isMemberClass()) {
+            int modifiers = cla.getModifiers();
+            if ((modifiers & Modifier.STATIC) == Modifier.STATIC) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static String objectToString(Object object, int childLevel) {
@@ -75,8 +92,12 @@ public class ObjectUtil {
         String breakLine = "";
         builder.append(cla.getSimpleName() + " {");
         Field[] fields = cla.getDeclaredFields();
-        for (Field field : fields) {
+        for (int i = 0; i < fields.length; ++i) {
+            Field field = fields[i];
             field.setAccessible(true);
+            if (cla.isMemberClass() && !isStaticInnerClass(cla) && i == 0) {
+                continue;
+            }
             Object subObject = null;
             try {
                 subObject = field.get(o);

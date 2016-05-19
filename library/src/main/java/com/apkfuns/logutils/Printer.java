@@ -3,7 +3,7 @@ package com.apkfuns.logutils;
 /**
  * Created by pengwei08 on 2015/7/20.
  */
-interface Printer {
+public interface Printer {
 
     void d(String message, Object... args);
     void d(Object object);
@@ -24,4 +24,5 @@ interface Printer {
     void wtf(Object object);
 
     void json(String json);
+    void xml(String xml);
 }

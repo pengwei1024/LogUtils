@@ -61,6 +61,9 @@ double[][] doubles = {{1.2, 1.6, 1.7, 30, 33},
                 {1.2, 1.6, 1.7, 30, 33}};
 LogUtils.d(doubles);
 
+// 自定义tag
+LogUtils.tag("我是自定义tag").d("我是打印内容");
+
 // 其他用法
 LogUtils.v("12345");
 LogUtils.i("12345");
@@ -96,7 +99,7 @@ LogUtils.getLogConfig()
 
 ### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.3.1'
+compile 'com.apkfuns.logutils:library:1.4.0'
 ```
 
 ### Eclipse导入Jar
@@ -138,6 +141,10 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 支持对象包含复杂对象，逻辑重构
 * **1.3.1 (2016/05/09)**
     - 修复某些情况下出现死循环的情况
+* **1.4.0 (2016/05/19)**
+    - 支持设置临时tag
+    - 支持xml打印  
+    - 解决[issue 10](https://github.com/pengwei1024/LogUtils/issues/10)内部类问题
 
 ## 7. About
 * Blog: [apkfuns.com](http://apkfuns.com?from=github)

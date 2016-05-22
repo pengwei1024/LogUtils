@@ -145,6 +145,9 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 支持设置临时tag
     - 支持xml打印  
     - 解决[issue 10](https://github.com/pengwei1024/LogUtils/issues/10)内部类问题
+* **1.4.2 (开发中)**
+    - 个性化设置Tag(configFormatTag();)
+    
 
 ## 7. About
 * Blog: [apkfuns.com](http://apkfuns.com?from=github)
@@ -153,7 +156,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
 ## 8. Thanks
 * thanks to [tinybright](https://github.com/tinybright)、[DrSlark](https://github.com/DrSlark)'s advice.
 * thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils)、[orhanobut/logger](https://github.com/orhanobut/logger)、
-[ZhaoKaiQiang/KLog](https://github.com/ZhaoKaiQiang/KLog)
+[ZhaoKaiQiang/KLog](https://github.com/ZhaoKaiQiang/KLog)、[noveogroup/android-logger](https://github.com/noveogroup/android-logger)
 
 ## 9. License
 <pre>

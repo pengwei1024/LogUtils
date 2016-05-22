@@ -5,7 +5,7 @@ import android.util.Log;
 
 import static com.apkfuns.logutils.LogLevel.*;
 import static com.apkfuns.logutils.utils.ObjectUtil.*;
-import static com.apkfuns.logutils.utils.CommonUtil.*;
+import static com.apkfuns.logutils.utils.Utils.*;
 
 
 import org.json.JSONArray;
@@ -139,11 +139,11 @@ class Logger implements Printer {
     }
 
     /**
-     * 获取最顶部stack信息
+     * 获取当前activity栈信息
      *
      * @return
      */
-    private String getTopStackInfo() {
+    private StackTraceElement getCurrentStackTrace() {
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
         int stackOffset = getStackOffset(trace, LogUtils.class);
         if (stackOffset == -1) {
@@ -153,6 +153,20 @@ class Logger implements Printer {
             }
         }
         StackTraceElement caller = trace[stackOffset];
+        return caller;
+    }
+
+    /**
+     * 获取最顶部stack信息
+     *
+     * @return
+     */
+    private String getTopStackInfo() {
+        String customTag = mLogConfig.getFormatTag(getCurrentStackTrace());
+        if (customTag != null) {
+            return customTag;
+        }
+        StackTraceElement caller = getCurrentStackTrace();
         String stackTrace = caller.toString();
         stackTrace = stackTrace.substring(stackTrace.lastIndexOf('('), stackTrace.length());
         String tag = "%s.%s%s";

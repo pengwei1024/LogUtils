@@ -3,6 +3,8 @@ package com.apkfuns.logutils;
 
 import android.text.TextUtils;
 
+import com.apkfuns.logutils.pattern.LogPattern;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ class LogConfigImpl implements LogConfig {
     @LogLevel.LogLevelType
     private int logLevel = LogLevel.TYPE_VERBOSE;
     private List<Parser> parseList;
+    private String formatTag;
 
     private static LogConfigImpl singleton;
 
@@ -46,6 +49,19 @@ class LogConfigImpl implements LogConfig {
     public LogConfig configTagPrefix(String prefix) {
         this.tagPrefix = prefix;
         return this;
+    }
+
+    @Override
+    public LogConfig configFormatTag(String formatTag) {
+        this.formatTag = formatTag;
+        return this;
+    }
+
+    public String getFormatTag(StackTraceElement caller) {
+        if (TextUtils.isEmpty(formatTag)) {
+            return null;
+        }
+        return LogPattern.compile(formatTag).apply(caller);
     }
 
     @Override

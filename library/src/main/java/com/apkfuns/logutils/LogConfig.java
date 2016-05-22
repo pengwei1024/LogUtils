@@ -9,6 +9,8 @@ public interface LogConfig {
 
     LogConfig configTagPrefix(String prefix);
 
+    LogConfig configFormatTag(String formatTag);
+
     LogConfig configShowBorders(boolean showBorder);
 
     LogConfig configLevel(@LogLevel.LogLevelType int logLevel);

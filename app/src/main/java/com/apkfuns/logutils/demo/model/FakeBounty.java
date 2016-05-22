@@ -1,4 +1,4 @@
-package com.apkfuns.logutils;
+package com.apkfuns.logutils.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;

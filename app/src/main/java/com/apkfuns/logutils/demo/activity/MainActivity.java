@@ -1,32 +1,23 @@
 package com.apkfuns.logutils.demo.activity;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothGattService;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.apkfuns.logutils.FakeBounty;
 import com.apkfuns.logutils.demo.helper.Child;
 import com.apkfuns.logutils.demo.helper.DataHelper;
 import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.R;
+import com.apkfuns.logutils.demo.model.FakeBounty;
 import com.apkfuns.logutils.demo.model.Man;
 import com.apkfuns.logutils.demo.model.MulObject;
 import com.apkfuns.logutils.demo.model.Person;
 
 
-import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 public class MainActivity extends Activity {
@@ -140,6 +131,6 @@ public class MainActivity extends Activity {
 
         LogUtils.tag("lalal").xml(DataHelper.getXml());
 
-        LogUtils.e(new FakeBounty());
+        LogUtils.tag("lalal").e(new FakeBounty());
     }
 }

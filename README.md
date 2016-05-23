@@ -5,13 +5,15 @@ More convenient and easy to use android Log manager
 ## 1. Features
 * 支持直接打印数据集合,如List、Set、Map、数组等
 * 全局配置log输出
-* 不需要设置tag
+* 个性化设置Tag
 * 准确显示调用方法、行，快速定位所在文件位置
 * 支持android系统对象Intent、Bundle打印
 
 ## 2. screenshot
 ##### 日志说明
 ![截图](screenshot/screenshot02.png)
+##### 个性化设置Tag
+![截图](screenshot/screenshot08.png)
 ##### 打印数据列表
 ![截图](screenshot/screenshot03.png)
 ##### 打印数组
@@ -80,6 +82,7 @@ configTagPrefix | 日志log的前缀 | String | "LogUtils"
 configShowBorders | 是否显示边界 | boolean | false
 configLevel | 日志显示等级 | LogLevelType | LogLevel.TYPE_VERBOSE
 addParserClass | 自定义对象打印 | Parser | 无 
+configFormatTag | 个性化设置Tag | String | %c{-5}
 
 ##### Demo
 ```java
@@ -87,8 +90,17 @@ LogUtils.getLogConfig()
                 .configAllowLog(true)
                 .configTagPrefix("MyAppName")
                 .configShowBorders(true)
+                .configFormatTag("%d{HH:mm:ss:SSS} %t %c{-5}")
                 .configLevel(LogLevel.TYPE_VERBOSE)
 ```
+
+##### configFormatTag参数详解
+变量 | 简写 | 描述  | 参数 | 示例 | 输出结果
+------- | ------- | -------   | -------  | ------- | ------- 
+%% | 无 | 转义% | 无|%%d|%d
+%date | %d | 当前时间  | 格式化时间,如HH:mm:ss|%d{HH:mm:ss:SSS}|10:00:46:238
+%thread | %t | 当前线程名称 | 无|%t|thread-127
+%caller | %c | 线程信息和类路径  |一般用%c{-5}就好了，用法为%c{整数}或者%caller{整数}，整数为包名路径，如路径为`com.apkfuns.logutils.demo.activity.MainActivity.onCreate(MainActivity.java:135)`,%c{1}输出`com`，以.分割的第一个,如果小于0就是排除前面n个，如%c{-1} ，结果为`apkfuns.logutils.demo.activity.MainActivity.onCreate(MainActivity.java:135)`,|%c{-5}|MainActivity.onCreate(MainActivity.java:135)
 
 ##### 自定义对象打印
 实现Parser<T>接口，并实现parseClassType() 和parseString()方法,再通过addParserClass()配置到LogUtil
@@ -99,7 +111,7 @@ LogUtils.getLogConfig()
 
 ### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.4.0'
+compile 'com.apkfuns.logutils:library:1.4.2'
 ```
 
 ### Eclipse导入Jar
@@ -145,7 +157,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 支持设置临时tag
     - 支持xml打印  
     - 解决[issue 10](https://github.com/pengwei1024/LogUtils/issues/10)内部类问题
-* **1.4.2 (开发中)**
+* **1.4.2 (2016/05/23)**
     - 个性化设置Tag(configFormatTag();)
     
 

@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.noveogroup.android.log.Log;
-import com.noveogroup.android.log.LoggerManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
 
-    private static final Logger SLF_LOGGER = LoggerFactory.getLogger(MainActivity.class);
+    private static final Logger SLF_LOGGER = LoggerFactory.getLogger(TestActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

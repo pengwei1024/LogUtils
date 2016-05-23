@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.apkfuns.logutils.demo.a.b.Test;
 import com.apkfuns.logutils.demo.helper.Child;
 import com.apkfuns.logutils.demo.helper.DataHelper;
 import com.apkfuns.logutils.LogUtils;
@@ -132,5 +133,7 @@ public class MainActivity extends Activity {
         LogUtils.tag("lalal").xml(DataHelper.getXml());
 
         LogUtils.tag("lalal").e(new FakeBounty());
+
+        Test.a();
     }
 }

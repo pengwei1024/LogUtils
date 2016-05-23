@@ -130,7 +130,10 @@ class Logger implements Printer {
         String tempTag = localTags.get();
         if (!TextUtils.isEmpty(tempTag)) {
             localTags.remove();
-            return tempTag;
+            if (mLogConfig.isShowBorder()) {
+                return tempTag;
+            }
+            return tempTag + "/" + getTopStackInfo();
         }
         if (!mLogConfig.isShowBorder()) {
             return mLogConfig.getTagPrefix() + "/" + getTopStackInfo();

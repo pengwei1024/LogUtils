@@ -78,7 +78,7 @@ public class Utils {
         return resultString;
     }
 
-    public static String shortenClassName(String className, int count, int maxLength) {
+    public static String shortenClassName(String className, int count, int maxLength) throws Exception {
         className = shortenPackagesName(className, count);
         if (className == null) return null;
         if (maxLength == 0) return className;

@@ -73,9 +73,14 @@ public abstract class LogPattern {
                 } else {
                     String stackTrace = caller.toString();
                     stackTrace = stackTrace.substring(stackTrace.lastIndexOf('('), stackTrace.length());
-                    callerString = String.format("%s#%s:%s", caller.getClassName(), caller.getMethodName(), stackTrace);
+                    callerString = String.format("%s.%s%s", caller.getClassName(), caller.getMethodName(), stackTrace);
                 }
-                return Utils.shortenClassName(callerString, callerCount, callerLength);
+//                System.out.println(callerString + callerCount + callerLength);
+                try {
+                    return Utils.shortenClassName(callerString, callerCount, callerLength);
+                } catch (Exception e) {
+                    return e.getMessage();
+                }
             }
         }
 
@@ -168,7 +173,7 @@ public abstract class LogPattern {
         private final Pattern DATE_PATTERN = Pattern.compile("%date(\\{(.*?)\\})?");
         private final Pattern CONCATENATE_PATTERN = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?\\(");
         private final Pattern DATE_PATTERN_SHORT = Pattern.compile("%d(\\{(.*?)\\})?");
-        private final Pattern CALLER_PATTERN_SHORT = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?C(\\{([+-]?\\d+)?(\\.([+-]?\\d+))?\\})?");
+        private final Pattern CALLER_PATTERN_SHORT = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?c(\\{([+-]?\\d+)?(\\.([+-]?\\d+))?\\})?");
         private final Pattern THREAD_NAME_PATTERN = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?thread");
         private final Pattern THREAD_NAME_PATTERN_SHORT = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?t");
 

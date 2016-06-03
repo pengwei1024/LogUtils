@@ -130,13 +130,7 @@ class Logger implements Printer {
         String tempTag = localTags.get();
         if (!TextUtils.isEmpty(tempTag)) {
             localTags.remove();
-            if (mLogConfig.isShowBorder()) {
-                return tempTag;
-            }
             return tempTag + "/" + getTopStackInfo();
-        }
-        if (!mLogConfig.isShowBorder()) {
-            return mLogConfig.getTagPrefix() + "/" + getTopStackInfo();
         }
         return mLogConfig.getTagPrefix();
     }
@@ -316,6 +310,7 @@ class Logger implements Printer {
      * @param msg
      */
     private void printLog(@LogLevelType int type, String tag, String msg) {
+        msg = getTopStackInfo()+": "+msg;
         switch (type) {
             case TYPE_VERBOSE:
                 Log.v(tag, msg);

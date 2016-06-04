@@ -16,7 +16,7 @@ class LogConfigImpl implements LogConfig {
 
     private boolean enable = true;
     private String tagPrefix;
-    private boolean showBorder = false;
+    private boolean showBorder = true;
     @LogLevel.LogLevelType
     private int logLevel = LogLevel.TYPE_VERBOSE;
     private List<Parser> parseList;

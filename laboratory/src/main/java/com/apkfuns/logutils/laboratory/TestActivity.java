@@ -3,7 +3,9 @@ package com.apkfuns.logutils.laboratory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
+import com.apkfuns.logutils.LogUtils;
 import com.noveogroup.android.log.Log;
 
 import org.slf4j.Logger;
@@ -18,6 +20,9 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SLF_LOGGER.info("test info  : {}", "message 100%!");
+
+        TextView tv = (TextView) findViewById(R.id.tv_test);
+        tv.setOnClickListener(v -> LogUtils.d("test lambda!"));
     }
 
     public void onSampleSimple(View view) {

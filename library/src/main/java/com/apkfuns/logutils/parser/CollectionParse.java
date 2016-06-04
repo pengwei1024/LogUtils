@@ -1,5 +1,7 @@
 package com.apkfuns.logutils.parser;
 
+import com.apkfuns.logutils.Constant;
+import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.Parser;
 import com.apkfuns.logutils.utils.ObjectUtil;
 
@@ -18,7 +20,7 @@ public class CollectionParse implements Parser<Collection> {
     @Override
     public String parseString(Collection collection) {
         String simpleName = collection.getClass().getName();
-        String msg = "%s size = %d [" + LINE_SEPARATOR;
+        String msg = "%s size = %d [" + Constant.BR;
         msg = String.format(msg, simpleName, collection.size());
         if (!collection.isEmpty()) {
             Iterator<Object> iterator = collection.iterator();

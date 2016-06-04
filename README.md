@@ -159,6 +159,8 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to downl
     - 解决[issue 10](https://github.com/pengwei1024/LogUtils/issues/10)内部类问题
 * **1.4.2 (2016/05/23)**
     - 个性化设置Tag(configFormatTag();)
+* **1.4.3 (开发中)**    
+    - 修复Instant Run下非静态内部类死循环情况
     
 
 ## 7. About

@@ -17,7 +17,7 @@ public class App extends Application {
                 .configAllowLog(true)
                 .configTagPrefix("LogUtilsDemo")
                 .configFormatTag("%d{HH:mm:ss:SSS} %t %c{-5}")
-                .configShowBorders(true)
+                .configShowBorders(false)
                 .configLevel(LogLevel.TYPE_VERBOSE)
                 .addParserClass(OkHttpResponseParse.class);
     }

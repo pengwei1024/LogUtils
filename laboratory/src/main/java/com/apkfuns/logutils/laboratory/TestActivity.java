@@ -19,10 +19,13 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SLF_LOGGER.info("test info  : {}", "message 100%!");
+//        SLF_LOGGER.info("test info  : {}", "message 100%!");
 
         TextView tv = (TextView) findViewById(R.id.tv_test);
         tv.setOnClickListener(v -> LogUtils.d("test lambda!"));
+
+
+        LogUtils.tag("tagtagtagttagtagtagttagtagtagttagtagtagt+tagtagtagttagtagtagttagtagtagttagtagtagt").e("12312313");
     }
 
     public void onSampleSimple(View view) {

@@ -4,30 +4,37 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.apkfuns.logutils.LogUtils;
+import com.apkfuns.logutils.demo.R;
 import com.apkfuns.logutils.demo.a.b.Test;
 import com.apkfuns.logutils.demo.helper.Child;
 import com.apkfuns.logutils.demo.helper.DataHelper;
-import com.apkfuns.logutils.LogUtils;
-import com.apkfuns.logutils.demo.R;
 import com.apkfuns.logutils.demo.model.FakeBounty;
 import com.apkfuns.logutils.demo.model.Man;
 import com.apkfuns.logutils.demo.model.MulObject;
 import com.apkfuns.logutils.demo.model.Person;
-
 
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import hugo.weaving.DebugLog;
+
 
 public class MainActivity extends Activity {
 
+    @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        log();
+    }
+
+    @DebugLog
+    private void log() {
         LogUtils.d("12345");
         LogUtils.d("12%s3%s45", "a", "b");
         LogUtils.d(new NullPointerException("12345"));

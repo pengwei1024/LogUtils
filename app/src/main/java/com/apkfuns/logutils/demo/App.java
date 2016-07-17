@@ -14,7 +14,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         LogUtils.getLogConfig()
-                .configAllowLog(true)
+                .configAllowLog(false)
                 .configTagPrefix("LogUtilsDemo")
                 .configFormatTag("%d{HH:mm:ss:SSS} %t %c{-5}")
                 .configShowBorders(false)

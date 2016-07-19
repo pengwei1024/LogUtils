@@ -108,7 +108,7 @@ public class ObjectUtil {
             } finally {
                 if (subObject != null) {
                     // 解决Instant Run情况下内部类死循环的问题
-                    System.out.println(field.getName()+ "***" +subObject.getClass() + "啊啊啊啊啊啊" + cla);
+//                    System.out.println(field.getName()+ "***" +subObject.getClass() + "啊啊啊啊啊啊" + cla);
                     if (!isStaticInnerClass(cla) && (field.getName().equals("$change") || field.getName().equalsIgnoreCase("this$0"))) {
                         continue;
                     }
@@ -122,7 +122,7 @@ public class ObjectUtil {
                     }
                 }
                 String formatString = breakLine + "%s = %s, ";
-                System.out.println(field.getName() + "**" + cla.getName() + "**" + isSubClass + "**" + o.toString());
+//                System.out.println(field.getName() + "**" + cla.getName() + "**" + isSubClass + "**" + o.toString());
                 builder.append(String.format(formatString, field.getName(),
                         subObject == null ? "null" : subObject.toString()));
             }

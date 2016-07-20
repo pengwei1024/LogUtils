@@ -1,4 +1,4 @@
-package com.apkfuns.logutils.demo.helper;
+package com.apkfuns.logutils.demo.model;
 
 /**
  * Created by pengwei on 16/3/22.

@@ -1,4 +1,4 @@
-package com.apkfuns.logutils.demo;
+package com.apkfuns.logutils.demo.test;
 
 import android.util.Log;
 

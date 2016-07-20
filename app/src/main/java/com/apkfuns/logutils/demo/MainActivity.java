@@ -1,13 +1,15 @@
-package com.apkfuns.logutils.demo.activity;
+package com.apkfuns.logutils.demo;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 
 import com.apkfuns.logutils.LogUtils;
-import com.apkfuns.logutils.demo.R;
 import com.apkfuns.logutils.demo.a.b.Test;
-import com.apkfuns.logutils.demo.helper.Child;
+import com.apkfuns.logutils.demo.model.Child;
 import com.apkfuns.logutils.demo.helper.DataHelper;
 import com.apkfuns.logutils.demo.model.FakeBounty;
 import com.apkfuns.logutils.demo.model.Man;
@@ -142,5 +144,14 @@ public class MainActivity extends Activity {
         LogUtils.tag("lalal").e(new FakeBounty());
 
         Test.a();
+
+        // 测试Message
+        Message message = new Message();
+        message.setData(new Bundle());
+        message.obj = new Object();
+        message.arg1 = 1;
+        message.arg2 = 2;
+        message.what = 1232;
+        LogUtils.e(message);
     }
 }

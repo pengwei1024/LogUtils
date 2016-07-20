@@ -8,6 +8,7 @@ More convenient and easy to use android Log manager
 * 个性化设置Tag
 * 准确显示调用方法、行，快速定位所在文件位置
 * 支持android系统对象Intent、Bundle打印
+* 提供release-no-op版本
 
 ## 2. screenshot
 ##### 日志说明
@@ -100,7 +101,7 @@ LogUtils.getLogConfig()
 %% | 无 | 转义% | 无|%%d|%d
 %date | %d | 当前时间  | 格式化时间,如HH:mm:ss|%d{HH:mm:ss:SSS}|10:00:46:238
 %thread | %t | 当前线程名称 | 无|%t|thread-127
-%caller | %c | 线程信息和类路径  |一般用%c{-5}就好了，用法为%c{整数}或者%caller{整数}，整数为包名路径，如路径为`com.apkfuns.logutils.demo.activity.MainActivity.onCreate(MainActivity.java:135)`,%c{1}输出`com`，以.分割的第一个,如果小于0就是排除前面n个，如%c{-1} ，结果为`apkfuns.logutils.demo.activity.MainActivity.onCreate(MainActivity.java:135)`,|%c{-5}|MainActivity.onCreate(MainActivity.java:135)
+%caller | %c | 线程信息和类路径  |一般用%c{-5}就好了，用法为%c{整数}或者%caller{整数}，整数为包名路径，如路径为`com.apkfuns.logutils.demo.MainActivity.onCreate(MainActivity.java:135)`,%c{1}输出`com`，以.分割的第一个,如果小于0就是排除前面n个，如%c{-1} ，结果为`apkfuns.logutils.demo.activity.MainActivity.onCreate(MainActivity.java:135)`,|%c{-5}|MainActivity.onCreate(MainActivity.java:135)
 
 ##### 自定义对象打印
 实现Parser<T>接口，并实现parseClassType() 和parseString()方法,再通过addParserClass()配置到LogUtil
@@ -113,6 +114,12 @@ LogUtils.getLogConfig()
 ```groovy
 compile 'com.apkfuns.logutils:library:1.4.2'
 ```
+
+##### release-no-op版本
+```groovy
+debugCompile 'com.apkfuns.logutils:library:1.4.2'
+releaseCompile 'com.apkfuns.logutils:logutils-no-op:1.4.2.1'
+``` 
 
 ### Eclipse导入Jar
 click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to download *.jar

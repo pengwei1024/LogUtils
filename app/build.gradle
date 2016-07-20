@@ -41,8 +41,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    debugCompile project(':library')
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile project(':logutils-no-op')
+    compile project(':library')
+//    compile project(':logutils-no-op')
 }

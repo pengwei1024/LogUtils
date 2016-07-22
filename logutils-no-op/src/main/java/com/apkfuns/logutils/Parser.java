@@ -6,7 +6,7 @@ package com.apkfuns.logutils;
  */
 public interface Parser<T> {
 
-    String LINE_SEPARATOR = System.getProperty("line.separator");
+    String LINE_SEPARATOR = null;
 
     Class<T> parseClassType();
 

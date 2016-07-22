@@ -3,9 +3,12 @@ package com.apkfuns.logutils;
 /**
  * Created by pengwei on 16/7/18.
  */
-public class LogConfigImpl implements LogConfig {
+class LogConfigImpl implements LogConfig {
 
     private static LogConfigImpl singleton;
+    
+    private LogConfigImpl() {
+    }
 
     public static LogConfigImpl getInstance() {
         if (singleton == null) {

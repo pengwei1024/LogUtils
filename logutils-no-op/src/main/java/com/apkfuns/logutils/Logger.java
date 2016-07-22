@@ -1,13 +1,14 @@
 package com.apkfuns.logutils;
 
-import android.os.Bundle;
-
 /**
  * Created by pengwei on 16/7/18.
  */
-public class Logger implements Printer {
+class Logger implements Printer {
 
     private static Logger singleton;
+    
+    private Logger() {
+    }
 
     public static Logger getInstance(){
         if (singleton == null) {

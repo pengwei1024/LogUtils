@@ -26,3 +26,16 @@ dependencies {
 if (file("$projectDir/bintrayUpload.gradle").exists()) {
     apply from: "./bintrayUpload.gradle"
 }
+
+task sync << {
+    def javaPath = "src/main/java/com/apkfuns/logutils"
+    copy {
+        from "$rootDir/library/${javaPath}"
+        include "LogConfig.java","Parser.java", "Printer.java"
+        into "$projectDir/${javaPath}"
+    }
+    File parserFile = project.file("${javaPath}/Parser.java")
+    def parserContent = parserFile.getText().replaceFirst(/String LINE_SEPARATOR = .+;/, "String LINE_SEPARATOR = null;")
+    parserFile.write(parserContent)
+}
+

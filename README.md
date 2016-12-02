@@ -112,12 +112,12 @@ LogUtils.getLogConfig()
 
 ### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.4.2'
+compile 'com.apkfuns.logutils:library:1.4.2.2'
 ```
 
 ##### release-no-op版本
 ```groovy
-debugCompile 'com.apkfuns.logutils:library:1.4.2'
+debugCompile 'com.apkfuns.logutils:library:1.4.2.2'
 releaseCompile 'com.apkfuns.logutils:logutils-no-op:1.4.2.1'
 ``` 
 

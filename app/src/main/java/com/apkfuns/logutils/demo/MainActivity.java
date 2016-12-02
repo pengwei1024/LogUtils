@@ -153,5 +153,8 @@ public class MainActivity extends Activity {
         message.arg2 = 2;
         message.what = 1232;
         LogUtils.e(message);
+
+        LogUtils.getLogConfig().configAllowLog(true);
+        LogUtils.e("test 12345#");
     }
 }

@@ -122,7 +122,7 @@ releaseCompile 'com.apkfuns.logutils:logutils-no-op:1.4.2.1'
 ``` 
 
 ### Eclipse导入Jar
-click [here](https://github.com/pengwei1024/LogUtils/tree/master/annex) to download *.jar
+click [here](https://github.com/pengwei1024/LogUtils/tree/master/jar) to download *.jar
 
 ## 5. Skills
 * [从Log切换到LogUtils](./doc/log_to_logutils.md)

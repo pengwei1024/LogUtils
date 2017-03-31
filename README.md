@@ -9,6 +9,7 @@ More convenient and easy to use android Log manager
 * 准确显示调用方法、行，快速定位所在文件位置
 * 支持android系统对象Intent、Bundle打印
 * 提供release-no-op版本
+* 支持日志写入文件
 
 ## 2. screenshot
 ##### 日志说明
@@ -84,6 +85,17 @@ configShowBorders | 是否显示边界 | boolean | false
 configLevel | 日志显示等级 | LogLevelType | LogLevel.TYPE_VERBOSE
 addParserClass | 自定义对象打印 | Parser | 无 
 configFormatTag | 个性化设置Tag | String | %c{-5}
+configMethodOffset | 方法偏移量 | int | 0
+
+###### 写入日志文件参数
+方法 | 描述 | 取值 | 缺省 
+------- | ------- | ------- | -------
+configLog2FileEnable | 是否支持写入文件 | boolean | false 
+configLog2FilePath | 写入日志路径 | String | /sdcard/LogUtils/logs/ 
+configLog2FileNameFormat | 写入日志文件名 | string | %d{yyyyMMdd}.txt 
+configLog2FileLevel | 写入日志等级 | LogLevelType | LogLevel.TYPE_VERBOSE 
+configLogFileEngine | 写入日志实现 | LogFileEngine | 无 
+configLogFileFilter | 写入日志过滤 | LogFileFilter | 无 
 
 ##### Demo
 ```java
@@ -92,7 +104,12 @@ LogUtils.getLogConfig()
                 .configTagPrefix("MyAppName")
                 .configShowBorders(true)
                 .configFormatTag("%d{HH:mm:ss:SSS} %t %c{-5}")
-                .configLevel(LogLevel.TYPE_VERBOSE)
+
+# 支持写入日志到文件
+ LogUtils.getLog2FileConfig().configLog2FileEnable(true)
+                .configLog2FilePath("/sdcard/项目文件夹/logs/")
+                .configLog2FileNameFormat("%d{yyyyMMdd}.txt") 
+                .configLogFileEngine(new LogFileEngineFactory());              
 ```
 
 ##### configFormatTag参数详解
@@ -112,14 +129,44 @@ LogUtils.getLogConfig()
 
 ### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.4.2.2'
+compile 'com.apkfuns.logutils:library:1.5.1'
 ```
 
 ##### release-no-op版本
 ```groovy
-debugCompile 'com.apkfuns.logutils:library:1.4.2.2'
-releaseCompile 'com.apkfuns.logutils:logutils-no-op:1.4.2.1'
+debugCompile 'com.apkfuns.logutils:library:1.5.1'
+releaseCompile 'com.apkfuns.logutils:logutils-no-op:1.5.1'
 ``` 
+
+##### 写入日志到文件
+- 依赖log2file库
+```java
+compile 'com.apkfuns.log2file:log2file:1.0.0'
+...
+如果本地已经依赖okio(使用okhttp)请排除
+compile('com.apkfuns.log2file:log2file:1.0.0') {
+    exclude module: 'okio'
+}
+...
+LogUtils.getLog2FileConfig().configLogFileEngine(new LogFileEngineFactory()); 
+```
+
+- 实现LogFileEngine接口
+
+```java
+public class MyLogFileEngine implements LogFileEngine {
+    @Override
+    public void writeToFile(File logFile, String logContent, LogFileParam params) {
+        ....
+    }
+}
+...
+LogUtils.getLog2FileConfig().configLogFileEngine(new MyLogFileEngine()); 
+```
+别忘了添加写文件权限
+```
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+```
 
 ### Eclipse导入Jar
 click [here](https://github.com/pengwei1024/LogUtils/tree/master/jar) to download *.jar
@@ -166,8 +213,10 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/jar) to downloa
     - 解决[issue 10](https://github.com/pengwei1024/LogUtils/issues/10)内部类问题
 * **1.4.2 (2016/05/23)**
     - 个性化设置Tag(configFormatTag();)
-* **1.4.3 (开发中)**    
+* **1.4.3 **    
     - 修复Instant Run下非静态内部类死循环情况
+* **1.5.1 (2017/03/31)**    
+    - 支持自定义日志写入文件  
     
 
 ## 7. About

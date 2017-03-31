@@ -17,20 +17,21 @@ public class App extends Application {
         super.onCreate();
         LogUtils.getLogConfig().configAllowLog(true).configTagPrefix("LogUtilsDemo")
                 .configFormatTag("%d{HH:mm:ss:SSS} %t %c{-5}").configShowBorders(true)
+//                .configMethodOffset(1)
                 .configLevel(LogLevel.TYPE_VERBOSE).addParserClass(OkHttpResponseParse.class);
         LogUtils.getLog2FileConfig().configLog2FileEnable(true)
                 .configLog2FilePath("/sdcard/LogUtils/logs/")
                 .configLog2FileNameFormat("Hi-%d{yyyyMMdd}-1.txt")
-                .configLog2FileLevel(LogLevel.TYPE_WARM)
-                .configLogFileFilter(new LogFileFilter() {
-                        @Override
-                        public boolean accept(@LogLevel.LogLevelType int level, String tag, String logContent) {
-                            if (logContent.contains("name")) {
-                                return false;
-                            }
-                            return true;
-                        }
-                })
+                .configLog2FileLevel(LogLevel.TYPE_VERBOSE)
+//                .configLogFileFilter(new LogFileFilter() {
+//                        @Override
+//                        public boolean accept(@LogLevel.LogLevelType int level, String tag, String logContent) {
+//                            if (logContent.contains("name")) {
+//                                return false;
+//                            }
+//                            return true;
+//                        }
+//                })
                 .configLogFileEngine(new LogFileEngineFactory());
     }
 }

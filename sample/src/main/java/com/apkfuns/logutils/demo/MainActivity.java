@@ -33,6 +33,13 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         log();
+//        XLog.d("this is a Test info");
+    }
+
+    static class XLog {
+        public static void d(String msg) {
+            LogUtils.d(msg);
+        }
     }
 
     @DebugLog

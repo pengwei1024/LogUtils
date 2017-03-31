@@ -14,6 +14,10 @@ public final class LogUtils {
        return LogConfigImpl.getInstance();
     }
 
+    public static Log2FileConfig getLog2FileConfig() {
+        return Log2FileConfigImpl.getInstance();
+    }
+
     public static Printer tag(String tag) {
         return Logger.getInstance();
     }

@@ -21,6 +21,7 @@ class LogConfigImpl implements LogConfig {
     private int logLevel = LogLevel.TYPE_VERBOSE;
     private List<Parser> parseList;
     private String formatTag;
+    private int methodOffset = 0;
 
     private static LogConfigImpl singleton;
 
@@ -68,6 +69,16 @@ class LogConfigImpl implements LogConfig {
     public LogConfig configShowBorders(boolean showBorder) {
         this.showBorder = showBorder;
         return this;
+    }
+
+    @Override
+    public LogConfig configMethodOffset(int offset) {
+        this.methodOffset = offset;
+        return this;
+    }
+
+    public int getMethodOffset() {
+        return methodOffset;
     }
 
     @Override

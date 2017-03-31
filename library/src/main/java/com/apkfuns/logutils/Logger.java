@@ -32,7 +32,6 @@ import javax.xml.transform.stream.StreamSource;
 /**
  * Created by pengwei08 on 2015/7/20.
  */
-// TODO: 16/3/22 泛型支持
 class Logger implements Printer {
 
     private LogConfigImpl mLogConfig;
@@ -67,17 +66,24 @@ class Logger implements Printer {
      */
     private synchronized void logString(@LogLevelType int type, String msg, Object... args) {
         logString(type, msg, false, args);
-        writeToFile("tag", msg, type);
     }
 
     private void logString(@LogLevelType int type, String msg, boolean isPart, Object... args) {
+        String tag = generateTag();
+        if (!isPart) {
+            if (args.length > 0) {
+                try {
+                    msg = String.format(msg, args);
+                } catch (MissingFormatArgumentException e) {}
+            }
+            writeToFile(tag, msg, type);
+        }
         if (!mLogConfig.isEnable()) {
             return;
         }
         if (type < mLogConfig.getLogLevel()) {
             return;
         }
-        String tag = generateTag();
         if (msg.length() > Constant.LINE_MAX) {
             if (mLogConfig.isShowBorder()) {
                 printLog(type, tag, printDividingLine(DIVIDER_TOP));
@@ -91,13 +97,6 @@ class Logger implements Printer {
                 printLog(type, tag, printDividingLine(DIVIDER_BOTTOM));
             }
             return;
-        }
-        if (args.length > 0) {
-            try {
-                msg = String.format(msg, args);
-            } catch (MissingFormatArgumentException e) {
-
-            }
         }
         if (mLogConfig.isShowBorder()) {
             if (isPart) {
@@ -156,6 +155,9 @@ class Logger implements Printer {
             if (stackOffset == -1) {
                 return null;
             }
+        }
+        if (mLogConfig.getMethodOffset() > 0) {
+            stackOffset += mLogConfig.getMethodOffset();
         }
         StackTraceElement caller = trace[stackOffset];
         return caller;

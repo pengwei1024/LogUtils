@@ -40,7 +40,6 @@ public class LogFileEngineFactory implements LogFileEngine {
         try {
             bSink.writeUtf8(msg);
             bSink.flush();
-            System.out.println(msg);
         } catch (IOException e) {
             Log.e(TAG, "Sink.writeUtf8 Error and retry once", e);
             ensureSinkCreate(logFile, true);

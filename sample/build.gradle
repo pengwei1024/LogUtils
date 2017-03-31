@@ -13,13 +13,13 @@ apply plugin: 'com.jakewharton.hugo'
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         applicationId "com.apkfuns.logutils.demo"
-        minSdkVersion 14
-        targetSdkVersion 21
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
@@ -43,7 +43,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile project(':logutils')
-    //    compile project(':logutils-no-op')
+//    compile project(':logutils')
+    compile project(':logutils-no-op')
     compile project(':log2file')
 }

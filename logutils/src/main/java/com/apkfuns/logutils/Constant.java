@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class Constant {
 
+    public static final String TAG = "LogUtils";
+    
     public static final String STRING_OBJECT_NULL = "Object[object is null]";
 
     // 每行最大日志长度

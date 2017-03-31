@@ -1,5 +1,6 @@
 package com.apkfuns.logutils.pattern;
 
+
 import com.apkfuns.logutils.utils.Utils;
 
 import java.text.SimpleDateFormat;
@@ -167,15 +168,15 @@ public abstract class LogPattern {
         private int position;
         private List<ConcatenateLogPattern> queue;
 
-        private final Pattern PERCENT_PATTERN = Pattern.compile("%%");
-        private final Pattern NEWLINE_PATTERN = Pattern.compile("%n");
-        private final Pattern CALLER_PATTERN = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?caller(\\{([+-]?\\d+)?(\\.([+-]?\\d+))?\\})?");
-        private final Pattern DATE_PATTERN = Pattern.compile("%date(\\{(.*?)\\})?");
-        private final Pattern CONCATENATE_PATTERN = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?\\(");
-        private final Pattern DATE_PATTERN_SHORT = Pattern.compile("%d(\\{(.*?)\\})?");
-        private final Pattern CALLER_PATTERN_SHORT = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?c(\\{([+-]?\\d+)?(\\.([+-]?\\d+))?\\})?");
-        private final Pattern THREAD_NAME_PATTERN = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?thread");
-        private final Pattern THREAD_NAME_PATTERN_SHORT = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?t");
+        public static final Pattern PERCENT_PATTERN = Pattern.compile("%%");
+        public static final Pattern NEWLINE_PATTERN = Pattern.compile("%n");
+        public static final Pattern CALLER_PATTERN = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?caller(\\{([+-]?\\d+)?(\\.([+-]?\\d+))?\\})?");
+        public static final Pattern DATE_PATTERN = Pattern.compile("%date(\\{(.*?)\\})?");
+        public static final Pattern CONCATENATE_PATTERN = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?\\(");
+        public static final Pattern DATE_PATTERN_SHORT = Pattern.compile("%d(\\{(.*?)\\})?");
+        public static final Pattern CALLER_PATTERN_SHORT = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?c(\\{([+-]?\\d+)?(\\.([+-]?\\d+))?\\})?");
+        public static final Pattern THREAD_NAME_PATTERN = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?thread");
+        public static final Pattern THREAD_NAME_PATTERN_SHORT = Pattern.compile("%([+-]?\\d+)?(\\.([+-]?\\d+))?t");
 
         public LogPattern compile(String string) {
             if (string == null) {
@@ -256,6 +257,35 @@ public abstract class LogPattern {
             return matcher.find(position) && matcher.start() == position ? matcher : null;
         }
 
+    }
+
+    /**
+     * log文件正则匹配
+     */
+    public static class Log2FileNamePattern {
+
+        private String patternString;
+        private Date date;
+
+        public Log2FileNamePattern(String patternString) {
+            this.patternString = patternString;
+            date = new Date();
+        }
+
+        public String doApply() {
+            if (patternString == null) {
+                return null;
+            }
+            String temp = patternString;
+            Matcher matcher = Compiler.DATE_PATTERN_SHORT.matcher(patternString);
+            while (matcher.find()) {
+                String format = matcher.group(2);
+                SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+                String dateString = dateFormat.format(date);
+                temp = temp.replace(matcher.group(0), dateString);
+            }
+            return temp;
+        }
     }
 
 }

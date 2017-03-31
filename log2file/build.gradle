@@ -5,10 +5,10 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 8
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -25,4 +25,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.squareup.okio:okio:1.11.0'
     provided project(':logutils')
+}
+
+if (file("$projectDir/bintrayUpload.gradle").exists()) {
+    apply from: "./bintrayUpload.gradle"
 }

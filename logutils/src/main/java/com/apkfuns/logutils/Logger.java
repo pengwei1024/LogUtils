@@ -3,6 +3,8 @@ package com.apkfuns.logutils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.apkfuns.logutils.file.LogFileParam;
+
 import static com.apkfuns.logutils.LogLevel.*;
 import static com.apkfuns.logutils.utils.ObjectUtil.*;
 import static com.apkfuns.logutils.utils.Utils.*;
@@ -12,8 +14,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.sql.SQLOutput;
 import java.util.MissingFormatArgumentException;
 
 import javax.xml.transform.OutputKeys;
@@ -62,6 +67,7 @@ class Logger implements Printer {
      */
     private synchronized void logString(@LogLevelType int type, String msg, Object... args) {
         logString(type, msg, false, args);
+        writeToFile("tag", msg, type);
     }
 
     private void logString(@LogLevelType int type, String msg, boolean isPart, Object... args) {
@@ -339,12 +345,32 @@ class Logger implements Printer {
         }
     }
 
-    private void writeToFile(String tagName, String logContent, int logLevel) {
+    /**
+     * 写入log到文件
+     * @param tagName
+     * @param logContent
+     * @param logLevel
+     */
+    private void writeToFile(String tagName, String logContent, @LogLevelType int logLevel) {
         if (!log2FileConfig.isEnable()) {
             return;
         }
+        if (log2FileConfig.getFileFilter() != null
+                && !log2FileConfig.getFileFilter().accept(logLevel, tagName, logContent)) {
+            return;
+        }
+        if (logLevel < log2FileConfig.getLogLevel()) {
+            return;
+        }
+        String path = log2FileConfig.getLogPath();
+        if (TextUtils.isEmpty(path)) {
+            throw new IllegalArgumentException("Log2FilePath Is an invalid path");
+        }
+        File logFile = new File(path, log2FileConfig.getLogFormatName());
+        LogFileParam param = new LogFileParam(System.currentTimeMillis(), logLevel,
+                Thread.currentThread().getName(), tagName);
         if (log2FileConfig.getEngine() != null) {
-            log2FileConfig.getEngine().writeToFile(null, null, null);
+            log2FileConfig.getEngine().writeToFile(logFile, logContent, param);
         } else {
             throw new NullPointerException("LogFileEngine must not Null");
         }

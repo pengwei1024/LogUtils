@@ -3,6 +3,8 @@ package com.apkfuns.logutils;
 import com.apkfuns.logutils.file.LogFileEngine;
 import com.apkfuns.logutils.file.LogFileFilter;
 
+import java.io.File;
+
 /**
  * Created by pengwei on 2017/3/30.
  */
@@ -19,4 +21,6 @@ public interface Log2FileConfig {
     Log2FileConfig configLogFileEngine(LogFileEngine engine);
 
     Log2FileConfig configLogFileFilter(LogFileFilter fileFilter);
+
+    File getLogFile();
 }

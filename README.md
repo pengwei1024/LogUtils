@@ -107,6 +107,7 @@ LogUtils.getLogConfig()
 
 # 支持写入日志到文件
  LogUtils.getLog2FileConfig().configLog2FileEnable(true)
+                // targetSdkVersion >= 23 需要确保有写sdcard权限
                 .configLog2FilePath("/sdcard/项目文件夹/logs/")
                 .configLog2FileNameFormat("%d{yyyyMMdd}.txt") 
                 .configLogFileEngine(new LogFileEngineFactory());              
@@ -129,21 +130,21 @@ LogUtils.getLogConfig()
 
 ### Gradle
 ```groovy
-compile 'com.apkfuns.logutils:library:1.5.1'
+compile 'com.apkfuns.logutils:library:1.5.1.1'
 ```
 
 ##### release-no-op版本
 ```groovy
-debugCompile 'com.apkfuns.logutils:library:1.5.1'
-releaseCompile 'com.apkfuns.logutils:logutils-no-op:1.5.1'
+debugCompile 'com.apkfuns.logutils:library:1.5.1.1'
+releaseCompile 'com.apkfuns.logutils:logutils-no-op:1.5.1.1'
 ``` 
 
-##### 写入日志到文件
-- 依赖log2file库
+##### 日志写入到文件
+- 依赖log2file库(基于okio)
 ```java
 compile 'com.apkfuns.log2file:log2file:1.0.0'
 ...
-如果本地已经依赖okio(使用okhttp)请排除
+若本地已经依赖okio(如pokhttp)请排除
 compile('com.apkfuns.log2file:log2file:1.0.0') {
     exclude module: 'okio'
 }
@@ -167,6 +168,7 @@ LogUtils.getLog2FileConfig().configLogFileEngine(new MyLogFileEngine());
 ```
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 ```
+
 
 ### Eclipse导入Jar
 click [here](https://github.com/pengwei1024/LogUtils/tree/master/jar) to download *.jar

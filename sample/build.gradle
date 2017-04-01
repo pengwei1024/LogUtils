@@ -43,7 +43,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'org.apache.commons:commons-lang3:3.4'
-//    compile project(':logutils')
-    compile project(':logutils-no-op')
+    //    compile project(':logutils-no-op')
     compile project(':log2file')
+    compile project(':library')
 }

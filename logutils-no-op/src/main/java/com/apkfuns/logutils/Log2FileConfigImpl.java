@@ -2,6 +2,9 @@ package com.apkfuns.logutils;
 
 import com.apkfuns.logutils.file.LogFileEngine;
 import com.apkfuns.logutils.file.LogFileFilter;
+
+import java.io.File;
+
 /**
  * Created by pengwei on 2017/3/30.
  */
@@ -50,5 +53,10 @@ class Log2FileConfigImpl implements Log2FileConfig {
     @Override
     public Log2FileConfig configLogFileFilter(LogFileFilter fileFilter) {
         return this;
+    }
+
+    @Override
+    public File getLogFile() {
+        return null;
     }
 }

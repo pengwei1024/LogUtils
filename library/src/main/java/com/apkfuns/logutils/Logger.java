@@ -1,5 +1,6 @@
 package com.apkfuns.logutils;
 
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,10 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.sql.SQLOutput;
 import java.util.MissingFormatArgumentException;
 
 import javax.xml.transform.OutputKeys;
@@ -366,7 +365,11 @@ class Logger implements Printer {
         }
         String path = log2FileConfig.getLogPath();
         if (TextUtils.isEmpty(path)) {
-            throw new IllegalArgumentException("Log2FilePath Is an invalid path");
+            if (Build.VERSION.SDK_INT >= 23) {
+                Log.e(tagName, "LogUtils write to logFile error. No sdcard access permission?");
+                return;
+            }
+            throw new IllegalArgumentException("Log2FilePath is an invalid path");
         }
         File logFile = new File(path, log2FileConfig.getLogFormatName());
         LogFileParam param = new LogFileParam(System.currentTimeMillis(), logLevel,

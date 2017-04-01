@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 30
-        versionName "1.5.1"
+        versionCode 32
+        versionName "1.5.1.1"
     }
     buildTypes {
         release {

@@ -116,6 +116,15 @@ class Log2FileConfigImpl implements Log2FileConfig {
         return this;
     }
 
+    @Override
+    public File getLogFile() {
+        String path = getLogPath();
+        if (!TextUtils.isEmpty(path)) {
+            return new File(path, getLogFormatName());
+        }
+        return null;
+    }
+
     public LogFileFilter getFileFilter() {
         return fileFilter;
     }

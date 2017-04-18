@@ -64,11 +64,13 @@ class Logger implements Printer {
      * @param args
      */
     private synchronized void logString(@LogLevelType int type, String msg, Object... args) {
-        logString(type, msg, false, args);
+        logString(type, msg, null, false, args);
     }
 
-    private void logString(@LogLevelType int type, String msg, boolean isPart, Object... args) {
-        String tag = generateTag();
+    private void logString(@LogLevelType int type, String msg, String tag, boolean isPart, Object... args) {
+        if (!isPart || TextUtils.isEmpty(tag)) {
+            tag = generateTag();
+        }
         if (!isPart) {
             if (args.length > 0) {
                 try {
@@ -90,7 +92,7 @@ class Logger implements Printer {
                 printLog(type, tag, printDividingLine(DIVIDER_CENTER));
             }
             for (String subMsg : largeStringToList(msg)) {
-                logString(type, subMsg, true, args);
+                logString(type, subMsg, tag, true, args);
             }
             if (mLogConfig.isShowBorder()) {
                 printLog(type, tag, printDividingLine(DIVIDER_BOTTOM));

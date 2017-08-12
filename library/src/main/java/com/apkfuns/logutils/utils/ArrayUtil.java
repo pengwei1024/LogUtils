@@ -82,6 +82,9 @@ public final class ArrayUtil {
                     case 'F':
                         result.append(Arrays.toString((float[]) array));
                         break;
+                    case 'C':
+                        result.append(Arrays.toString((char[]) array));
+                        break;
                     case 'L':
                         Object[] objects = (Object[]) array;
                         result.append("[");

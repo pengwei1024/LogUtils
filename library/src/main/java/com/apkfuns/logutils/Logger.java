@@ -18,7 +18,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.IllegalFormatConversionException;
 import java.util.MissingFormatArgumentException;
+import java.util.UnknownFormatConversionException;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
@@ -72,19 +74,20 @@ class Logger implements Printer {
             tag = generateTag();
         }
         if (!isPart) {
-            if (args.length > 0) {
+            if (args != null && args.length > 0) {
                 try {
                     msg = String.format(msg, args);
-                } catch (MissingFormatArgumentException e) {}
+                } catch (MissingFormatArgumentException | IllegalFormatConversionException
+                        | UnknownFormatConversionException e) {
+                    printLog(TYPE_ERROR, tag, Log.getStackTraceString(e));
+                }
             }
             writeToFile(tag, msg, type);
         }
-        if (!mLogConfig.isEnable()) {
+        if (!mLogConfig.isEnable() || type < mLogConfig.getLogLevel()) {
             return;
         }
-        if (type < mLogConfig.getLogLevel()) {
-            return;
-        }
+        // 超过长度分条打印
         if (msg.length() > Constant.LINE_MAX) {
             if (mLogConfig.isShowBorder()) {
                 printLog(type, tag, printDividingLine(DIVIDER_TOP));
@@ -99,6 +102,7 @@ class Logger implements Printer {
             }
             return;
         }
+        // 分条打印日志
         if (mLogConfig.isShowBorder()) {
             if (isPart) {
                 for (String sub : msg.split(Constant.BR)) {

@@ -19,8 +19,8 @@ public class Constant {
     
     public static final String STRING_OBJECT_NULL = "Object[object is null]";
 
-    // 每行最大日志长度
-    public static final int LINE_MAX = 1024 * 3;
+    // 每行最大日志长度 (Android Studio3.1最多2902字符)
+    public static final int LINE_MAX = 2800;
 
     // 解析属性最大层级
     public static final int MAX_CHILD_LEVEL = 2;

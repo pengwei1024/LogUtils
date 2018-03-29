@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Messenger;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.apkfuns.logutils.LogUtils;
 import com.apkfuns.logutils.demo.a.b.Test;
@@ -24,16 +25,32 @@ import java.util.List;
 import hugo.weaving.DebugLog;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ViewGroup container = (ViewGroup) findViewById(R.id.container);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            container.getChildAt(i).setTag(i);
+            container.getChildAt(i).setOnClickListener(this);
+        }
+}
 
-        log();
-//        XLog.d("this is a Test info");
+    @Override
+    public void onClick(View v) {
+        switch (((int) v.getTag())) {
+            case 0:
+                XLog.d("12345!!");
+                break;
+            case 1:
+                LogUtils.i(DataHelper.getBigString(this));
+                break;
+            default:
+                break;
+        }
     }
 
     static class XLog {
@@ -51,8 +68,7 @@ public class MainActivity extends Activity {
         LogUtils.d(null);
 
         LogUtils.json(DataHelper.getJson());
-////
-////        // 打印List
+        // 打印List
         LogUtils.d(DataHelper.getStringList());
 ////
 ////        // 支持数据集合
@@ -101,20 +117,6 @@ public class MainActivity extends Activity {
         it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         LogUtils.d(it);
 
-//        OkHttpClient client = new OkHttpClient();
-//        Request request = new Request.Builder()
-//                .url("https://api.github.com").build();
-//        client.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                LogUtils.e(e);
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                LogUtils.e(response);
-//            }
-//        });
 
         Person p = DataHelper.getObject();
         WeakReference<Person> wp = new WeakReference<Person>(p);

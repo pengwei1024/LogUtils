@@ -18,7 +18,7 @@ public class MessageParse implements Parser<Message> {
     @Override
     public String parseString(Message message) {
         if (message == null) {
-            return null;
+            return "null";
         }
         StringBuilder stringBuilder = new StringBuilder(message.getClass().getName() + " [" + LINE_SEPARATOR);
         stringBuilder.append(String.format("%s = %s", "what", message.what)).append(LINE_SEPARATOR);

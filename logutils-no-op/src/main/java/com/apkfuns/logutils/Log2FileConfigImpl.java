@@ -59,4 +59,14 @@ class Log2FileConfigImpl implements Log2FileConfig {
     public File getLogFile() {
         return null;
     }
+
+    @Override
+    public void flushAsync() {
+
+    }
+
+    @Override
+    public void release() {
+
+    }
 }

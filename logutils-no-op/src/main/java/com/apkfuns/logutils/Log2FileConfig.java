@@ -23,4 +23,8 @@ public interface Log2FileConfig {
     Log2FileConfig configLogFileFilter(LogFileFilter fileFilter);
 
     File getLogFile();
+
+    void flushAsync();
+
+    void release();
 }

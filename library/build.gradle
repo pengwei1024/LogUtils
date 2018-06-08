@@ -2,12 +2,11 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 32
-        versionName "1.5.1.1"
+        versionCode 34
+        versionName "1.6.0"
     }
     buildTypes {
         release {
@@ -22,10 +21,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.0'
-    testCompile 'org.assertj:assertj-core:1.7.0'
+    api 'com.android.support:support-annotations:27.1.1'
+    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'org.robolectric:robolectric:3.0'
+    androidTestImplementation 'org.assertj:assertj-core:1.7.0'
 }
 
 build << {

@@ -8,4 +8,8 @@ import java.io.File;
 
 public interface LogFileEngine {
     void writeToFile(File logFile, String logContent, LogFileParam params);
+
+    void flushAsync();
+
+    void release();
 }

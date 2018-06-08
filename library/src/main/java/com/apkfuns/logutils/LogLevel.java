@@ -1,6 +1,7 @@
 package com.apkfuns.logutils;
 
-import com.apkfuns.logutils.annotation.IntDef;
+
+import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

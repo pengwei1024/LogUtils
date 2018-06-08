@@ -1,21 +1,18 @@
 package com.apkfuns.log2file;
 
-import android.util.Log;
+import android.content.Context;
 
 import com.apkfuns.logutils.LogLevel;
 import com.apkfuns.logutils.file.LogFileEngine;
 import com.apkfuns.logutils.file.LogFileParam;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-import okio.BufferedSink;
-import okio.Okio;
-import okio.Sink;
+import me.pqpo.librarylog4a.LogBuffer;
 
 /**
  * Created by pengwei on 2017/3/30.
@@ -23,41 +20,40 @@ import okio.Sink;
 
 public class LogFileEngineFactory implements LogFileEngine {
 
-    private static final String TAG = "LogFileEngineFactory";
     private static final String FORMAT = "[%s][%s][%s:%s]%s\n";
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+    private DateFormat dateFormat;
+    private LogBuffer buffer;
+    private Context context;
 
-    private Sink sink;
-    private BufferedSink bSink = null;
-    private File logFile;
+    public LogFileEngineFactory(Context context) {
+        this.context = context;
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS",
+                Locale.getDefault());
+    }
 
     @Override
-    public synchronized void writeToFile(File logFile, String logContent, LogFileParam params) {
-        if (!ensureSinkCreate(logFile, false)) {
-            return;
-        }
-        String msg = getWriteString(logContent, params);
-        try {
-            bSink.writeUtf8(msg);
-            bSink.flush();
-        } catch (IOException e) {
-            Log.e(TAG, "Sink.writeUtf8 Error and retry once", e);
-            ensureSinkCreate(logFile, true);
-            try {
-                bSink.writeUtf8(msg);
-                bSink.flush();
-            } catch (IOException e1) {
-                Log.e(TAG, e1.getMessage(), e1);
+    public void writeToFile(File logFile, String logContent, LogFileParam params) {
+        if (buffer == null) {
+            synchronized (LogFileEngine.class) {
+                if (buffer == null) {
+                    if (context == null) {
+                        throw new NullPointerException("Context must not null!");
+                    }
+                    File bufferFile = new File(context.getFilesDir(), ".log4aCache");
+                    buffer = new LogBuffer(bufferFile.getAbsolutePath(), 4096,
+                            logFile.getAbsolutePath(), false);
+                }
             }
         }
+        buffer.write(getWriteString(logContent, params));
     }
 
     /**
      * 写入文件的内容
      *
-     * @param logContent
-     * @param params
-     * @return
+     * @param logContent log value
+     * @param params     LogFileParam
+     * @return file log content
      */
     private String getWriteString(String logContent, LogFileParam params) {
         String time = dateFormat.format(new Date(params.getTime()));
@@ -68,8 +64,8 @@ public class LogFileEngineFactory implements LogFileEngine {
     /**
      * 日志等级
      *
-     * @param level
-     * @return
+     * @param level level
+     * @return level string
      */
     private String getLogLevelString(int level) {
         switch (level) {
@@ -87,54 +83,19 @@ public class LogFileEngineFactory implements LogFileEngine {
         return "D";
     }
 
-
-    /**
-     * 关闭sink流
-     */
-    private void close() {
-        try {
-            if (sink != null) {
-                sink.close();
-                sink = null;
-            }
-            if (bSink != null) {
-                bSink.close();
-                bSink = null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    @Override
+    public void flushAsync() {
+        if (buffer != null) {
+            buffer.flushAsync();
         }
     }
 
-    /**
-     * 确保sink创建
-     *
-     * @param logFile
-     * @param force
-     */
-    private boolean ensureSinkCreate(File logFile, boolean force) {
-        if (logFile == null) {
-            return false;
+    @Override
+    public void release() {
+        if (buffer != null) {
+            buffer.release();
+            buffer = null;
         }
-        if (!logFile.exists()) {
-            if (logFile.getParentFile() != null && !logFile.getParentFile().exists()) {
-                logFile.getParentFile().mkdirs();
-            }
-        }
-        if (force) {
-            this.logFile = null;
-        }
-        if (this.logFile == null || !this.logFile.getPath().equals(logFile.getPath())
-                || sink == null || bSink == null) {
-            this.logFile = logFile;
-            close();
-            try {
-                sink = Okio.appendingSink(logFile);
-                bSink = Okio.buffer(sink);
-            } catch (FileNotFoundException e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-        }
-        return true;
     }
+
 }

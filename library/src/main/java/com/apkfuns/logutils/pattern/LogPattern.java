@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -280,7 +281,7 @@ public abstract class LogPattern {
             Matcher matcher = Compiler.DATE_PATTERN_SHORT.matcher(patternString);
             while (matcher.find()) {
                 String format = matcher.group(2);
-                SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+                SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.getDefault());
                 String dateString = dateFormat.format(date);
                 temp = temp.replace(matcher.group(0), dateString);
             }

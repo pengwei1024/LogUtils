@@ -136,14 +136,14 @@ public final class DataHelper {
     /**
      * 大文本
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return file content
      */
     public static String getBigString(Context context) {
         try {
             InputStream is = context.getAssets().open("city.json");
-            StringBuffer sb = new StringBuffer();
-            int len = -1;
+            StringBuilder sb = new StringBuilder();
+            int len;
             byte[] buf = new byte[is.available()];
             while ((len = is.read(buf)) != -1) {
                 sb.append(new String(buf, 0, len, "utf-8"));
@@ -175,7 +175,7 @@ public final class DataHelper {
         return node;
     }
 
-    public static String getXml(){
+    public static String getXml() {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Pensons><Penson id=\"1\"><name>name</name><sex>男</sex><age>30</age></Penson><Penson id=\"2\"><name>name</name><sex>女</sex><age>27</age></Penson></Pensons>";
     }
 

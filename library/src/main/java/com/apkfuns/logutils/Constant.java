@@ -1,5 +1,6 @@
 package com.apkfuns.logutils;
 
+import com.apkfuns.logutils.parser.ActivityParse;
 import com.apkfuns.logutils.parser.BundleParse;
 import com.apkfuns.logutils.parser.CollectionParse;
 import com.apkfuns.logutils.parser.IntentParse;
@@ -36,7 +37,8 @@ public class Constant {
     // 默认支持解析库
     public static final Class<? extends Parser>[] DEFAULT_PARSE_CLASS = new Class[]{
             BundleParse.class, IntentParse.class, CollectionParse.class,
-            MapParse.class, ThrowableParse.class, ReferenceParse.class, MessageParse.class
+            MapParse.class, ThrowableParse.class, ReferenceParse.class, MessageParse.class,
+            ActivityParse.class
     };
 
 

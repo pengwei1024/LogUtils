@@ -13,4 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=" Large Text Log" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log from multi-thread" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FlushAsync LogFile" />
 </LinearLayout>

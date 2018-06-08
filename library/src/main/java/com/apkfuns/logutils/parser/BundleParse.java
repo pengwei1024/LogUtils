@@ -18,7 +18,9 @@ public class BundleParse implements Parser<Bundle> {
     @Override
     public String parseString(Bundle bundle) {
         if (bundle != null) {
-            StringBuilder builder = new StringBuilder(bundle.getClass().getName() + " [" + LINE_SEPARATOR);
+            StringBuilder builder = new StringBuilder(bundle.getClass().getName());
+            builder.append(" [");
+            builder.append(LINE_SEPARATOR);
             for (String key : bundle.keySet()) {
                 builder.append(String.format("'%s' => %s " + LINE_SEPARATOR,
                         key, ObjectUtil.objectToString(bundle.get(key))));
@@ -26,6 +28,6 @@ public class BundleParse implements Parser<Bundle> {
             builder.append("]");
             return builder.toString();
         }
-        return null;
+        return "null";
     }
 }

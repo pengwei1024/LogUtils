@@ -14,7 +14,6 @@ apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         applicationId "com.apkfuns.logutils.demo"
@@ -40,10 +39,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    //    compile project(':logutils-no-op')
-    compile project(':log2file')
-    compile project(':library')
+    implementation 'com.android.support:support-annotations:27.1.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
+    implementation 'org.apache.commons:commons-lang3:3.4'
+//    implementation project(':logutils-no-op')
+//    implementation project(':library')
+//    implementation project(':log2file')
+    implementation 'com.apkfuns.logutils:library:1.6.0'
+    implementation 'com.apkfuns.log2file:log2file:1.1.0'
 }

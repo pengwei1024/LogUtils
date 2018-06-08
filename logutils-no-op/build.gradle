@@ -2,13 +2,12 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 32
-        versionName "1.5.1.1"
+        versionCode 34
+        versionName "1.6.0"
     }
     buildTypes {
         release {
@@ -19,8 +18,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.12'
+    api 'com.android.support:support-annotations:27.1.1'
 }
 
 if (file("$projectDir/bintrayUpload.gradle").exists()) {

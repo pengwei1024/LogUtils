@@ -84,6 +84,7 @@ class Logger implements Printer {
             }
             writeToFile(tag, msg, type);
         }
+        // 不启用日志
         if (!mLogConfig.isEnable() || type < mLogConfig.getLogLevel()) {
             return;
         }
@@ -162,10 +163,12 @@ class Logger implements Printer {
             }
         }
         if (mLogConfig.getMethodOffset() > 0) {
-            stackOffset += mLogConfig.getMethodOffset();
+            int newOffset = stackOffset + mLogConfig.getMethodOffset();
+            if (newOffset < trace.length) {
+                stackOffset = newOffset;
+            }
         }
-        StackTraceElement caller = trace[stackOffset];
-        return caller;
+        return trace[stackOffset];
     }
 
     /**
@@ -354,9 +357,9 @@ class Logger implements Printer {
 
     /**
      * 写入log到文件
-     * @param tagName
-     * @param logContent
-     * @param logLevel
+     * @param tagName TAG
+     * @param logContent log content
+     * @param logLevel logLevel
      */
     private void writeToFile(String tagName, String logContent, @LogLevelType int logLevel) {
         if (!log2FileConfig.isEnable()) {
@@ -369,15 +372,7 @@ class Logger implements Printer {
         if (logLevel < log2FileConfig.getLogLevel()) {
             return;
         }
-        String path = log2FileConfig.getLogPath();
-        if (TextUtils.isEmpty(path)) {
-            if (Build.VERSION.SDK_INT >= 23) {
-                Log.e(tagName, "LogUtils write to logFile error. No sdcard access permission?");
-                return;
-            }
-            throw new IllegalArgumentException("Log2FilePath is an invalid path");
-        }
-        File logFile = new File(path, log2FileConfig.getLogFormatName());
+        File logFile = new File(log2FileConfig.getLogPath(), log2FileConfig.getLogFormatName());
         LogFileParam param = new LogFileParam(System.currentTimeMillis(), logLevel,
                 Thread.currentThread().getName(), tagName);
         if (log2FileConfig.getEngine() != null) {

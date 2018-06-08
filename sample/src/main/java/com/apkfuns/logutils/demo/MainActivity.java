@@ -3,19 +3,19 @@ package com.apkfuns.logutils.demo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.apkfuns.logutils.LogUtils;
-import com.apkfuns.logutils.demo.a.b.Test;
 import com.apkfuns.logutils.demo.model.Child;
 import com.apkfuns.logutils.demo.helper.DataHelper;
 import com.apkfuns.logutils.demo.model.FakeBounty;
 import com.apkfuns.logutils.demo.model.Man;
 import com.apkfuns.logutils.demo.model.MulObject;
 import com.apkfuns.logutils.demo.model.Person;
+import com.apkfuns.logutils.demo.service.MultiProcessService;
+import com.apkfuns.logutils.demo.utils.ThreadLog;
 
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -37,7 +37,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             container.getChildAt(i).setTag(i);
             container.getChildAt(i).setOnClickListener(this);
         }
-}
+        // 进行多进程测试
+        startService(new Intent(this, MultiProcessService.class));
+    }
 
     @Override
     public void onClick(View v) {
@@ -47,6 +49,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case 1:
                 LogUtils.i(DataHelper.getBigString(this));
+                break;
+            case 2:
+                new ThreadLog("thread1", "msg from 1").start();
+                new ThreadLog("thread2", "msg from 2").start();
+                new ThreadLog("thread3", "msg from 3").start();
+                break;
+            case 3:
+                LogUtils.getLog2FileConfig().flushAsync();
                 break;
             default:
                 break;
@@ -152,8 +162,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         LogUtils.tag("lalal").e(new FakeBounty());
 
-        Test.a();
-
         // 测试Message
         Message message = new Message();
         message.setData(new Bundle());
@@ -163,10 +171,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         message.what = 1232;
         LogUtils.e(message);
 
-        Handler handler = new Handler(){
-
-        };
-        LogUtils.d(handler.obtainMessage(1));
+        LogUtils.d(Message.obtain());
 
         LogUtils.getLogConfig().configAllowLog(true);
         LogUtils.e("test 12345#");

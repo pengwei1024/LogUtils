@@ -1,6 +1,7 @@
 package com.apkfuns.logutils;
 
-import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.apkfuns.logutils.file.LogFileEngine;
@@ -8,6 +9,7 @@ import com.apkfuns.logutils.file.LogFileFilter;
 import com.apkfuns.logutils.pattern.LogPattern;
 
 import java.io.File;
+import static com.apkfuns.logutils.LogLevel.LogLevelType;
 
 /**
  * Created by pengwei on 2017/3/30.
@@ -15,16 +17,16 @@ import java.io.File;
 
 class Log2FileConfigImpl implements Log2FileConfig {
 
-    public static final String DEFAULT_LOG_NAME_FORMAT = "%d{yyyyMMdd}.txt";
+    private static final String DEFAULT_LOG_NAME_FORMAT = "%d{yyyyMMdd}.txt";
 
     private LogFileEngine engine;
     private LogFileFilter fileFilter;
-    @LogLevel.LogLevelType
-    private int logLevel = LogLevel.TYPE_VERBOSE;
+    private @LogLevelType int logLevel = LogLevel.TYPE_VERBOSE;
     private boolean enable = false;
     private String logFormatName = DEFAULT_LOG_NAME_FORMAT;
     private String logPath;
     private static Log2FileConfigImpl singleton;
+    private String customFormatName;
 
     public static Log2FileConfigImpl getInstance() {
         if (singleton == null) {
@@ -55,31 +57,18 @@ class Log2FileConfigImpl implements Log2FileConfig {
 
     /**
      * 获取日志路径
-     * @return
+     * @return 日志路径
      */
+    @NonNull
     public String getLogPath() {
         if (TextUtils.isEmpty(logPath)) {
-            return getDefaultPath();
+            throw new RuntimeException("Log File Path must not be empty");
         }
         File file = new File(logPath);
-        if (file.exists() && file.isDirectory()) {
+        if (file.exists() || file.mkdirs()) {
             return logPath;
         }
-        if(file.isFile() && file.getParentFile() != null) {
-            if (file.getParentFile().exists()) {
-                return file.getParent();
-            } else {
-                boolean ret = file.getParentFile().mkdirs();
-                if (ret) {
-                    return file.getParent();
-                }
-            }
-        }
-        boolean ret = file.mkdirs();
-        if (ret) {
-            return logPath;
-        }
-        return null;
+        throw new RuntimeException("Log File Path is invalid or no sdcard permission");
     }
 
     @Override
@@ -91,11 +80,14 @@ class Log2FileConfigImpl implements Log2FileConfig {
     }
 
     public String getLogFormatName() {
-        return new LogPattern.Log2FileNamePattern(logFormatName).doApply();
+        if (customFormatName == null) {
+            customFormatName = new LogPattern.Log2FileNamePattern(logFormatName).doApply();
+        }
+        return customFormatName;
     }
 
     @Override
-    public Log2FileConfig configLog2FileLevel(@LogLevel.LogLevelType int level) {
+    public Log2FileConfig configLog2FileLevel(@LogLevelType int level) {
         this.logLevel = level;
         return this;
     }
@@ -117,6 +109,7 @@ class Log2FileConfigImpl implements Log2FileConfig {
     }
 
     @Override
+    @Nullable
     public File getLogFile() {
         String path = getLogPath();
         if (!TextUtils.isEmpty(path)) {
@@ -125,24 +118,25 @@ class Log2FileConfigImpl implements Log2FileConfig {
         return null;
     }
 
+    @Override
+    public void flushAsync() {
+        if (engine != null) {
+            engine.flushAsync();
+        }
+    }
+
+    @Override
+    public void release() {
+        if (engine != null) {
+            engine.release();
+        }
+    }
+
     public LogFileFilter getFileFilter() {
         return fileFilter;
     }
 
     public LogFileEngine getEngine() {
         return engine;
-    }
-
-    /**
-     * 默认路径
-     */
-    public String getDefaultPath() {
-        String basePath = "";
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            basePath = Environment.getExternalStorageDirectory() + File.separator;
-        } else {
-            throw new IllegalStateException("Sdcard No Access, please config Log2FilePath");
-        }
-        return basePath + Constant.TAG + File.separator + "logs";
     }
 }

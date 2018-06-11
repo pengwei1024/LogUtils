@@ -1,5 +1,4 @@
 # LogUtils
-<!--*[查看中文版](./doc/README_CN.md)*<br/>-->
 More convenient and easy to use android Log manager
 
 ## 1. Features
@@ -145,7 +144,7 @@ implementation 'com.android.support:support-annotations:27.1.1'
 ```
 
 ##### 日志写入到文件
-- 依赖log2file库
+- 依赖log2file库 (基于[Log4a](https://github.com/pqpo/Log4a)实现）
 -
 ```java
 implementation 'com.apkfuns.log2file:log2file:1.1.0'
@@ -158,6 +157,8 @@ LogUtils.getLog2FileConfig().configLogFileEngine(new LogFileEngineFactory(contex
 
 ```java
 public class MyLogFileEngine implements LogFileEngine {
+
+    // logFlile 日志文件， logContent 日志内容，LogFileParam日志参数
     @Override
     public void writeToFile(File logFile, String logContent, LogFileParam params) {
         ....
@@ -170,6 +171,10 @@ LogUtils.getLog2FileConfig().configLogFileEngine(new MyLogFileEngine());
 ```
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 ```
+
+#### mmap 日志原理
+- [高性能]日志优先写到内存映射文件，和写内存一样高效
+- [保证日志不丢失]日志超过4k立即写入文件，每次程序重新启动立即写入，或者端上调用`LogUtils.getLog2FileConfig().flushAsync()`立即写入
 
 
 ### Eclipse导入Jar

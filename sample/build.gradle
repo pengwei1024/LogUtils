@@ -46,6 +46,8 @@ dependencies {
 //    implementation project(':logutils-no-op')
     implementation project(':library')
 //    implementation project(':log2file')
-//    implementation 'com.apkfuns.logutils:library:1.6.0'
+
+//    implementation 'com.apkfuns.logutils:library:1.6.1'
+//    implementation 'com.apkfuns.logutils:logutils-no-op:1.6.1'
     implementation 'com.apkfuns.log2file:log2file:1.1.0'
 }

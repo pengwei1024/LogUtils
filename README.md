@@ -3,12 +3,12 @@ More convenient and easy to use android Log manager
 
 ## 1. Features
 * 支持直接打印数据集合,如List、Set、Map、数组等
-* 全局配置log输出
-* 个性化设置Tag
+* 全局配置log输出, 个性化设置Tag
 * 准确显示调用方法、行，快速定位所在文件位置
 * 支持android系统对象Intent、Bundle打印
 * 提供release-no-op版本
 * 支持高性能日志写入文件(基于mmap)
+* 兼容Android Studio 3.1
 
 ## 2. screenshot
 ##### 日志说明
@@ -129,13 +129,13 @@ LogUtils.getLogConfig()
 
 ### Gradle
 ```groovy
-implementation 'com.apkfuns.logutils:library:1.6.0'
+implementation 'com.apkfuns.logutils:library:1.6.1'
 ```
 
 ##### release-no-op版本
 ```groovy
-debugImplementation 'com.apkfuns.logutils:library:1.6.0'
-releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.6.0'
+debugImplementation 'com.apkfuns.logutils:library:1.6.1'
+releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.6.1'
 ```
 
 #### 需要依赖 support-annotations
@@ -186,46 +186,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/jar) to downloa
 * [修改LogCat显示字体颜色](./doc/logcat_color.md)
 
 ## 6. History
-* **1.0.0 (2015/07/13)**
-    - 打印对象，字符串，异常
-    - 显示报错文件名、行数
-* **1.0.1 (2015/07/22)**
-    - 打印json字符串
-* **1.0.2 (2015/07/24)**
-    - 支持打印List、Se等数据集合
-* **1.0.3 (2015/07/24)**
-    - 支持打印Map集合
-* **1.0.4 (2015/07/25)**
-    - 支持打印数组(暂仅支持一维、二维数组)
-* **1.0.6 (2015/08/28)**
-    - 修复打印字符串包含%s崩溃的bug
-* **1.1.0 (2016/03/02)**
-    - 修复非Exception崩溃的错误
-* **1.2.0 (2016/03/09)**
-    - 支持android系统对象Bundle、Intent等打印
-    - 优化设置选项
-    - 支持多维数组
-    - 支持自定义对象打印
-    - 支持字符串超过4k打印
-* **1.2.1 (2016/03/14)**
-    - 支持Intent具体Flags显示
-    - 修复自定义Parse和自带Parse优先级问题
-* **1.2.2 (2016/03/22)**
-    - 修复打印Reference类的bug
-* **1.3.0 (2016/04/20)**
-    - 支持对象包含复杂对象，逻辑重构
-* **1.3.1 (2016/05/09)**
-    - 修复某些情况下出现死循环的情况
-* **1.4.0 (2016/05/19)**
-    - 支持设置临时tag
-    - 支持xml打印
-    - 解决[issue 10](https://github.com/pengwei1024/LogUtils/issues/10)内部类问题
-* **1.4.2 (2016/05/23)**
-    - 个性化设置Tag(configFormatTag();)
-* **1.4.3 **
-    - 修复Instant Run下非静态内部类死循环情况
-* **1.5.1 (2017/03/31)**
-    - 支持自定义日志写入文件
+[Version History](./History.md)
 
 
 ## 7. About

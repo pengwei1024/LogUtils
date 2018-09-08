@@ -32,7 +32,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ViewGroup container = (ViewGroup) findViewById(R.id.container);
+        ViewGroup container = findViewById(R.id.container);
         for (int i = 0; i < container.getChildCount(); i++) {
             container.getChildAt(i).setTag(i);
             container.getChildAt(i).setOnClickListener(this);
@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     static class XLog {
-        public static void d(String msg) {
+        static void d(String msg) {
             LogUtils.d(msg);
         }
     }

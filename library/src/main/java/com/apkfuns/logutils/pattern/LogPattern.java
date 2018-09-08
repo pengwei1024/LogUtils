@@ -249,7 +249,6 @@ public abstract class LogPattern {
                 position = matcher.end();
                 return;
             }
-
             throw new IllegalArgumentException();
         }
 

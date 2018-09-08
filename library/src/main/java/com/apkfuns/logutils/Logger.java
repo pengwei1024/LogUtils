@@ -1,6 +1,5 @@
 package com.apkfuns.logutils;
 
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -29,6 +28,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import static com.apkfuns.logutils.Constant.CHARACTER_TABLE;
 
 /**
  * Created by pengwei08 on 2015/7/20.
@@ -37,9 +37,9 @@ class Logger implements Printer {
 
     private LogConfigImpl mLogConfig;
     private Log2FileConfigImpl log2FileConfig;
-    private final ThreadLocal<String> localTags = new ThreadLocal<String>();
+    private final ThreadLocal<String> localTags = new ThreadLocal<>();
 
-    protected Logger() {
+    Logger() {
         mLogConfig = LogConfigImpl.getInstance();
         log2FileConfig = Log2FileConfigImpl.getInstance();
         mLogConfig.addParserClass(Constant.DEFAULT_PARSE_CLASS);
@@ -69,6 +69,14 @@ class Logger implements Printer {
         logString(type, msg, null, false, args);
     }
 
+    /**
+     * 日志输出核心方法
+     * @param type LogLevelType
+     * @param msg log msg
+     * @param tag log tag
+     * @param isPart bool
+     * @param args args
+     */
     private void logString(@LogLevelType int type, String msg, String tag, boolean isPart, Object... args) {
         if (!isPart || TextUtils.isEmpty(tag)) {
             tag = generateTag();
@@ -91,15 +99,15 @@ class Logger implements Printer {
         // 超过长度分条打印
         if (msg.length() > Constant.LINE_MAX) {
             if (mLogConfig.isShowBorder()) {
-                printLog(type, tag, printDividingLine(DIVIDER_TOP));
-                printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + getTopStackInfo());
-                printLog(type, tag, printDividingLine(DIVIDER_CENTER));
+                printLog(type, tag + CHARACTER_TABLE[0], printDividingLine(DIVIDER_TOP));
+                printLog(type, tag + CHARACTER_TABLE[1], printDividingLine(DIVIDER_NORMAL) + getTopStackInfo());
+                printLog(type, tag + CHARACTER_TABLE[2], printDividingLine(DIVIDER_CENTER));
             }
             for (String subMsg : largeStringToList(msg)) {
                 logString(type, subMsg, tag, true, args);
             }
             if (mLogConfig.isShowBorder()) {
-                printLog(type, tag, printDividingLine(DIVIDER_BOTTOM));
+                printLog(type, tag + CHARACTER_TABLE[4], printDividingLine(DIVIDER_BOTTOM));
             }
             return;
         }
@@ -107,16 +115,16 @@ class Logger implements Printer {
         if (mLogConfig.isShowBorder()) {
             if (isPart) {
                 for (String sub : msg.split(Constant.BR)) {
-                    printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + sub);
+                    printLog(type, tag + CHARACTER_TABLE[3], printDividingLine(DIVIDER_NORMAL) + sub);
                 }
             } else {
-                printLog(type, tag, printDividingLine(DIVIDER_TOP));
-                printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + getTopStackInfo());
-                printLog(type, tag, printDividingLine(DIVIDER_CENTER));
+                printLog(type, tag + CHARACTER_TABLE[0], printDividingLine(DIVIDER_TOP));
+                printLog(type, tag + CHARACTER_TABLE[1], printDividingLine(DIVIDER_NORMAL) + getTopStackInfo());
+                printLog(type, tag + CHARACTER_TABLE[2], printDividingLine(DIVIDER_CENTER));
                 for (String sub : msg.split(Constant.BR)) {
-                    printLog(type, tag, printDividingLine(DIVIDER_NORMAL) + sub);
+                    printLog(type, tag + CHARACTER_TABLE[3], printDividingLine(DIVIDER_NORMAL) + sub);
                 }
-                printLog(type, tag, printDividingLine(DIVIDER_BOTTOM));
+                printLog(type, tag + CHARACTER_TABLE[4], printDividingLine(DIVIDER_BOTTOM));
             }
         } else {
             printLog(type, tag, msg);
@@ -137,7 +145,7 @@ class Logger implements Printer {
     /**
      * 自动生成tag
      *
-     * @return
+     * @return generate tag
      */
     private String generateTag() {
         String tempTag = localTags.get();
@@ -151,7 +159,7 @@ class Logger implements Printer {
     /**
      * 获取当前activity栈信息
      *
-     * @return
+     * @return StackTraceElement
      */
     private StackTraceElement getCurrentStackTrace() {
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
@@ -174,7 +182,7 @@ class Logger implements Printer {
     /**
      * 获取最顶部stack信息
      *
-     * @return
+     * @return String
      */
     private String getTopStackInfo() {
         String customTag = mLogConfig.getFormatTag(getCurrentStackTrace());
@@ -270,24 +278,24 @@ class Logger implements Printer {
      * 采用orhanobut/logger的json解析方案
      * source:https://github.com/orhanobut/logger/blob/master/logger/src/main/java/com/orhanobut/logger/LoggerPrinter.java#L152
      *
-     * @param json
+     * @param json json
      */
     @Override
     public void json(String json) {
         int indent = 4;
         if (TextUtils.isEmpty(json)) {
-            d("JSON{json is empty}");
+            i("JSON{json is empty}");
             return;
         }
         try {
             if (json.startsWith("{")) {
                 JSONObject jsonObject = new JSONObject(json);
                 String msg = jsonObject.toString(indent);
-                d(msg);
+                i(msg);
             } else if (json.startsWith("[")) {
                 JSONArray jsonArray = new JSONArray(json);
                 String msg = jsonArray.toString(indent);
-                d(msg);
+                i(msg);
             }
         } catch (JSONException e) {
             e(e.toString() + "\n\njson = " + json);
@@ -298,12 +306,12 @@ class Logger implements Printer {
      * 采用orhanobut/logger的xml解析方案
      * source:https://github.com/orhanobut/logger/blob/master/logger/src/main/java/com/orhanobut/logger/LoggerPrinter.java#L180
      *
-     * @param xml
+     * @param xml xml
      */
     @Override
     public void xml(String xml) {
         if (TextUtils.isEmpty(xml)) {
-            d("XML{xml is empty}");
+            i("XML{xml is empty}");
             return;
         }
         try {
@@ -313,7 +321,7 @@ class Logger implements Printer {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             transformer.transform(xmlInput, xmlOutput);
-            d(xmlOutput.getWriter().toString().replaceFirst(">", ">\n"));
+            i(xmlOutput.getWriter().toString().replaceFirst(">", ">\n"));
         } catch (TransformerException e) {
             e(e.toString() + "\n\nxml = " + xml);
         }
@@ -321,11 +329,11 @@ class Logger implements Printer {
 
 
     /**
-     * 打印日志
+     * 打印日志到 logcat
      *
-     * @param type
-     * @param tag
-     * @param msg
+     * @param type LogLevelType
+     * @param tag log tag
+     * @param msg log content
      */
     private void printLog(@LogLevelType int type, String tag, String msg) {
         if (!mLogConfig.isShowBorder()) {
@@ -373,12 +381,12 @@ class Logger implements Printer {
             return;
         }
         File logFile = new File(log2FileConfig.getLogPath(), log2FileConfig.getLogFormatName());
-        LogFileParam param = new LogFileParam(System.currentTimeMillis(), logLevel,
-                Thread.currentThread().getName(), tagName);
         if (log2FileConfig.getEngine() != null) {
+            LogFileParam param = new LogFileParam(System.currentTimeMillis(), logLevel,
+                    Thread.currentThread().getName(), tagName);
             log2FileConfig.getEngine().writeToFile(logFile, logContent, param);
         } else {
-            throw new NullPointerException("LogFileEngine must not Null");
+            throw new IllegalArgumentException("LogFileEngine must not Null");
         }
     }
 

@@ -16,8 +16,6 @@ import java.util.List;
  */
 public class Constant {
 
-    public static final String TAG = "LogUtils";
-    
     public static final String STRING_OBJECT_NULL = "Object[object is null]";
 
     // 每行最大日志长度 (Android Studio3.1最多2902字符)
@@ -31,14 +29,16 @@ public class Constant {
     // 换行符
     public static final String BR = System.getProperty("line.separator");
 
-    // 空格
-    public static final String SPACE = "\t";
-
     // 默认支持解析库
     public static final Class<? extends Parser>[] DEFAULT_PARSE_CLASS = new Class[]{
             BundleParse.class, IntentParse.class, CollectionParse.class,
             MapParse.class, ThrowableParse.class, ReferenceParse.class, MessageParse.class,
             ActivityParse.class
+    };
+
+    // 字符表
+    static final String[] CHARACTER_TABLE = new String[]{
+            "➀", "➁", "➂", "➃", "➄", "➅", "➆", "➇", "➈", "➉"
     };
 
 
@@ -47,7 +47,7 @@ public class Constant {
      *
      * @return
      */
-    public static final List<Parser> getParsers() {
+    public static List<Parser> getParsers() {
         return LogConfigImpl.getInstance().getParseList();
     }
 }

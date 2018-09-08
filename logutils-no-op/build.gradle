@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 34
-        versionName "1.6.0"
+        versionCode 36
+        versionName "1.6.1"
     }
     buildTypes {
         release {

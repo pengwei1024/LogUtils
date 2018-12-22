@@ -43,11 +43,19 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.squareup.okhttp3:okhttp:3.2.0'
     implementation 'org.apache.commons:commons-lang3:3.4'
-//    implementation project(':logutils-no-op')
-    implementation project(':library')
-//    implementation project(':log2file')
-
-//    implementation 'com.apkfuns.logutils:library:1.6.1'
-//    implementation 'com.apkfuns.logutils:logutils-no-op:1.6.1'
-    implementation 'com.apkfuns.log2file:log2file:1.1.0'
+    if (USE_SOURCE) {
+        if(USE_NO_OP_VERSION) {
+            implementation project(':logutils-no-op')
+        } else {
+            implementation project(':library')
+        }
+        implementation project(':log2file')
+    } else {
+        if(USE_NO_OP_VERSION) {
+            implementation 'com.apkfuns.logutils:logutils-no-op:1.6.1'
+        } else {
+            implementation 'com.apkfuns.logutils:library:1.6.1'
+        }
+        implementation 'com.apkfuns.log2file:log2file:1.1.0'
+    }
 }

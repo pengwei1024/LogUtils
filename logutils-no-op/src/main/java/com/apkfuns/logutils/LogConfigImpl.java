@@ -50,4 +50,9 @@ class LogConfigImpl implements LogConfig {
     public LogConfig addParserClass(Class<? extends Parser>... classes) {
         return this;
     }
+
+    @Override
+    public LogConfig configMethodOffset(int offset) {
+        return this;
+    }
 }

@@ -135,7 +135,7 @@ implementation 'com.apkfuns.logutils:library:1.6.1'
 ##### release-no-op版本
 ```groovy
 debugImplementation 'com.apkfuns.logutils:library:1.6.1'
-releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.6.1'
+releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.6.1.1'
 ```
 
 #### 需要依赖 support-annotations

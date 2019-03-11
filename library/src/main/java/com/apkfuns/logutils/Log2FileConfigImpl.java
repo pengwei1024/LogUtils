@@ -28,7 +28,7 @@ class Log2FileConfigImpl implements Log2FileConfig {
     private static Log2FileConfigImpl singleton;
     private String customFormatName;
 
-    public static Log2FileConfigImpl getInstance() {
+    static Log2FileConfigImpl getInstance() {
         if (singleton == null) {
             synchronized (Log2FileConfigImpl.class) {
                 if (singleton == null) {
@@ -45,7 +45,7 @@ class Log2FileConfigImpl implements Log2FileConfig {
         return this;
     }
 
-    public boolean isEnable() {
+    boolean isEnable() {
         return enable;
     }
 
@@ -60,7 +60,7 @@ class Log2FileConfigImpl implements Log2FileConfig {
      * @return 日志路径
      */
     @NonNull
-    public String getLogPath() {
+    String getLogPath() {
         if (TextUtils.isEmpty(logPath)) {
             throw new RuntimeException("Log File Path must not be empty");
         }
@@ -79,7 +79,7 @@ class Log2FileConfigImpl implements Log2FileConfig {
         return this;
     }
 
-    public String getLogFormatName() {
+    String getLogFormatName() {
         if (customFormatName == null) {
             customFormatName = new LogPattern.Log2FileNamePattern(logFormatName).doApply();
         }
@@ -92,7 +92,7 @@ class Log2FileConfigImpl implements Log2FileConfig {
         return this;
     }
 
-    public int getLogLevel() {
+    int getLogLevel() {
         return logLevel;
     }
 
@@ -132,11 +132,11 @@ class Log2FileConfigImpl implements Log2FileConfig {
         }
     }
 
-    public LogFileFilter getFileFilter() {
+    LogFileFilter getFileFilter() {
         return fileFilter;
     }
 
-    public LogFileEngine getEngine() {
+    LogFileEngine getEngine() {
         return engine;
     }
 }

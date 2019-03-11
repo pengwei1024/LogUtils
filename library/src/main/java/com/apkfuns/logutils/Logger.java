@@ -4,9 +4,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.apkfuns.logutils.file.LogFileParam;
+import com.apkfuns.logutils.parser.LocalParserManager;
+import com.apkfuns.logutils.utils.ObjectUtil;
 
 import static com.apkfuns.logutils.LogLevel.*;
-import static com.apkfuns.logutils.utils.ObjectUtil.*;
 import static com.apkfuns.logutils.utils.Utils.*;
 
 
@@ -28,7 +29,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import static com.apkfuns.logutils.Constant.CHARACTER_TABLE;
 
 /**
  * Created by pengwei08 on 2015/7/20.
@@ -38,11 +38,17 @@ class Logger implements Printer {
     private LogConfigImpl mLogConfig;
     private Log2FileConfigImpl log2FileConfig;
     private final ThreadLocal<String> localTags = new ThreadLocal<>();
+    // 字符表
+    private static final String[] CHARACTER_TABLE = new String[]{
+            "➀", "➁", "➂", "➃", "➄", "➅", "➆", "➇", "➈", "➉"
+    };
+    // 解析 StackTrace 起始的层级 (减小遍历次数)
+    private static final int MIN_STACK_OFFSET = 5;
 
     Logger() {
         mLogConfig = LogConfigImpl.getInstance();
         log2FileConfig = Log2FileConfigImpl.getInstance();
-        mLogConfig.addParserClass(Constant.DEFAULT_PARSE_CLASS);
+        mLogConfig.addParserClass(LocalParserManager.DEFAULT_PARSE_CLASS);
     }
 
     /**
@@ -71,11 +77,12 @@ class Logger implements Printer {
 
     /**
      * 日志输出核心方法
-     * @param type LogLevelType
-     * @param msg log msg
-     * @param tag log tag
+     *
+     * @param type   LogLevelType
+     * @param msg    log msg
+     * @param tag    log tag
      * @param isPart bool
-     * @param args args
+     * @param args   args
      */
     private void logString(@LogLevelType int type, String msg, String tag, boolean isPart, Object... args) {
         if (!isPart || TextUtils.isEmpty(tag)) {
@@ -97,13 +104,13 @@ class Logger implements Printer {
             return;
         }
         // 超过长度分条打印
-        if (msg.length() > Constant.LINE_MAX) {
+        if (msg.length() > ObjectUtil.LINE_MAX) {
             if (mLogConfig.isShowBorder()) {
                 printLog(type, tag + CHARACTER_TABLE[0], printDividingLine(DIVIDER_TOP));
                 printLog(type, tag + CHARACTER_TABLE[1], printDividingLine(DIVIDER_NORMAL) + getTopStackInfo());
                 printLog(type, tag + CHARACTER_TABLE[2], printDividingLine(DIVIDER_CENTER));
             }
-            for (String subMsg : largeStringToList(msg)) {
+            for (String subMsg : ObjectUtil.largeStringToList(msg)) {
                 logString(type, subMsg, tag, true, args);
             }
             if (mLogConfig.isShowBorder()) {
@@ -114,14 +121,14 @@ class Logger implements Printer {
         // 分条打印日志
         if (mLogConfig.isShowBorder()) {
             if (isPart) {
-                for (String sub : msg.split(Constant.BR)) {
+                for (String sub : msg.split(Parser.LINE_SEPARATOR)) {
                     printLog(type, tag + CHARACTER_TABLE[3], printDividingLine(DIVIDER_NORMAL) + sub);
                 }
             } else {
                 printLog(type, tag + CHARACTER_TABLE[0], printDividingLine(DIVIDER_TOP));
                 printLog(type, tag + CHARACTER_TABLE[1], printDividingLine(DIVIDER_NORMAL) + getTopStackInfo());
                 printLog(type, tag + CHARACTER_TABLE[2], printDividingLine(DIVIDER_CENTER));
-                for (String sub : msg.split(Constant.BR)) {
+                for (String sub : msg.split(Parser.LINE_SEPARATOR)) {
                     printLog(type, tag + CHARACTER_TABLE[3], printDividingLine(DIVIDER_NORMAL) + sub);
                 }
                 printLog(type, tag + CHARACTER_TABLE[4], printDividingLine(DIVIDER_BOTTOM));
@@ -139,7 +146,7 @@ class Logger implements Printer {
      * @param object
      */
     private void logObject(@LogLevelType int type, Object object) {
-        logString(type, objectToString(object));
+        logString(type, ObjectUtil.objectToString(object));
     }
 
     /**
@@ -200,7 +207,7 @@ class Logger implements Printer {
     }
 
     private int getStackOffset(StackTraceElement[] trace, Class cla) {
-        for (int i = Constant.MIN_STACK_OFFSET; i < trace.length; i++) {
+        for (int i = MIN_STACK_OFFSET; i < trace.length; i++) {
             StackTraceElement e = trace[i];
             String name = e.getClassName();
             if (cla.equals(Logger.class) && i < trace.length - 1 && trace[i + 1].getClassName()
@@ -332,8 +339,8 @@ class Logger implements Printer {
      * 打印日志到 logcat
      *
      * @param type LogLevelType
-     * @param tag log tag
-     * @param msg log content
+     * @param tag  log tag
+     * @param msg  log content
      */
     private void printLog(@LogLevelType int type, String tag, String msg) {
         if (!mLogConfig.isShowBorder()) {
@@ -365,9 +372,10 @@ class Logger implements Printer {
 
     /**
      * 写入log到文件
-     * @param tagName TAG
+     *
+     * @param tagName    TAG
      * @param logContent log content
-     * @param logLevel logLevel
+     * @param logLevel   logLevel
      */
     private void writeToFile(String tagName, String logContent, @LogLevelType int logLevel) {
         if (!log2FileConfig.isEnable()) {

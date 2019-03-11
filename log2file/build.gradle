@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 2
-        versionName "1.1.0"
+        versionCode rootProject.ext.file.versionCode
+        versionName rootProject.ext.file.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    compileOnly project(':library')
+    compileOnly project(':exportapi')
 }
 
 if (file("$projectDir/bintrayUpload.gradle").exists()) {

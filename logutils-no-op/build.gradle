@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 37
-        versionName "1.6.1.1"
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
     }
     buildTypes {
         release {
@@ -19,7 +19,7 @@ android {
 
 dependencies {
     androidTestImplementation 'junit:junit:4.12'
-    api 'com.android.support:support-annotations:27.1.1'
+    api project(':exportapi')
 }
 
 if (file("$projectDir/bintrayUpload.gradle").exists()) {

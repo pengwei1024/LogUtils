@@ -36,6 +36,26 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    flavorDimensions "compile"
+    productFlavors {
+        // 源码编译
+        source {
+            dimension "compile"
+        }
+        // 源码编译 no-op 版本
+        sourceNoOp {
+            dimension "compile"
+        }
+        // 二进制编译
+        binary {
+            dimension "compile"
+        }
+        // 二进制 no-op 编译
+        binaryNoOp {
+            dimension "compile"
+        }
+    }
 }
 
 dependencies {
@@ -43,19 +63,12 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.squareup.okhttp3:okhttp:3.2.0'
     implementation 'org.apache.commons:commons-lang3:3.4'
-    if (USE_SOURCE) {
-        if(USE_NO_OP_VERSION) {
-            implementation project(':logutils-no-op')
-        } else {
-            implementation project(':library')
-        }
-        implementation project(':log2file')
-    } else {
-        if(USE_NO_OP_VERSION) {
-            implementation 'com.apkfuns.logutils:logutils-no-op:1.6.1'
-        } else {
-            implementation 'com.apkfuns.logutils:library:1.6.1'
-        }
-        implementation 'com.apkfuns.log2file:log2file:1.1.0'
-    }
+    sourceImplementation project(':library')
+    sourceImplementation project(':log2file')
+    sourceNoOpImplementation project(':logutils-no-op')
+    sourceNoOpImplementation project(':log2file')
+    binaryImplementation "com.apkfuns.logutils:library:1.6.1"
+    binaryImplementation "com.apkfuns.log2file:log2file:1.1.0"
+    binaryNoOpImplementation "com.apkfuns.logutils:logutils-no-op:1.6.1"
+    binaryNoOpImplementation "com.apkfuns.log2file:log2file:1.1.0"
 }

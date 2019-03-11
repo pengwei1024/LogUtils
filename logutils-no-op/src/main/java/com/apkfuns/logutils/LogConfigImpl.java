@@ -5,12 +5,12 @@ package com.apkfuns.logutils;
  */
 class LogConfigImpl implements LogConfig {
 
-    private static LogConfigImpl singleton;
+    private volatile static LogConfigImpl singleton;
     
     private LogConfigImpl() {
     }
 
-    public static LogConfigImpl getInstance() {
+    static LogConfigImpl getInstance() {
         if (singleton == null) {
             synchronized (LogConfigImpl.class) {
                 if (singleton == null) {
@@ -46,8 +46,9 @@ class LogConfigImpl implements LogConfig {
         return this;
     }
 
+    @SafeVarargs
     @Override
-    public LogConfig addParserClass(Class<? extends Parser>... classes) {
+    public final LogConfig addParserClass(Class<? extends Parser>... classes) {
         return this;
     }
 

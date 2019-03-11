@@ -10,9 +10,9 @@ import java.util.Arrays;
 public final class ArrayUtil {
 
     /**
-     * 获取数组的纬度
+     * 获取数组的维度, 非数组为0
      *
-     * @param object
+     * @param object 对象
      * @return
      */
     public static int getArrayDimension(Object object) {
@@ -28,10 +28,10 @@ public final class ArrayUtil {
     }
 
     /**
-     * 是否为数组
+     * 判断对象是否为数组
      *
-     * @param object
-     * @return
+     * @param object object
+     * @return bool
      */
     public static boolean isArray(Object object) {
         return object.getClass().isArray();
@@ -41,9 +41,9 @@ public final class ArrayUtil {
      * 获取数组类型
      *
      * @param object 如L为int型
-     * @return
+     * @return I/D/...
      */
-    public static char getType(Object object) {
+    private static char getType(Object object) {
         if (isArray(object)) {
             String str = object.toString();
             return str.substring(str.lastIndexOf("[") + 1, str.lastIndexOf("[") + 2).charAt(0);

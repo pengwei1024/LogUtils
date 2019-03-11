@@ -11,9 +11,9 @@ import java.io.File;
 
 class Log2FileConfigImpl implements Log2FileConfig {
 
-    private static Log2FileConfigImpl singleton;
+    private volatile static Log2FileConfigImpl singleton;
 
-    public static Log2FileConfigImpl getInstance() {
+    static Log2FileConfigImpl getInstance() {
         if (singleton == null) {
             synchronized (Log2FileConfigImpl.class) {
                 if (singleton == null) {

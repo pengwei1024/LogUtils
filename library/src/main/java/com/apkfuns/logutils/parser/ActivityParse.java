@@ -1,22 +1,22 @@
 package com.apkfuns.logutils.parser;
 
 import android.app.Activity;
-import com.apkfuns.logutils.Parser;
-import com.apkfuns.logutils.utils.ObjectUtil;
+import android.support.annotation.NonNull;
 
 import java.lang.reflect.Field;
 
-public class ActivityParse implements Parser<Activity> {
+import com.apkfuns.logutils.Parser;
+import com.apkfuns.logutils.utils.ObjectUtil;
+
+class ActivityParse implements Parser<Activity> {
+    @NonNull
     @Override
     public Class<Activity> parseClassType() {
         return Activity.class;
     }
 
     @Override
-    public String parseString(Activity activity) {
-        if (activity == null) {
-            return "null";
-        }
+    public String parseString(@NonNull Activity activity) {
         Field[] fields = activity.getClass().getDeclaredFields();
         StringBuilder builder = new StringBuilder(activity.getClass().getName());
         builder.append(" {");

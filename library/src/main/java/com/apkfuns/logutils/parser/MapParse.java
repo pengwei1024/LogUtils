@@ -1,24 +1,27 @@
 package com.apkfuns.logutils.parser;
 
-import com.apkfuns.logutils.Parser;
-import com.apkfuns.logutils.utils.ObjectUtil;
+import android.support.annotation.NonNull;
 
 import java.util.Map;
 import java.util.Set;
 
+import com.apkfuns.logutils.Parser;
+import com.apkfuns.logutils.utils.ObjectUtil;
+
 /**
  * Created by pengwei on 16/3/8.
  */
-public class MapParse implements Parser<Map> {
+class MapParse implements Parser<Map> {
+    @NonNull
     @Override
     public Class<Map> parseClassType() {
         return Map.class;
     }
 
     @Override
-    public String parseString(Map map) {
-        String msg = map.getClass().getName() + " [" + LINE_SEPARATOR;
-        Set<Object> keys = map.keySet();
+    public String parseString(@NonNull Map map) {
+        StringBuilder msg = new StringBuilder(map.getClass().getName() + " [" + LINE_SEPARATOR);
+        Set keys = map.keySet();
         for (Object key : keys) {
             String itemString = "%s -> %s" + LINE_SEPARATOR;
             Object value = map.get(key);
@@ -29,8 +32,8 @@ public class MapParse implements Parser<Map> {
                     value = "\'" + value + "\'";
                 }
             }
-            msg += String.format(itemString, ObjectUtil.objectToString(key),
-                    ObjectUtil.objectToString(value));
+            msg.append(String.format(itemString, ObjectUtil.objectToString(key),
+                    ObjectUtil.objectToString(value)));
         }
         return msg + "]";
     }

@@ -14,7 +14,7 @@ public final class LogUtils {
     /**
      * 选项配置
      *
-     * @return
+     * @return LogConfig
      */
     public static LogConfig getLogConfig() {
         return logConfig;
@@ -22,7 +22,7 @@ public final class LogUtils {
 
     /**
      * 日志写入文件相关配置
-     * @return
+     * @return LogConfig
      */
     public static Log2FileConfig getLog2FileConfig() {
         return log2FileConfig;

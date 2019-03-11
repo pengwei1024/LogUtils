@@ -1,20 +1,22 @@
 package com.apkfuns.logutils.parser;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
-import com.apkfuns.logutils.Parser;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.apkfuns.logutils.Parser;
+
 /**
  * Created by pengwei on 16/3/8.
  */
-public class IntentParse implements Parser<Intent> {
+class IntentParse implements Parser<Intent> {
 
-    private static Map<Integer, String> flagMap = new HashMap<>();
+    private static final Map<Integer, String> FLAG_MAP = new HashMap<>();
 
     static {
         Class cla = Intent.class;
@@ -31,20 +33,21 @@ public class IntentParse implements Parser<Intent> {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (flagMap.get(value) == null) {
-                    flagMap.put(value, field.getName());
+                if (!FLAG_MAP.containsKey(value)) {
+                    FLAG_MAP.put(value, field.getName());
                 }
             }
         }
     }
 
+    @NonNull
     @Override
     public Class<Intent> parseClassType() {
         return Intent.class;
     }
 
     @Override
-    public String parseString(Intent intent) {
+    public String parseString(@NonNull Intent intent) {
         StringBuilder builder = new StringBuilder(parseClassType().getSimpleName() + " [" + LINE_SEPARATOR);
         builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Scheme", intent.getScheme()));
         builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Action", intent.getAction()));
@@ -54,23 +57,26 @@ public class IntentParse implements Parser<Intent> {
         builder.append(String.format("%s = %s" + LINE_SEPARATOR, "ComponentInfo", intent.getComponent()));
         builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Flags", getFlags(intent.getFlags())));
         builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Categories", intent.getCategories()));
-        builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Extras",
-                new BundleParse().parseString(intent.getExtras())));
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Extras",
+                    new BundleParse().parseString(extras)));
+        }
         return builder.toString() + "]";
     }
 
     /**
-     * 获取flag的值
+     * 获取flag列表
      * 感谢涛哥提供的方法(*^__^*)
      *
      * @param flags
-     * @return
+     * @return 包含Flag列表转字符串
      */
     private String getFlags(int flags) {
         StringBuilder builder = new StringBuilder();
-        for (int flagKey : flagMap.keySet()) {
+        for (int flagKey : FLAG_MAP.keySet()) {
             if ((flagKey & flags) == flagKey) {
-                builder.append(flagMap.get(flagKey));
+                builder.append(FLAG_MAP.get(flagKey));
                 builder.append(" | ");
             }
         }

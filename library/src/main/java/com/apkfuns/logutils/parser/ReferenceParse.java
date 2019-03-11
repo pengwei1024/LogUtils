@@ -1,25 +1,30 @@
 package com.apkfuns.logutils.parser;
 
-import com.apkfuns.logutils.Parser;
-import com.apkfuns.logutils.utils.ObjectUtil;
+import android.support.annotation.NonNull;
 
 import java.lang.ref.Reference;
+
+import com.apkfuns.logutils.Parser;
+import com.apkfuns.logutils.utils.ObjectUtil;
 
 /**
  * Created by pengwei on 16/3/22.
  */
-public class ReferenceParse implements Parser<Reference> {
+class ReferenceParse implements Parser<Reference> {
+    @NonNull
     @Override
     public Class<Reference> parseClassType() {
         return Reference.class;
     }
 
     @Override
-    public String parseString(Reference reference) {
+    public String parseString(@NonNull Reference reference) {
         Object actual = reference.get();
-        StringBuilder builder = new StringBuilder(reference.getClass().getSimpleName() + "<"
-                + actual.getClass().getSimpleName() + "> {");
-        builder.append("→" + ObjectUtil.objectToString(actual));
-        return builder.toString() + "}";
+        if (actual == null) {
+            return "get reference = null";
+        }
+        String result = reference.getClass().getSimpleName() + "<"
+                + actual.getClass().getSimpleName() + "> {" + "→" + ObjectUtil.objectToString(actual);
+        return result + "}";
     }
 }

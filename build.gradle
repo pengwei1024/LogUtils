@@ -25,5 +25,29 @@ ext {
             buildToolsVersion : "27.0.3",
             minSdkVersion     : 8,
             targetSdkVersion  : 22,
+            versionCode : 40,
+            versionName : "1.7.0"
     ]
+    file = [
+            versionCode : 3,
+            versionName : "1.2.0"
+    ]
+}
+
+// 发布 LogUtil 线上版本
+task publishLogRelease(dependsOn: [':library:bintrayUpload', ':logutils-no-op:bintrayUpload']) {
+    group 'publishing'
+    description 'publish log release version'
+    doLast {
+        println "publishRelease finish"
+    }
+}
+
+// 发布完整线上版本，包含 log2File
+task publishFullRelease(dependsOn: ['publishLogRelease', ':log2file:bintrayUpload']) {
+    group 'publishing'
+    description 'publish full release version (include log2File)'
+    doLast {
+        println "publishFullRelease finish"
+    }
 }

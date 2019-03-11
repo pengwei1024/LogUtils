@@ -80,8 +80,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         LogUtils.json(DataHelper.getJson());
         // 打印List
         LogUtils.d(DataHelper.getStringList());
-////
-////        // 支持数据集合
+
+// 支持数据集合
         LogUtils.d(DataHelper.getObjectList());
 //
 ////        // 支持map输出

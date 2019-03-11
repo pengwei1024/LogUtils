@@ -3,10 +3,8 @@ package com.apkfuns.logutils;
 
 import android.text.TextUtils;
 
+import com.apkfuns.logutils.parser.ParserManager;
 import com.apkfuns.logutils.pattern.LogPattern;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by pengwei on 16/3/4.
@@ -19,14 +17,12 @@ class LogConfigImpl implements LogConfig {
     private boolean showBorder = true;
     @LogLevel.LogLevelType
     private int logLevel = LogLevel.TYPE_VERBOSE;
-    private List<Parser> parseList;
     private String formatTag;
     private int methodOffset = 0;
 
     private static LogConfigImpl singleton;
 
     private LogConfigImpl() {
-        parseList = new ArrayList<>();
     }
 
     static LogConfigImpl getInstance() {
@@ -58,7 +54,7 @@ class LogConfigImpl implements LogConfig {
         return this;
     }
 
-    public String getFormatTag(StackTraceElement caller) {
+    String getFormatTag(StackTraceElement caller) {
         if (TextUtils.isEmpty(formatTag)) {
             return null;
         }
@@ -77,7 +73,7 @@ class LogConfigImpl implements LogConfig {
         return this;
     }
 
-    public int getMethodOffset() {
+    int getMethodOffset() {
         return methodOffset;
     }
 
@@ -87,24 +83,18 @@ class LogConfigImpl implements LogConfig {
         return this;
     }
 
+    @SafeVarargs
     @Override
-    public LogConfig addParserClass(Class<? extends Parser>... classes) {
-        // TODO: 16/3/12 判断解析类的继承关系
-        for (Class<? extends Parser> cla : classes) {
-            try {
-                parseList.add(0, cla.newInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public final LogConfig addParserClass(Class<? extends Parser>... classes) {
+        ParserManager.getInstance().addParserClass(classes);
         return this;
     }
 
-    public boolean isEnable() {
+    boolean isEnable() {
         return enable;
     }
 
-    public String getTagPrefix() {
+    String getTagPrefix() {
         if (TextUtils.isEmpty(tagPrefix)) {
             return "LogUtils";
         }
@@ -112,15 +102,11 @@ class LogConfigImpl implements LogConfig {
         return tagPrefix;
     }
 
-    public boolean isShowBorder() {
+    boolean isShowBorder() {
         return showBorder;
     }
 
-    public int getLogLevel() {
+    int getLogLevel() {
         return logLevel;
-    }
-
-    public List<Parser> getParseList() {
-        return parseList;
     }
 }

@@ -1,6 +1,7 @@
 package com.apkfuns.logutils.parser;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.apkfuns.logutils.Parser;
 import com.apkfuns.logutils.utils.ObjectUtil;
@@ -8,26 +9,24 @@ import com.apkfuns.logutils.utils.ObjectUtil;
 /**
  * Created by pengwei on 16/3/8.
  */
-public class BundleParse implements Parser<Bundle> {
+class BundleParse implements Parser<Bundle> {
 
+    @NonNull
     @Override
     public Class<Bundle> parseClassType() {
         return Bundle.class;
     }
 
     @Override
-    public String parseString(Bundle bundle) {
-        if (bundle != null) {
-            StringBuilder builder = new StringBuilder(bundle.getClass().getName());
-            builder.append(" [");
-            builder.append(LINE_SEPARATOR);
-            for (String key : bundle.keySet()) {
-                builder.append(String.format("'%s' => %s " + LINE_SEPARATOR,
-                        key, ObjectUtil.objectToString(bundle.get(key))));
-            }
-            builder.append("]");
-            return builder.toString();
+    public String parseString(@NonNull Bundle bundle) {
+        StringBuilder builder = new StringBuilder(bundle.getClass().getName());
+        builder.append(" [");
+        builder.append(LINE_SEPARATOR);
+        for (String key : bundle.keySet()) {
+            builder.append(String.format("'%s' => %s " + LINE_SEPARATOR,
+                    key, ObjectUtil.objectToString(bundle.get(key))));
         }
-        return "null";
+        builder.append("]");
+        return builder.toString();
     }
 }

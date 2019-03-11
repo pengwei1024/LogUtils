@@ -13,9 +13,9 @@ public interface LogConfig {
 
     LogConfig configShowBorders(boolean showBorder);
 
-    LogConfig configMethodOffset(int offset);
-
     LogConfig configLevel(@LogLevel.LogLevelType int logLevel);
 
-    LogConfig addParserClass(Class<? extends Parser> ... classes);
+    LogConfig addParserClass(Class<? extends Parser>... classes);
+
+    LogConfig configMethodOffset(int offset);
 }

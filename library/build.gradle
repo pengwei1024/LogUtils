@@ -5,8 +5,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 36
-        versionName "1.6.1"
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
     }
     buildTypes {
         release {
@@ -21,10 +21,10 @@ android {
 }
 
 dependencies {
-    api 'com.android.support:support-annotations:27.1.1'
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'org.robolectric:robolectric:3.0'
     androidTestImplementation 'org.assertj:assertj-core:1.7.0'
+    api project(':exportapi')
 }
 
 build << {

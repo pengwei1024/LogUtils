@@ -1,19 +1,25 @@
 package com.apkfuns.logutils.utils;
 
-import android.text.TextUtils;
-
-import com.apkfuns.logutils.Constant;
 import com.apkfuns.logutils.Parser;
+import com.apkfuns.logutils.parser.ParserManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.apkfuns.logutils.Constant.*;
 
 /**
  * Created by pengwei08 on 2015/7/20.
  */
 public class ObjectUtil {
+
+    // 递归解析子类最大深度
+    private static final int MAX_CHILD_LEVEL = 2;
+    // 对象为空时展示内容
+    private static final String STRING_OBJECT_NULL = "Object[object is null]";
+    // 每行最大日志长度 (Android Studio3.1最多2902字符)
+    public static final int LINE_MAX = 2800;
 
     /**
      * 将对象转化为String
@@ -25,31 +31,16 @@ public class ObjectUtil {
         return objectToString(object, 0);
     }
 
-    /**
-     * 是否为静态内部类
-     *
-     * @param cla
-     * @return
-     */
-    public static boolean isStaticInnerClass(Class cla) {
-        if (cla != null && cla.isMemberClass()) {
-            int modifiers = cla.getModifiers();
-            if ((modifiers & Modifier.STATIC) == Modifier.STATIC) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static String objectToString(Object object, int childLevel) {
         if (object == null) {
-            return Constant.STRING_OBJECT_NULL;
+            return STRING_OBJECT_NULL;
         }
-        if (childLevel > Constant.MAX_CHILD_LEVEL) {
+        if (childLevel > MAX_CHILD_LEVEL) {
             return object.toString();
         }
-        if (Constant.getParsers() != null && Constant.getParsers().size() > 0) {
-            for (Parser parser : Constant.getParsers()) {
+        List<Parser> parserList = ParserManager.getInstance().getParseList();
+        if (parserList != null) {
+            for (Parser parser : parserList) {
                 if (parser.parseClassType().isAssignableFrom(object.getClass())) {
                     return parser.parseString(object);
                 }
@@ -92,7 +83,7 @@ public class ObjectUtil {
             return;
         }
         if (isSubClass) {
-            builder.append(BR + BR + "=> ");
+            builder.append(Parser.LINE_SEPARATOR).append(Parser.LINE_SEPARATOR).append("=> ");
         }
 //        String breakLine = childOffset == 0 ? BR : "";
         String breakLine = "";
@@ -112,7 +103,6 @@ public class ObjectUtil {
             } finally {
                 if (subObject != null) {
                     // 解决Instant Run情况下内部类死循环的问题
-//                    System.out.println(field.getName()+ "***" +subObject.getClass() + "啊啊啊啊啊啊" + cla);
                     if (!isStaticInnerClass(cla) && (field.getName().equals("$change") || field.getName().equalsIgnoreCase("this$0"))) {
                         continue;
                     }
@@ -121,12 +111,11 @@ public class ObjectUtil {
                     } else if (subObject instanceof Character) {
                         subObject = "\'" + subObject + "\'";
                     }
-                    if (childOffset < Constant.MAX_CHILD_LEVEL) {
+                    if (childOffset < MAX_CHILD_LEVEL) {
                         subObject = objectToString(subObject, childOffset + 1);
                     }
                 }
                 String formatString = breakLine + "%s = %s, ";
-//                System.out.println(field.getName() + "**" + cla.getName() + "**" + isSubClass + "**" + o.toString());
                 builder.append(String.format(formatString, field.getName(),
                         subObject == null ? "null" : subObject.toString()));
             }
@@ -136,5 +125,43 @@ public class ObjectUtil {
         } else {
             builder.replace(builder.length() - 2, builder.length() - 1, breakLine + "}");
         }
+    }
+
+    /**
+     * 是否为静态内部类
+     *
+     * @param cla class
+     * @return bool
+     */
+    private static boolean isStaticInnerClass(Class cla) {
+        if (cla != null && cla.isMemberClass()) {
+            int modifiers = cla.getModifiers();
+            return (modifiers & Modifier.STATIC) == Modifier.STATIC;
+        }
+        return false;
+    }
+
+    /**
+     * 长字符串转化为短字符串List
+     *
+     * @param msg 长字符串 (长度 > 4K)
+     * @return List
+     */
+    public static List<String> largeStringToList(String msg) {
+        List<String> stringList = new ArrayList<>();
+        int index = 0;
+        int maxLength = LINE_MAX;
+        int countOfSub = msg.length() / maxLength;
+        if (countOfSub > 0) {
+            for (int i = 0; i < countOfSub; i++) {
+                String sub = msg.substring(index, index + maxLength);
+                stringList.add(sub);
+                index += maxLength;
+            }
+            stringList.add(msg.substring(index));
+        } else {
+            stringList.add(msg);
+        }
+        return stringList;
     }
 }

@@ -1,10 +1,5 @@
 package com.apkfuns.logutils.utils;
 
-import com.apkfuns.logutils.Constant;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by pengwei on 16/4/19.
  */
@@ -36,31 +31,6 @@ public class Utils {
                 break;
         }
         return "";
-    }
-
-
-    /**
-     * 长字符串转化为List
-     *
-     * @param msg
-     * @return
-     */
-    public static List<String> largeStringToList(String msg) {
-        List<String> stringList = new ArrayList<>();
-        int index = 0;
-        int maxLength = Constant.LINE_MAX;
-        int countOfSub = msg.length() / maxLength;
-        if (countOfSub > 0) {
-            for (int i = 0; i < countOfSub; i++) {
-                String sub = msg.substring(index, index + maxLength);
-                stringList.add(sub);
-                index += maxLength;
-            }
-            stringList.add(msg.substring(index, msg.length()));
-        } else {
-            stringList.add(msg);
-        }
-        return stringList;
     }
 
     public static String shorten(String string, int count, int length) {
@@ -155,7 +125,7 @@ public class Utils {
                 index = i + 1;
                 points++;
             }
-        } else if (count < 0) {
+        } else {
             String exceptString = shortenPackagesName(className, -count);
             if (className.equals(exceptString)) {
                 int from = className.lastIndexOf('.') + 1;

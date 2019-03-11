@@ -5,12 +5,12 @@ package com.apkfuns.logutils;
  */
 class Logger implements Printer {
 
-    private static Logger singleton;
+    private volatile static Logger singleton;
     
     private Logger() {
     }
 
-    public static Logger getInstance(){
+    static Logger getInstance(){
         if (singleton == null) {
             synchronized (Logger.class) {
                 if (singleton == null) {

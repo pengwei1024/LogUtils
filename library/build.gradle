@@ -24,7 +24,8 @@ dependencies {
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'org.robolectric:robolectric:3.0'
     androidTestImplementation 'org.assertj:assertj-core:1.7.0'
-    api project(':exportapi')
+//    api project(':export-api')
+    api "com.apkfuns.logutils:export-api:${rootProject.ext.exportApi.releaseVersion}"
 }
 
 build << {
@@ -37,6 +38,4 @@ build << {
     }
 }
 
-if (file("$projectDir/bintrayUpload.gradle").exists()) {
-    apply from: "./bintrayUpload.gradle"
-}
+apply from: "../gradle/bintrayUpload.gradle"

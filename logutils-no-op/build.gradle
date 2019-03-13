@@ -19,12 +19,11 @@ android {
 
 dependencies {
     androidTestImplementation 'junit:junit:4.12'
-    api project(':exportapi')
+//    api project(':export-api')
+    api "com.apkfuns.logutils:export-api:${rootProject.ext.exportApi.releaseVersion}"
 }
 
-if (file("$projectDir/bintrayUpload.gradle").exists()) {
-    apply from: "./bintrayUpload.gradle"
-}
+apply from: "../gradle/bintrayUpload.gradle"
 
 task sync << {
     def javaPath = "src/main/java/com/apkfuns/logutils"

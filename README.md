@@ -1,14 +1,17 @@
 # LogUtils
+ <img src="https://img.shields.io/badge/Logutil-1.7.0-blue.svg" />
+ <img src="https://img.shields.io/badge/log2File-1.2.1-brightgreen.svg" /><br/>
+ 
 More convenient and easy to use android Log manager
 
 ## 1. Features
-* 支持直接打印数据集合,如List、Set、Map、数组等
+* 支持直接打印数据集合, 如List、Set、Map、数组等
 * 全局配置log输出, 个性化设置Tag
-* 准确显示调用方法、行，快速定位所在文件位置
-* 支持android系统对象Intent、Bundle打印
-* 提供release-no-op版本
+* 准确显示调用方法、行，快速定位日志所在文件位置
+* 支持android系统复杂对象Intent、Bundle、Message等打印
+* 提供空实现 release-no-op版本
 * 支持高性能日志写入文件(基于mmap)
-* 兼容Android Studio 3.1
+* 兼容Android Studio 3.1 日志格式
 
 ## 2. screenshot
 ##### 日志说明
@@ -129,13 +132,13 @@ LogUtils.getLogConfig()
 
 ### Gradle
 ```groovy
-implementation 'com.apkfuns.logutils:library:1.6.1'
+implementation 'com.apkfuns.logutils:library:1.7.0'
 ```
 
 ##### release-no-op版本
 ```groovy
-debugImplementation 'com.apkfuns.logutils:library:1.6.1'
-releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.6.1.1'
+debugImplementation 'com.apkfuns.logutils:library:1.7.0'
+releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.7.0'
 ```
 
 #### 需要依赖 support-annotations
@@ -143,11 +146,11 @@ releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.6.1.1'
 implementation 'com.android.support:support-annotations:27.1.1'
 ```
 
-##### 日志写入到文件
+#### 日志写入到文件
 - 依赖log2file库 (基于[Log4a](https://github.com/pqpo/Log4a)实现）
--
+
 ```java
-implementation 'com.apkfuns.log2file:log2file:1.1.0'
+implementation 'com.apkfuns.log2file:log2file:1.2.1'
 
 
 LogUtils.getLog2FileConfig().configLogFileEngine(new LogFileEngineFactory(context));
@@ -168,6 +171,7 @@ public class MyLogFileEngine implements LogFileEngine {
 LogUtils.getLog2FileConfig().configLogFileEngine(new MyLogFileEngine());
 ```
 别忘了添加写文件权限
+
 ```
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 ```
@@ -176,9 +180,6 @@ LogUtils.getLog2FileConfig().configLogFileEngine(new MyLogFileEngine());
 - [高性能]日志优先写到内存映射文件，和写内存一样高效
 - [保证日志不丢失]日志超过4k立即写入文件，每次程序重新启动立即写入，或者端上调用`LogUtils.getLog2FileConfig().flushAsync()`立即写入
 
-
-### Eclipse导入Jar
-click [here](https://github.com/pengwei1024/LogUtils/tree/master/jar) to download *.jar
 
 ## 5. Skills
 * [从Log切换到LogUtils](./doc/log_to_logutils.md)
@@ -200,7 +201,7 @@ click [here](https://github.com/pengwei1024/LogUtils/tree/master/jar) to downloa
 
 ## 9. License
 <pre>
-Copyright 2015-2018 pengwei1024
+Copyright 2015-2019 pengwei1024
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

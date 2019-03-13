@@ -33,9 +33,7 @@ android {
 }
 
 dependencies {
-    compileOnly project(':exportapi')
+    compileOnly project(':export-api')
 }
 
-if (file("$projectDir/bintrayUpload.gradle").exists()) {
-    apply from: "./bintrayUpload.gradle"
-}
+apply from: "../gradle/bintrayUpload.gradle"

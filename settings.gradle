@@ -1,1 +1,1 @@
-include ':sample', ':library', ':logutils-no-op', ':log2file', ':exportapi'
+include ':sample', ':library', ':logutils-no-op', ':log2file', ':export-api'

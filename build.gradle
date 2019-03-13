@@ -25,9 +25,9 @@ ext {
             buildToolsVersion : "27.0.3",
             minSdkVersion     : 8,
             targetSdkVersion  : 22,
-            versionCode : 44,
-            versionName : "1.7.4",
-            releaseVersion: "1.7.4"
+            versionCode : 45,
+            versionName : "1.7.5",
+            releaseVersion: "1.7.5"
     ]
     file = [
             versionCode : 4,
@@ -35,9 +35,9 @@ ext {
             releaseVersion: "1.2.1"
     ]
     exportApi = [
-            versionCode : 9,
-            versionName : "1.1.7",
-            releaseVersion: "1.1.7"
+            versionCode : 10,
+            versionName : "1.1.8",
+            releaseVersion: "1.1.8"
     ]
 }
 

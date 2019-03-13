@@ -1,5 +1,5 @@
 # LogUtils
- <img src="https://img.shields.io/badge/Logutil-1.7.0-blue.svg" />
+ <img src="https://img.shields.io/badge/Logutil-1.7.5-blue.svg" />
  <img src="https://img.shields.io/badge/log2File-1.2.1-brightgreen.svg" /><br/>
  
 More convenient and easy to use android Log manager
@@ -132,18 +132,13 @@ LogUtils.getLogConfig()
 
 ### Gradle
 ```groovy
-implementation 'com.apkfuns.logutils:library:1.7.0'
+implementation 'com.apkfuns.logutils:library:1.7.5'
 ```
 
 ##### release-no-op版本
 ```groovy
-debugImplementation 'com.apkfuns.logutils:library:1.7.0'
-releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.7.0'
-```
-
-#### 需要依赖 support-annotations
-```
-implementation 'com.android.support:support-annotations:27.1.1'
+debugImplementation 'com.apkfuns.logutils:library:1.7.5'
+releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.7.5'
 ```
 
 #### 日志写入到文件
@@ -156,7 +151,7 @@ implementation 'com.apkfuns.log2file:log2file:1.2.1'
 LogUtils.getLog2FileConfig().configLogFileEngine(new LogFileEngineFactory(context));
 ```
 
-- 实现LogFileEngine接口
+- 自己实现日志写入文件 (实现LogFileEngine接口)
 
 ```java
 public class MyLogFileEngine implements LogFileEngine {

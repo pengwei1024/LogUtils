@@ -17,6 +17,8 @@ import java.util.regex.Pattern;
  */
 public abstract class LogPattern {
 
+    private static final Locale LOCALE = Locale.US;
+
     public static class PlainLogPattern extends LogPattern {
 
         private final String string;
@@ -39,11 +41,10 @@ public abstract class LogPattern {
         public DateLogPattern(int count, int length, String dateFormat) {
             super(count, length);
             if (dateFormat != null) {
-                this.dateFormat = new SimpleDateFormat(dateFormat);
+                this.dateFormat = new SimpleDateFormat(dateFormat, LOCALE);
             } else {
-                this.dateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
+                this.dateFormat = new SimpleDateFormat("HH:mm:ss.SSS", LOCALE);
             }
-
         }
 
         @Override
@@ -77,7 +78,6 @@ public abstract class LogPattern {
                     stackTrace = stackTrace.substring(stackTrace.lastIndexOf('('), stackTrace.length());
                     callerString = String.format("%s.%s%s", caller.getClassName(), caller.getMethodName(), stackTrace);
                 }
-//                System.out.println(callerString + callerCount + callerLength);
                 try {
                     return Utils.shortenClassName(callerString, callerCount, callerLength);
                 } catch (Exception e) {
@@ -280,7 +280,7 @@ public abstract class LogPattern {
             Matcher matcher = Compiler.DATE_PATTERN_SHORT.matcher(patternString);
             while (matcher.find()) {
                 String format = matcher.group(2);
-                SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.getDefault());
+                SimpleDateFormat dateFormat = new SimpleDateFormat(format, LOCALE);
                 String dateString = dateFormat.format(date);
                 temp = temp.replace(matcher.group(0), dateString);
             }

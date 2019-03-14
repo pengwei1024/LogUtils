@@ -1,7 +1,7 @@
 # LogUtils
  
 ![](https://img.shields.io/badge/Logutil-1.7.5-blue.svg)
-![Codecov](https://img.shields.io/badge/log2File-1.2.1-brightgreen.svg) 
+![Codecov](https://img.shields.io/badge/log2File-1.3.0-brightgreen.svg)
 
 #### More convenient and easy to use android Log manager
 
@@ -146,7 +146,7 @@ releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.7.5'
 - 依赖log2file库 (基于[Log4a](https://github.com/pqpo/Log4a)实现）
 
 ```java
-implementation 'com.apkfuns.log2file:log2file:1.2.1'
+implementation 'com.apkfuns.log2file:log2file:1.3.0'
 
 
 LogUtils.getLog2FileConfig().configLogFileEngine(new LogFileEngineFactory(context));

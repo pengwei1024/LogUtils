@@ -1,8 +1,9 @@
 # LogUtils
- <img src="https://img.shields.io/badge/Logutil-1.7.5-blue.svg" />
- <img src="https://img.shields.io/badge/log2File-1.2.1-brightgreen.svg" /><br/>
  
-More convenient and easy to use android Log manager
+![](https://img.shields.io/badge/Logutil-1.7.5-blue.svg)
+![Codecov](https://img.shields.io/badge/log2File-1.2.1-brightgreen.svg) 
+
+#### More convenient and easy to use android Log manager
 
 ## 1. Features
 * 支持直接打印数据集合, 如List、Set、Map、数组等
@@ -181,23 +182,14 @@ LogUtils.getLog2FileConfig().configLogFileEngine(new MyLogFileEngine());
 * [为LogUtils设置快捷键](./doc/logutils_templates.md)
 * [修改LogCat显示字体颜色](./doc/logcat_color.md)
 
-## 6. History
-[Version History](./History.md)
 
-
-## 7. About
-* Blog: [apkfuns.com](http://apkfuns.com?from=github)
-* Email: [pengwei1024@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pengwei1024@gmail.com)
-
-## 8. Thanks
+## 6. Thanks
 * thanks to [tinybright](https://github.com/tinybright)、[DrSlark](https://github.com/DrSlark)'s advice.
 * thanks to [wyouflf/xUtils](https://github.com/wyouflf/xUtils)、[orhanobut/logger](https://github.com/orhanobut/logger)、
 [ZhaoKaiQiang/KLog](https://github.com/ZhaoKaiQiang/KLog)、[noveogroup/android-logger](https://github.com/noveogroup/android-logger)
 
-## 9. License
+## 7. License
 <pre>
-Copyright 2015-2019 pengwei1024
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at

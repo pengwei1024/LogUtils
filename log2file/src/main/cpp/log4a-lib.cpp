@@ -33,14 +33,14 @@ static jlong initNative(JNIEnv *env, jclass type, jstring buffer_path_,
         buffer_ptr = new char[buffer_size];
         map_buffer = false;
     }
-    env->ReleaseStringUTFChars(buffer_path_, buffer_path);
-    env->ReleaseStringUTFChars(log_path_, log_path);
-
     LogBuffer* logBuffer = new LogBuffer(buffer_ptr, buffer_size);
     logBuffer->setAsyncFileFlush(fileFlush);
     //将buffer内的数据清0， 并写入日志文件路径
     logBuffer->initData((char *) log_path, strlen(log_path), compress_);
     logBuffer->map_buffer = map_buffer;
+
+    env->ReleaseStringUTFChars(buffer_path_, buffer_path);
+    env->ReleaseStringUTFChars(log_path_, log_path);
     return reinterpret_cast<long>(logBuffer);
 }
 
@@ -67,10 +67,12 @@ static void writeDirtyLogToFile(int buffer_fd) {
         if(buffered_size > 0) {
             char *buffer_ptr_tmp = (char *) mmap(0, buffered_size, PROT_WRITE | PROT_READ, MAP_SHARED, buffer_fd, 0);
             if (buffer_ptr_tmp != MAP_FAILED) {
-                LogBuffer tmp(buffer_ptr_tmp, buffered_size);
-                size_t data_size = tmp.length();
+                LogBuffer *tmp = new LogBuffer(buffer_ptr_tmp, buffered_size);
+                size_t data_size = tmp -> length();
                 if (data_size > 0) {
-                    tmp.async_flush(fileFlush);
+                    tmp -> async_flush(fileFlush, tmp);
+                } else {
+                    delete tmp;
                 }
             }
         }
@@ -92,8 +94,7 @@ static void writeNative(JNIEnv *env, jobject instance, jlong ptr,
 
 static void releaseNative(JNIEnv *env, jobject instance, jlong ptr) {
     LogBuffer* logBuffer = reinterpret_cast<LogBuffer*>(ptr);
-    logBuffer->async_flush(fileFlush);
-    delete logBuffer;
+    logBuffer->async_flush(fileFlush, logBuffer);
     if (fileFlush != nullptr) {
         delete fileFlush;
     }

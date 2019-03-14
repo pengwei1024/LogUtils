@@ -13,17 +13,19 @@
 class FlushBuffer {
 
     public:
-        FlushBuffer(char* log_file, size_t size = 128);
+        FlushBuffer(FILE* log_file, size_t size = 128);
         ~FlushBuffer();
         void write(void* data, size_t len);
         void reset();
         size_t length();
         void* ptr();
-        char* logFile();
+        FILE* logFile();
 
-    private:
-        char* log_file = nullptr;
+    void releaseThis(void *release);
 
+private:
+        FILE* log_file = nullptr;
+        void* release = nullptr;
         char* data_ptr = nullptr;
         char* write_ptr = nullptr;
         size_t capacity;

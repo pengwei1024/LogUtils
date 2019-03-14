@@ -74,7 +74,14 @@ void LogBuffer::async_flush() {
 }
 
 void LogBuffer::async_flush(AsyncFileFlush *fileFlush) {
+    async_flush(fileFlush, nullptr);
+}
+
+void LogBuffer::async_flush(AsyncFileFlush *fileFlush, void *releaseThis) {
     if(fileFlush == nullptr) {
+        if (releaseThis != nullptr) {
+            delete releaseThis;
+        }
         return;
     }
     std::lock_guard<std::recursive_mutex> lck_clear(log_mtx);
@@ -84,8 +91,11 @@ void LogBuffer::async_flush(AsyncFileFlush *fileFlush) {
         }
         FlushBuffer* flushBuffer = new FlushBuffer(log_file);
         flushBuffer->write(data_ptr, length());
+        flushBuffer->releaseThis(releaseThis);
         clear();
         fileFlush->async_flush(flushBuffer);
+    } else if (releaseThis != nullptr) {
+        delete releaseThis;
     }
 }
 
@@ -105,6 +115,9 @@ void LogBuffer::release() {
         munmap(buffer_ptr, buffer_size);
     } else {
         delete[] buffer_ptr;
+    }
+    if(log_file != nullptr) {
+        fclose(log_file);
     }
 }
 
@@ -147,12 +160,13 @@ bool LogBuffer::initCompress(bool compress) {
     return false;
 }
 
-bool LogBuffer::openSetLogFile(char *log_path) {
+bool LogBuffer::openSetLogFile(const char *log_path) {
     if (log_path != nullptr) {
-        size_t len = strlen(log_path);
-        log_file = new char[len];
-        memcpy(log_file, log_path, len);
-        return true;
+        FILE* _file_log = fopen(log_path, "ab+");
+        if(_file_log != NULL) {
+            log_file = _file_log;
+            return true;
+        }
     }
     return false;
 }

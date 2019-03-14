@@ -3,11 +3,14 @@
 //
 #include <FlushBuffer.h>
 
-FlushBuffer::FlushBuffer(char* log_file, size_t size) : capacity(size), log_file(log_file) {}
+FlushBuffer::FlushBuffer(FILE* log_file, size_t size) : capacity(size), log_file(log_file) {}
 
 FlushBuffer::~FlushBuffer() {
     if (data_ptr != nullptr) {
         delete[] data_ptr;
+    }
+    if (release != nullptr) {
+        delete release;
     }
 }
 
@@ -58,8 +61,12 @@ void FlushBuffer::reset() {
     }
 }
 
-char* FlushBuffer::logFile() {
+FILE *FlushBuffer::logFile() {
     return log_file;
+}
+
+void FlushBuffer::releaseThis(void *release) {
+    this->release = release;
 }
 
 

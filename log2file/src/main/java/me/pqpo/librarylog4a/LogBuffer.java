@@ -23,7 +23,7 @@ public class LogBuffer {
         try {
             ptr = initNative(bufferPath, capacity, logPath, compress);
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage(), e);
+            Log.e(TAG, "LogBuffer Initialization Exception", e);
         }
     }
 
@@ -32,7 +32,7 @@ public class LogBuffer {
             try {
                 changeLogPathNative(ptr, logPath);
                 this.logPath = logPath;
-            }catch (Exception e) {
+            } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
         }

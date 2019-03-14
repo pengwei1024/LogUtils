@@ -34,6 +34,7 @@ public:
     void setAsyncFileFlush(AsyncFileFlush *fileFlush);
     void async_flush();
     void async_flush(AsyncFileFlush *fileFlush);
+    void async_flush(AsyncFileFlush *fileFlush, void *releaseThis);
     void changeLogPath(char *log_path);
 
 public:
@@ -43,9 +44,9 @@ private:
     void clear();
     void setLength(size_t len);
     bool initCompress(bool compress);
-    bool openSetLogFile(char *log_path);
+    bool openSetLogFile(const char *log_path);
 
-    char* log_file = nullptr;
+    FILE* log_file = nullptr;
     AsyncFileFlush *fileFlush = nullptr;
     char* const buffer_ptr = nullptr;
     char* data_ptr = nullptr;

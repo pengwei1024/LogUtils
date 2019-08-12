@@ -146,7 +146,7 @@ releaseImplementation 'com.apkfuns.logutils:logutils-no-op:1.7.5'
 - 依赖log2file库 (基于[Log4a](https://github.com/pqpo/Log4a)实现）
 
 ```java
-implementation 'com.apkfuns.log2file:log2file:1.3.0'
+implementation 'com.apkfuns.log2file:log2file:1.3.1'
 
 
 LogUtils.getLog2FileConfig().configLogFileEngine(new LogFileEngineFactory(context));
